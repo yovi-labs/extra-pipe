@@ -5,17 +5,23 @@ import {
   CamelCaseToTitleSeperatedCasePipe,
   CamelToSnakePipe,
   CapitalizePipe,
+  CompactNumberPipe,
   FileSizePipe,
+  FormatDurationPipe,
   FormatInstanceofDatePipe,
   HidePipe,
   IncludesPipe,
+  InitialsPipe,
   LocalizedPipe,
+  MaskPipe,
   NumberToWordsPipe,
+  RelativeTimePipe,
   RemoveByKeyPipe,
   RemoveDuplicatesByKeyPipe,
   ReplaceCommaPipe,
   RoundHalfPipe,
   SnakeToCamelPipe,
+  TruncatePipe,
   UnderscoreToTitlePipe,
   UpperCaseFromPipe,
 } from 'extra-pipe';
@@ -24,16 +30,21 @@ import {
   standalone: true,
   selector: 'app-pipe-result',
   templateUrl: './pipe-result.component.html',
+  styleUrls: ['./pipe-result.component.scss'],
   imports: [
-    UpperCaseFromPipe,
     CamelCaseToTitleSeperatedCasePipe,
     CapitalizePipe,
+    CompactNumberPipe,
     FileSizePipe,
     FormatInstanceofDatePipe,
+    FormatDurationPipe,
     HidePipe,
+    InitialsPipe,
     Base64ImgUrlPipe,
     IncludesPipe,
     LocalizedPipe,
+    MaskPipe,
+    RelativeTimePipe,
     ReplaceCommaPipe,
     RemoveByKeyPipe,
     RoundHalfPipe,
@@ -44,6 +55,7 @@ import {
     NumberToWordsPipe,
     SnakeToCamelPipe,
     CamelToSnakePipe,
+    TruncatePipe,
   ],
 })
 export class PipeResultComponent {
@@ -59,8 +71,21 @@ export class PipeResultComponent {
     { id: 3, name: 'Item 3' },
   ];
   date: Date = new Date('11-12-2022');
+  readonly relativeReference = new Date('2024-01-01T12:00:00.000Z');
+  readonly relativeValue = new Date('2024-01-01T12:03:00.000Z');
+  readonly standaloneExample = [
+    "import { CompactNumberPipe, TruncatePipe } from 'extra-pipe';",
+    '',
+    '@Component({',
+    '  standalone: true,',
+    '  imports: [CompactNumberPipe, TruncatePipe],',
+    '})',
+  ].join('\n');
 
   addItem() {
-    this.items.push({ id: 4, name: 'Item 4' });
+    this.items = [
+      ...this.items,
+      { id: this.items.length + 1, name: 'New item' },
+    ];
   }
 }

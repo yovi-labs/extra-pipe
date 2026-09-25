@@ -1,240 +1,107 @@
-# Extra Pipe 🚀
+# extra-pipe
 
-Welcome to the documentation for the **extra-pipe** library! This library provides a collection of custom pipes that you can use to enhance your Angular applications. Each pipe serves a specific purpose, from text formatting to data manipulation. The pipes are designed to be standalone, making it easy to integrate them into your projects.
+A focused collection of standalone Angular 17–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe`, has no runtime dependency beyond Angular, and can be imported directly into a standalone component.
 
-## Table of Contents
-
-1. Installation
-2. Usage
-3. Pipes
-   - CapitalizePipe
-   - FileSizePipe
-   - HidePipe
-   - Base64ImgUrlPipe
-   - LocalizedPipe
-   - RoundHalfUpPipe
-   - UpperCaseFromPipe
-   - ReplaceCommaPipe
-   - NumberToWordsPipe
-   - RemoveByKeyPipe
-   - CamelCaseToTitleSeparatedCasePipe
-   - FormatInstanceofDatePipe
-   - IncludesPipe
-   - RemoveDuplicatesByKeyPipe
-   - UnderscoreToTitlePipe
-   - CamelToSnakePipe
-   - SnakeToCamelPipe
-4. Contribution
-5. License
-
-## Installation
-
-To start using the extra-pipe library, you need to install it in your Angular project. You can do this using npm or yarn:
+## Install
 
 ```bash
 npm install extra-pipe
 ```
 
-or
+The package supports Angular 17 through 22 (`>=17.0.0 <23.0.0`). The demo application intentionally remains on Angular 17, while the release validation also compiles the packaged library in an Angular 22 consumer.
+
+## Use a pipe in a standalone component
+
+```ts
+import { Component } from '@angular/core';
+import { CompactNumberPipe, TruncatePipe } from 'extra-pipe';
+
+@Component({
+  standalone: true,
+  selector: 'app-product-summary',
+  imports: [CompactNumberPipe, TruncatePipe],
+  template: `
+    <p>{{ product.views | compactNumber }}</p>
+    <p>{{ product.description | truncate: 80 }}</p>
+  `,
+})
+export class ProductSummaryComponent {
+  product = { views: 12500, description: '...' };
+}
+```
+
+Standalone pipes belong in a component's `imports` array, not an NgModule's `declarations` array.
+
+## New display and i18n pipes
+
+All pipes in this section are pure. They return an empty string for nullish or invalid input and use Angular's injected `LOCALE_ID` unless their final `locale` argument is provided.
+
+| Selector         | Template call                                         | Contract                                                                                                                                                         |
+| ---------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `compactNumber`  | `{{ views \| compactNumber: 'compact': 1: 'fr-FR' }}` | Finite `number` or `bigint`; compact or standard notation; 0–20 fraction digits.                                                                                 |
+| `formatDuration` | `{{ 90 \| formatDuration: 'seconds': 'short' }}`      | Non-negative number in `milliseconds`, `seconds`, `minutes`, or `hours`; displays localized hours, minutes, and seconds.                                         |
+| `relativeTime`   | `{{ publishedAt \| relativeTime: now }}`              | Valid `Date`, ISO string, or epoch milliseconds. Bind a new `now` value from the component when the output should refresh; the pipe never schedules work itself. |
+| `truncate`       | `{{ title \| truncate: 24: '…' }}`                    | String only. Counts user-perceived characters, so emoji and combined accents are never split.                                                                    |
+| `initials`       | `{{ fullName \| initials: 2: '—' }}`                  | Whitespace-separated name; first grapheme from up to the requested word count.                                                                                   |
+| `mask`           | `{{ cardNumber \| mask: 0: 4: '•' }}`                 | String only; leaves the requested prefix and suffix visible and masks the middle.                                                                                |
+
+## Existing pipes
+
+The existing selectors remain available. The table records their intended input contract so templates stay predictable.
+
+| Selector                        | Input and behavior                                                                     | Null/invalid result                     |
+| ------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
+| `camelToSnake`                  | String; inserts underscores before uppercase letters.                                  | Empty string                            |
+| `camelCaseToTitleSeperatedCase` | Legacy misspelled selector; splits before uppercase letters.                           | Empty string                            |
+| `capitalize`                    | String; uppercase first character.                                                     | Empty string                            |
+| `filesize`                      | Byte count; renders megabytes with two decimals, e.g. `1048576 → 1.00MB`.              | Empty string                            |
+| `formatInstanceofDate`          | `Date`; optional numeric month and time flags.                                         | `String(value)`                         |
+| `hide`                          | String; masks all characters unless `hide` is false.                                   | Empty string                            |
+| `imgUrlBase64`                  | Raw base64 content plus MIME type: `{{ base64 \| imgUrlBase64: 'image/png' }}`.        | Empty string                            |
+| `includes`                      | Array and any search value, including `0`, `false`, or `null`.                         | `false` for non-arrays                  |
+| `localizedDate`                 | Valid `Date`, date string, or epoch milliseconds plus optional locale.                 | Empty string                            |
+| `numberToWords`                 | Number and supported `'en'` or `'fr'` language.                                        | Unsupported languages are not supported |
+| `removeByKey`                   | Array, object key, and values to exclude; returns a new filtered array.                | Pass a valid array                      |
+| `removeDuplicatesByKey`         | Array and object key; returns a new array, retaining the last item for duplicate keys. | Pass a valid array                      |
+| `replaceComma`                  | Number or numeric string; replaces one decimal comma and coerces to number.            | `NaN`                                   |
+| `roundHalf`                     | Number and optional `'up'` or `'down'`; rounds to two decimals.                        | Pass a valid number                     |
+| `snakeToCamel`                  | String; removes underscores and uppercases following ASCII letters.                    | Empty string                            |
+| `underscoreToTitle`             | String; replaces underscores with spaces.                                              | Empty string                            |
+| `upperCaseFrom`                 | String and zero-based index; uppercases the character at that index.                   | Empty string                            |
+
+The three collection pipes (`includes`, `removeByKey`, and `removeDuplicatesByKey`) retain their legacy impure-pipe behavior for compatibility. Prefer immutable array updates, as shown in the demo application.
+
+## Compatibility aliases
+
+These additive aliases preserve names that earlier documentation used incorrectly:
+
+- `localized` delegates to `localizedDate` and is deprecated for new templates.
+- `camelCaseToTitleSeparatedCase` is the corrected selector for `camelCaseToTitleSeperatedCase`.
+- `fileSize` is the camel-case alias for `filesize`.
+- `roundHalfUp` always rounds ties up; use `roundHalf` for configurable direction.
+
+## Demo and quality checks
+
+Run the Angular 17 example application locally:
 
 ```bash
-yarn add extra-pipe
+npm ci
+npm start
 ```
 
-## Usage
+The runnable examples live in `projects/test-app`. Verify the library before a release:
 
-Once you've installed the library, you can import and use the custom pipes in your Angular components and templates. Import the desired pipe and add it to your NgModule's declarations array.
-
-```typescript
-import { NgModule } from '@angular/core';
-import { CapitalizePipe } from 'extra-pipe';
-
-@NgModule({
-  declarations: [
-    // ... other declarations
-    CapitalizePipe,
-  ],
-})
-export class YourModule {}
+```bash
+npm run lint:lib
+npm run test:ci
+npm run build:lib
+cd dist/extra-pipe && npm pack --dry-run
 ```
 
-Now you can use the CapitalizePipe in your component templates:
+## Contributing
 
-```html
-{{'title' | capitalize }}
-```
+Please open an issue or pull request at [yovi-labs/extra-pipe](https://github.com/yovi-labs/extra-pipe). New pipes should be standalone, pure unless documented otherwise, typed, covered by unit tests, and documented with a template example.
 
-## Pipes
+## License
 
-### CapitalizePipe
-
-This pipe capitalizes the first letter of a string.
-
-```html
-<p>{{ 'hello' | capitalize } }}</p>
-<!-- Output: Hello -->
-```
-
-### FileSizePipe
-
-Converts a file size in bytes into a human-readable format (e.g., KB, MB, GB).
-
-```html
-<p>{{ 1024 | fileSize }}</p>
-<!-- Output: 1 KB -->
-```
-
-### HidePipe
-
-Hides sensitive information by masking characters.
-
-```html
-<p>{{ '1234567890' | hide }}</p>
-<!-- Output: ********* -->
-```
-
-### Base64ImgUrlPipe
-
-Converts a base64-encoded image to a data URL for display.
-
-```html
-<img [src]="'data:image/png;base64,iVBORw0KG...' | base64ImgUrl" alt="Image" />
-```
-
-### LocalizedPipe
-
-Formats a date or number based on the user's locale.
-
-```html
-<p>{{ someDate | localized: 'short' }}</p>
-```
-
-### RoundHalfPipe
-
-Rounds a number using the "round half" method takes up or down as param.
-
-```html
-<p>{{ 3.45 | roundHalfUp }}</p>
-<!-- Output: 3.5 -->
-```
-
-### UpperCaseFromPipe
-
-Converts text to uppercase from a specified index.
-
-```html
-<p>{{ 'hello' | upperCaseFrom: 2 }}</p>
-<!-- Output: heLLO -->
-```
-
-### ReplaceCommaPipe
-
-Replaces commas with a specified separator.
-
-```html
-<p>{{ '44,54' | replaceComma }}</p>
-<!-- 44.54 -->
-```
-
-### NumberToWordsPipe
-
-Converting numbers into words.
-
-```html
-<p>{{ 1000000 | numberToWords : 'en'}}</p>
-<!-- One Million -->
-<p>{{ 95 | numberToWords : 'fr'}}</p>
-<!-- Quatre-vingt-Quinze -->
-<p>{{ 1000000000000 | numberToWords : 'en'}}</p>
-<!-- Number is too large to convert -->
-<p>{{ 1000000000000 | numberToWords : 'fr'}}</p>
-<!-- Le nombre est trop grand pour être converti -->
-```
-
-### RemoveByKeyPipe
-
-This Angular pipe is designed to filter an array of objects based on the value of a specified key.
-
-```html
-<!-- items = [1,2,3] -->
-
-<div *ngFor="let item of items | removeByKey: 'id': [1, 2]">
-  <!-- Render item content here -->
-</div>
-```
-
-### CamelCaseToTitleSeparatedCasePipe
-
-This pipe converts camel case strings into title separated case. It adds spaces before capital letters.
-
-```html
-{{ 'camelCaseString' | camelCaseToTitleSeparatedCase }}
-<!-- Output: 'camel Case String' -->
-```
-
-### FormatInstanceofDatePipe
-
-This pipe formats Date objects according to specified options. It also optionally includes time formatting.
-
-```html
-{{ myDate | formatInstanceofDate }}
-<!-- Output: 'Jan 1, 2022' -->
-
-{{ myDate | formatInstanceofDate:true:true }}
-<!-- Output: 'Jan 1, 2022 12:00 PM' -->
-```
-
-### IncludesPipe
-
-This pipe formats Date objects according to specified options. It also optionally includes time formatting.
-
-```html
-<div *ngIf="items | includes:element">Element is included in the array</div>
-```
-
-### RemoveDuplicatesByKeyPipe
-
-This pipe removes duplicate objects from an array based on a specified key.
-
-```html
-<div *ngFor="let item of arrayData | removeDuplicatesByKey:'id'">
-  <!-- Display unique items -->
-</div>
-```
-
-### UnderscoreToTitlePipe
-
-This pipe replaces underscores in strings with spaces.
-
-```html
-{{ 'underscore_string' | underscoreToTitle }}
-<!-- Output: 'underscore string' -->
-```
-
-### CamelToSnakePipe
-
-Convert camel case strings to snake case.
-
-```html
-<p>{{ 'camelCase' | camelToSnake }}</p>
-<!-- camel_case -->
-```
-
-### SnakeToCamelPipe
-
-Convert a string from snake case to camel case.
-
-```html
-<p>{{ 'snake_case' | snakeToCamel }}</p>
-<!-- snakeCase -->
-```
-
-## Contribution
-
-If you'd like to contribute to the extra-pipe library, feel free to open issues or submit pull requests on the <a href="https://github.com/anasmasti/extra-pipe"> GitHub repository</a>. We welcome any suggestions, bug reports, or enhancements.
-
-### License
-
-This library is released under the MIT License.
-
-We hope you find the extra-pipe library helpful for enhancing your Angular applications. If you have any questions or need assistance, don't hesitate to reach out to our community or the library's maintainers. Happy coding!
+[MIT](LICENSE)

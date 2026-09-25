@@ -1,24 +1,110 @@
-<button (click)="addItem()">add item</button>
+<main class="demo">
+  <header>
+    <p class="eyebrow">extra-pipe 1.1</p>
+    <h1>Standalone Angular pipes</h1>
+    <p>
+      Every example below runs in this Angular 17 application; the published
+      package also supports Angular 18 through 22.
+    </p>
+  </header>
 
-<p>{{ 'helloWorld' | camelCaseToTitleSeperatedCase }}</p>
-<p>{{ 'hello' | capitalize }}</p>
-<p>{{ 1024 | filesize }}</p>
-<p>{{ date | formatInstanceofDate }}</p>
-<p>{{ 'hello' | hide }}</p>
-<p>
-  {{
-    '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'
-      | imgUrlBase64: 'image/png'
-  }}
-</p>
-<p>{{ [1, 2, 3] | includes: 2 }}</p>
-<p>{{ date | localizedDate }}</p>
-<p>{{ '22,33' | replaceComma }}</p>
-<p>{{ items | removeByKey: 'id' : [1, 2] | json }}</p>
-<p>{{ 44.566 | roundHalf }}</p>
-<p>{{ 'hello_world' | underscoreToTitle }}</p>
-<p>{{ 'hello' | upperCaseFrom: 1 }}</p>
-<p>{{ itemsWithDuplication | removeDuplicatesByKey: 'name' | json }}</p>
-<p>{{ 95 | numberToWords: 'fr' }}</p>
-<p>{{ 'snake_case' | snakeToCamel }}</p>
-<p>{{ 'camelCase' | camelToSnake }}</p>
+  <section>
+    <h2>Copy this standalone import</h2>
+    <pre><code [textContent]="standaloneExample"></code></pre>
+  </section>
+
+  <section>
+    <h2>New display and i18n pipes</h2>
+    <dl>
+      <div>
+        <dt>Compact number</dt>
+        <dd>{{ 12500 | compactNumber }}</dd>
+      </div>
+      <div>
+        <dt>Duration</dt>
+        <dd>{{ 90 | formatDuration: 'seconds' }}</dd>
+      </div>
+      <div>
+        <dt>Relative time</dt>
+        <dd>{{ relativeValue | relativeTime: relativeReference }}</dd>
+      </div>
+      <div>
+        <dt>Truncate</dt>
+        <dd>{{ '👩🏽‍💻 developer tools' | truncate: 12 }}</dd>
+      </div>
+      <div>
+        <dt>Initials</dt>
+        <dd>{{ 'Ána María Masti' | initials }}</dd>
+      </div>
+      <div>
+        <dt>Mask</dt>
+        <dd>{{ '4242424242424242' | mask: 0 : 4 }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Existing pipe examples</h2>
+    <button type="button" (click)="addItem()">Add an item immutably</button>
+    <dl>
+      <div>
+        <dt>Camel to title</dt>
+        <dd>{{ 'helloWorld' | camelCaseToTitleSeperatedCase }}</dd>
+      </div>
+      <div>
+        <dt>Capitalize</dt>
+        <dd>{{ 'hello' | capitalize }}</dd>
+      </div>
+      <div>
+        <dt>File size</dt>
+        <dd>{{ 1048576 | filesize }}</dd>
+      </div>
+      <div>
+        <dt>Date</dt>
+        <dd>{{ date | formatInstanceofDate }}</dd>
+      </div>
+      <div>
+        <dt>Hidden text</dt>
+        <dd>{{ 'hello' | hide }}</dd>
+      </div>
+      <div>
+        <dt>Includes zero</dt>
+        <dd>{{ [0, 1, 2] | includes: 0 }}</dd>
+      </div>
+      <div>
+        <dt>Localized date</dt>
+        <dd>{{ date | localizedDate }}</dd>
+      </div>
+      <div>
+        <dt>Comma replacement</dt>
+        <dd>{{ '22,33' | replaceComma }}</dd>
+      </div>
+      <div>
+        <dt>Remove by key</dt>
+        <dd>{{ items | removeByKey: 'id' : [1, 2] | json }}</dd>
+      </div>
+      <div>
+        <dt>Round half</dt>
+        <dd>{{ 44.566 | roundHalf }}</dd>
+      </div>
+      <div>
+        <dt>Deduplicate</dt>
+        <dd>
+          {{ itemsWithDuplication | removeDuplicatesByKey: 'name' | json }}
+        </dd>
+      </div>
+      <div>
+        <dt>Number to words</dt>
+        <dd>{{ 95 | numberToWords: 'fr' }}</dd>
+      </div>
+      <div>
+        <dt>Snake to camel</dt>
+        <dd>{{ 'snake_case' | snakeToCamel }}</dd>
+      </div>
+      <div>
+        <dt>Camel to snake</dt>
+        <dd>{{ 'camelCase' | camelToSnake }}</dd>
+      </div>
+    </dl>
+  </section>
+</main>

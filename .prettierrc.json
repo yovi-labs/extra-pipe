@@ -7,6 +7,7 @@
   "arrowParens": "avoid",
   "trailingComma": "es5",
   "bracketSameLine": true,
+  "endOfLine": "auto",
   "printWidth": 80,
   "plugins": ["prettier-plugin-organize-imports"]
 }

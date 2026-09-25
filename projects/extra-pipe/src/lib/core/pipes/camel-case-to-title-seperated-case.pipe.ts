@@ -1,8 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-/**
- * Pipe to convert camel case string to title separated case.
- */
+export function toTitleSeparatedCase(value: unknown): string {
+  return typeof value === 'string' ? value.replace(/([A-Z])/g, ' $1') : '';
+}
+
+/** @deprecated Use CamelCaseToTitleSeparatedCasePipe and its corrected selector. */
 @Pipe({
   standalone: true,
   name: 'camelCaseToTitleSeperatedCase',
@@ -14,8 +16,17 @@ export class CamelCaseToTitleSeperatedCasePipe implements PipeTransform {
    * @returns The transformed string.
    */
   transform(value: unknown): string {
-    if (typeof value === 'string')
-      return value.replace(/([A-Z])/g, ' $1').toString();
-    else return '';
+    return toTitleSeparatedCase(value);
+  }
+}
+
+/** Converts camel case strings to words using the corrected selector spelling. */
+@Pipe({
+  standalone: true,
+  name: 'camelCaseToTitleSeparatedCase',
+})
+export class CamelCaseToTitleSeparatedCasePipe implements PipeTransform {
+  transform(value: unknown): string {
+    return toTitleSeparatedCase(value);
   }
 }

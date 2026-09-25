@@ -1,6 +1,6 @@
 {
   "name": "extra-pipe",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "author": {
     "name": "Anas Masti",
     "email": "anasmasti@hotmail.com",
@@ -8,17 +8,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/anasmasti/extra-pipe"
+    "url": "https://github.com/yovi-labs/extra-pipe"
   },
-  "description": "This library provides a collection of custom pipes that you can use to enhance your Angular applications. Each pipe serves a specific purpose, from text formatting to data manipulation. The pipes are designed to be standalone, making it easy to integrate them into your projects.",
+  "description": "A trusted collection of standalone Angular 17–22 pipes for display formatting, localization, text, and data presentation.",
   "keywords": [
-    "Angular",
-    "Pipe"
+    "angular",
+    "angular-pipes",
+    "standalone",
+    "i18n",
+    "formatting",
+    "utilities"
   ],
   "license": "MIT",
+  "sideEffects": false,
   "peerDependencies": {
-    "@angular/common": "^17.1.3",
-    "@angular/core": "^17.1.3"
+    "@angular/common": ">=17.0.0 <23.0.0",
+    "@angular/core": ">=17.0.0 <23.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
