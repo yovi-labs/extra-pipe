@@ -58,6 +58,28 @@ dd {
   overflow-wrap: anywhere;
 }
 
+.example-step {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+
+.example-step > span {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.example-step pre {
+  font-size: 0.8125rem;
+  margin: 0;
+  overflow-wrap: anywhere;
+  padding: 0.65rem;
+  white-space: pre-wrap;
+}
+
 button {
   background: #5b21b6;
   border: 0;

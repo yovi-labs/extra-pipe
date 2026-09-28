@@ -81,6 +81,10 @@ export class PipeResultComponent {
     '  imports: [CompactNumberPipe, TruncatePipe],',
     '})',
   ].join('\n');
+  readonly removeByKeyExample = "{{ items | removeByKey: 'id' : [1, 2] }}";
+  readonly roundHalfExample = '{{ 44.566 | roundHalf }}';
+  readonly deduplicateExample =
+    "{{ itemsWithDuplication | removeDuplicatesByKey: 'name' }}";
 
   addItem() {
     this.items = [
