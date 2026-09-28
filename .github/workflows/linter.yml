@@ -39,6 +39,9 @@ jobs:
         run: npm pack --dry-run
         working-directory: dist/extra-pipe
 
+      - name: Prepare package destination
+        run: mkdir -p dist/extra-pipe-package
+
       - name: Pack library
         run: npm pack --pack-destination ../extra-pipe-package
         working-directory: dist/extra-pipe
