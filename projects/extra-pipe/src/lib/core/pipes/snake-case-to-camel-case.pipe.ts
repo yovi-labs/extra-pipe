@@ -13,7 +13,9 @@ export class SnakeToCamelPipe implements PipeTransform {
    * @param value The snake case string to be transformed.
    * @returns The camel case string.
    */
-  transform(value: string): string {
+  transform(value: null | string | undefined): string {
+    if (typeof value !== 'string') return '';
+
     return value.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
   }
 }

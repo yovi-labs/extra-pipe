@@ -15,3 +15,14 @@ export class RoundHalfPipe implements PipeTransform {
     return roudHalfFacade(number, param);
   }
 }
+
+/** Legacy README-compatible selector that always rounds ties up. */
+@Pipe({
+  standalone: true,
+  name: 'roundHalfUp',
+})
+export class RoundHalfUpPipe implements PipeTransform {
+  transform(number: number): number {
+    return roudHalfFacade(number, ROUND_HALF_PARAMS.up);
+  }
+}

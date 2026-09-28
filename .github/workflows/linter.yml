@@ -1,25 +1,137 @@
-name: Lint Code Base
+name: Verify Extra Pipe
 
 on:
   push:
-    branches: [ "develop", "master" ]
+    branches: ['develop', 'master']
   pull_request:
-    branches: [ "develop", "master" ]
+    branches: ['develop', 'master']
 jobs:
-  run-lint:
+  angular-17:
+    name: Angular 17 library and demo
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
           node-version: 20
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Lint and Pretty
+      - name: Lint library
         run: npm run lint:lib
 
-      - name: Test Code
+      - name: Test library
         run: npm run test:ci
+
+      - name: Build library
+        run: npm run build:lib
+
+      - name: Build Angular 17 demo
+        run: npx ng build test-app --configuration production
+
+      - name: Verify package contents
+        run: npm pack --dry-run
+        working-directory: dist/extra-pipe
+
+      - name: Prepare package destination
+        run: mkdir -p dist/extra-pipe-package
+
+      - name: Pack library
+        run: npm pack --pack-destination ../extra-pipe-package
+        working-directory: dist/extra-pipe
+
+      - name: Upload packed library
+        uses: actions/upload-artifact@v4
+        with:
+          name: extra-pipe-package
+          path: dist/extra-pipe-package/extra-pipe-*.tgz
+          if-no-files-found: error
+
+  angular-22-consumer:
+    name: Angular 22 package consumer
+    needs: angular-17
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Download packed library
+        uses: actions/download-artifact@v4
+        with:
+          name: extra-pipe-package
+          path: package
+
+      - name: Create Angular 22 consumer
+        run: >
+          npx --yes @angular/cli@22 new consumer
+          --directory consumer
+          --minimal
+          --defaults
+          --skip-git
+          --skip-tests
+          --package-manager npm
+          --style css
+
+      - name: Install packed library
+        run: npm install ../package/extra-pipe-*.tgz
+        working-directory: consumer
+
+      - name: Compile standalone pipe consumer
+        working-directory: consumer
+        run: |
+          cat > src/app/app.ts <<'EOF'
+          import { Component } from '@angular/core';
+          import {
+            CamelCaseToTitleSeparatedCasePipe,
+            CompactNumberPipe,
+            FileSizeAliasPipe,
+            FormatDurationPipe,
+            InitialsPipe,
+            LocalizedLegacyPipe,
+            MaskPipe,
+            RelativeTimePipe,
+            RoundHalfUpPipe,
+            TruncatePipe,
+          } from 'extra-pipe';
+
+          @Component({
+            imports: [
+              CamelCaseToTitleSeparatedCasePipe,
+              CompactNumberPipe,
+              FileSizeAliasPipe,
+              FormatDurationPipe,
+              InitialsPipe,
+              LocalizedLegacyPipe,
+              MaskPipe,
+              RelativeTimePipe,
+              RoundHalfUpPipe,
+              TruncatePipe,
+            ],
+            selector: 'app-root',
+            template: `
+              {{ 'extraPipe' | camelCaseToTitleSeparatedCase }}
+              {{ 12500 | compactNumber }}
+              {{ 1048576 | fileSize }}
+              {{ 90 | formatDuration: 'seconds' }}
+              {{ 'Ána María' | initials }}
+              {{ publishedAt | localized }}
+              {{ '4242424242424242' | mask: 0 : 4 }}
+              {{ publishedAt | relativeTime: referenceTime }}
+              {{ 2.455 | roundHalfUp }}
+              {{ '👩🏽‍💻 developer tools' | truncate: 12 }}
+            `,
+          })
+          export class App {
+            protected readonly publishedAt = new Date('2024-01-01T12:03:00.000Z');
+            protected readonly referenceTime = new Date('2024-01-01T12:00:00.000Z');
+          }
+          EOF
+          npx ng build --configuration production

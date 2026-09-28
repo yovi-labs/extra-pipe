@@ -13,12 +13,12 @@ export class UnderscoreToTitlePipe implements PipeTransform {
    * @param value - The string to transform.
    * @returns The transformed string.
    */
-  transform(value: string): string {
+  transform(value: null | string | undefined): string {
     if (typeof value === 'string') {
       return this._convertUnderscoreToTitle(value);
     }
 
-    return value;
+    return '';
   }
 
   private _convertUnderscoreToTitle(value: string): string {
