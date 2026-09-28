@@ -35,10 +35,31 @@ export function toValidDate(value: unknown): Date | null {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+interface GraphemeSegment {
+  segment: string;
+}
+
+interface GraphemeSegmenter {
+  segment(value: string): Iterable<GraphemeSegment>;
+}
+
+type GraphemeSegmenterConstructor = new (
+  locales?: string | string[],
+  options?: { granularity: 'grapheme' }
+) => GraphemeSegmenter;
+
 /** Splits text into user-perceived characters and falls back on code points. */
 export function getGraphemes(value: string): string[] {
-  if (typeof Intl.Segmenter === 'function') {
-    const segmenter = new Intl.Segmenter(undefined, {
+  // ng-packagr's Angular 17 compiler does not consistently include the
+  // ES2022.Intl declarations, so describe this optional runtime API locally.
+  const Segmenter = (
+    Intl as typeof Intl & {
+      Segmenter?: GraphemeSegmenterConstructor;
+    }
+  ).Segmenter;
+
+  if (typeof Segmenter === 'function') {
+    const segmenter = new Segmenter(undefined, {
       granularity: 'grapheme',
     });
     return Array.from(segmenter.segment(value), item => item.segment);
