@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   Base64ImgUrlPipe,
   CamelCaseToTitleSeperatedCasePipe,
@@ -31,6 +31,7 @@ import {
   selector: 'app-pipe-result',
   templateUrl: './pipe-result.component.html',
   styleUrls: ['./pipe-result.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CamelCaseToTitleSeperatedCasePipe,
     CapitalizePipe,
@@ -70,7 +71,7 @@ export class PipeResultComponent {
     { id: 2, name: 'Item 3' },
     { id: 3, name: 'Item 3' },
   ];
-  date: Date = new Date('11-12-2022');
+  date: Date = new Date('2022-11-12T12:00:00.000Z');
   readonly relativeReference = new Date('2024-01-01T12:00:00.000Z');
   readonly relativeValue = new Date('2024-01-01T12:03:00.000Z');
   readonly standaloneExample = [
@@ -82,7 +83,7 @@ export class PipeResultComponent {
     '})',
   ].join('\n');
 
-  addItem() {
+  addItem(): void {
     this.items = [
       ...this.items,
       { id: this.items.length + 1, name: 'New item' },
