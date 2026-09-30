@@ -2,9 +2,9 @@ name: Verify Extra Pipe
 
 on:
   push:
-    branches: ['develop', 'master']
+    branches: ['develop', 'main', 'release/**']
   pull_request:
-    branches: ['develop', 'master']
+    branches: ['develop', 'main']
 jobs:
   angular-17:
     name: Angular 17 library and demo
