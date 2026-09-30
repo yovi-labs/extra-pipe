@@ -1,3 +1,4 @@
+/// <reference lib="es2021.intl" />
 import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
 import { resolveLocale } from '../../shared/helper/intl.helper';
 
