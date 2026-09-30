@@ -81,16 +81,35 @@
       </div>
       <div>
         <dt>Remove by key</dt>
-        <dd>{{ items | removeByKey: 'id' : [1, 2] | json }}</dd>
+        <dd class="example-step">
+          <span>Template usage</span>
+          <pre><code [textContent]="removeByKeyExample"></code></pre>
+        </dd>
+        <dd class="example-step">
+          <span>Result</span>
+          <pre><code>{{ items | removeByKey: 'id' : [1, 2] | json }}</code></pre>
+        </dd>
       </div>
       <div>
         <dt>Round half</dt>
-        <dd>{{ 44.566 | roundHalf }}</dd>
+        <dd class="example-step">
+          <span>Template usage</span>
+          <pre><code [textContent]="roundHalfExample"></code></pre>
+        </dd>
+        <dd class="example-step">
+          <span>Result</span>
+          <pre><code>{{ 44.566 | roundHalf }}</code></pre>
+        </dd>
       </div>
       <div>
         <dt>Deduplicate</dt>
-        <dd>
-          {{ itemsWithDuplication | removeDuplicatesByKey: 'name' | json }}
+        <dd class="example-step">
+          <span>Template usage</span>
+          <pre><code [textContent]="deduplicateExample"></code></pre>
+        </dd>
+        <dd class="example-step">
+          <span>Result</span>
+          <pre><code>{{ itemsWithDuplication | removeDuplicatesByKey: 'name' | json }}</code></pre>
         </dd>
       </div>
       <div>
