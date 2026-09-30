@@ -3,18 +3,23 @@
   "version": "1.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run start:website",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test extra-pipe --no-watch --code-coverage --browsers=ChromeHeadless",
-    "build:lib": "ng-packagr -p ./projects/extra-pipe/ng-package.json",
+    "build:lib": "ng-packagr -p ./projects/extra-pipe/ng-package.json -c ./projects/extra-pipe/tsconfig.lib.prod.json",
     "build:lib:watch": "ng-packagr -p ./projects/extra-pipe/ng-package.json -w",
     "format": "npx prettier --write .",
     "lint:lib": "ng lint extra-pipe",
     "lint": "ng lint",
     "prepare": "husky",
-    "commit": "cz"
+    "commit": "cz",
+    "start:website": "npm --prefix projects/test-app start",
+    "build:website": "npm --prefix projects/test-app run build",
+    "test:website": "npm --prefix projects/test-app run test:ci",
+    "prepare:website": "node scripts/prepare-website.mjs",
+    "build:demo17": "ng build angular17-demo --configuration production"
   },
   "config": {
     "commitizen": {
