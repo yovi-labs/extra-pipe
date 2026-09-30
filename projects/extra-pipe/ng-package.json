@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/extra-pipe",
+  "allowedNonPeerDependencies": ["unicode-segmenter"],
   "lib": {
     "entryFile": "src/public-api.ts"
   }

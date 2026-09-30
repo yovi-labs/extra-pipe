@@ -1,3 +1,5 @@
+import { graphemeSegments } from 'unicode-segmenter/grapheme';
+
 export type DateInput = Date | number | string;
 
 /**
@@ -48,7 +50,7 @@ type GraphemeSegmenterConstructor = new (
   options?: { granularity: 'grapheme' }
 ) => GraphemeSegmenter;
 
-/** Splits text into user-perceived characters and falls back on code points. */
+/** Splits user-perceived characters, including when Intl.Segmenter is absent. */
 export function getGraphemes(value: string): string[] {
   // ng-packagr's Angular 17 compiler does not consistently include the
   // ES2022.Intl declarations, so describe this optional runtime API locally.
@@ -65,7 +67,7 @@ export function getGraphemes(value: string): string[] {
     return Array.from(segmenter.segment(value), item => item.segment);
   }
 
-  return Array.from(value);
+  return Array.from(graphemeSegments(value), item => item.segment);
 }
 
 export function toNonNegativeInteger(value: number, fallback: number): number {
