@@ -6,6 +6,7 @@ export * from './lib/core/pipes/camel-case-to-snake-case.pipe';
 export * from './lib/core/pipes/camel-case-to-title-seperated-case.pipe';
 export * from './lib/core/pipes/capitalize.pipe';
 export * from './lib/core/pipes/compact-number.pipe';
+export * from './lib/core/pipes/date-range.pipe';
 export * from './lib/core/pipes/filesize.pipe';
 export * from './lib/core/pipes/format-duration.pipe';
 export * from './lib/core/pipes/format-instanceof-date.pipe';
