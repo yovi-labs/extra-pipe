@@ -15,9 +15,9 @@ describe('listFormat', () => {
     expect(formatList(null)).toBe('');
     expect(formatList([])).toBe('');
     expect(formatList([1] as unknown as string[])).toBe('');
-    expect(formatList(['A'], { style: 'bad' } as Intl.ListFormatOptions)).toBe(
-      ''
-    );
+    expect(
+      formatList(['A'], { style: 'bad' } as unknown as Intl.ListFormatOptions)
+    ).toBe('');
     expect(new ListFormatPipe('fr').transform(['A', 'B'], {}, 'en')).toBe(
       'A and B'
     );
