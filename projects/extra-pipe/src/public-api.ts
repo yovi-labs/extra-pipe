@@ -2,6 +2,7 @@
  * Public API Surface of extra-pipe
  */
 
+export * from './lib/core/pipes/byte-size.pipe';
 export * from './lib/core/pipes/camel-case-to-snake-case.pipe';
 export * from './lib/core/pipes/camel-case-to-title-seperated-case.pipe';
 export * from './lib/core/pipes/capitalize.pipe';
