@@ -24,4 +24,5 @@ export * from './lib/core/pipes/roud-half.pipe';
 export * from './lib/core/pipes/snake-case-to-camel-case.pipe';
 export * from './lib/core/pipes/truncate.pipe';
 export * from './lib/core/pipes/underscore-to-title.pipe';
+export * from './lib/core/pipes/unique-by.pipe';
 export * from './lib/core/pipes/uppercase-from.pipe';
