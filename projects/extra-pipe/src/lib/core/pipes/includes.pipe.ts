@@ -15,9 +15,10 @@ export class IncludesPipe implements PipeTransform {
    * @param element - The element to search for.
    * @returns True if the element is found in the array, otherwise false.
    */
-  transform(items: unknown[], element: unknown): boolean {
-    return items && items.length > 0 && element
-      ? items.includes(element)
-      : false;
+  transform(
+    items: null | readonly unknown[] | undefined,
+    element: unknown
+  ): boolean {
+    return Array.isArray(items) && items.includes(element);
   }
 }

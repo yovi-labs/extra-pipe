@@ -28,25 +28,14 @@ export class FormatInstanceofDatePipe implements PipeTransform {
       day: '2-digit',
       month: setNumberDateFormat ? 'numeric' : 'short',
       year: 'numeric',
-      hour12: true,
-      hour: '2-digit',
-      minute: '2-digit',
     };
 
-    const dateFormatter = new Intl.DateTimeFormat('en', options);
-
-    let formattedDate = dateFormatter.format(value);
-
-    if (!setTime) {
-      return formattedDate;
+    if (setTime) {
+      options.hour12 = true;
+      options.hour = '2-digit';
+      options.minute = '2-digit';
     }
 
-    const timeFormat = value.getHours() >= 12 ? 'PM' : 'AM';
-    const hours = value.getHours() % 12 || 12;
-    const minutes = value.getMinutes().toString().padStart(2, '0');
-
-    const formattedTime = ` ${hours}:${minutes} ${timeFormat}`;
-
-    return `${formattedDate}${formattedTime}`;
+    return new Intl.DateTimeFormat('en', options).format(value);
   }
 }

@@ -26,9 +26,9 @@ export class RemoveByKeyPipe implements PipeTransform {
       return arrayData;
     }
 
-    const filteredData: ArrayData[] = arrayData.filter(data => {
-      return !filter.includes(data[key]);
-    });
+    const filteredData: ArrayData[] = arrayData.filter(
+      data => !filter.includes(data[key])
+    );
 
     return filteredData;
   }

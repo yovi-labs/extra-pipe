@@ -156,9 +156,10 @@ export class NumberToWordsPipe implements PipeTransform {
     }
 
     if (num >= largeNumbers.thousand) {
+      const thousends = Math.floor(num / largeNumbers.thousand);
+
       switch (lang) {
         case 'fr':
-          const thousends = Math.floor(num / largeNumbers.thousand);
           if (thousends === 1) {
             result += 'Mille ';
           } else if (thousends > 1) {
@@ -182,9 +183,10 @@ export class NumberToWordsPipe implements PipeTransform {
     }
 
     if (num >= largeNumbers.hundred) {
+      const hundreds = Math.floor(num / largeNumbers.hundred);
+
       switch (lang) {
         case 'fr':
-          const hundreds = Math.floor(num / largeNumbers.hundred);
           if (hundreds === 1) {
             result += 'Cent ';
           } else if (hundreds > 1) {

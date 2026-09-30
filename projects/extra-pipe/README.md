@@ -1,240 +1,34 @@
-# Extra Pipe 🚀
+# extra-pipe
 
-Welcome to the documentation for the **extra-pipe** library! This library provides a collection of custom pipes that you can use to enhance your Angular applications. Each pipe serves a specific purpose, from text formatting to data manipulation. The pipes are designed to be standalone, making it easy to integrate them into your projects.
-
-## Table of Contents
-
-1. Installation
-2. Usage
-3. Pipes
-   - CapitalizePipe
-   - FileSizePipe
-   - HidePipe
-   - Base64ImgUrlPipe
-   - LocalizedPipe
-   - RoundHalfUpPipe
-   - UpperCaseFromPipe
-   - ReplaceCommaPipe
-   - NumberToWordsPipe
-   - RemoveByKeyPipe
-   - CamelCaseToTitleSeparatedCasePipe
-   - FormatInstanceofDatePipe
-   - IncludesPipe
-   - RemoveDuplicatesByKeyPipe
-   - UnderscoreToTitlePipe
-   - CamelToSnakePipe
-   - SnakeToCamelPipe
-4. Contribution
-5. License
-
-## Installation
-
-To start using the extra-pipe library, you need to install it in your Angular project. You can do this using npm or yarn:
+A focused collection of standalone Angular 17–22 pipes for display formatting, localization, text, and template-friendly data presentation.
 
 ```bash
 npm install extra-pipe
 ```
 
-or
+```ts
+import { Component } from '@angular/core';
+import { CompactNumberPipe, TruncatePipe } from 'extra-pipe';
 
-```bash
-yarn add extra-pipe
-```
-
-## Usage
-
-Once you've installed the library, you can import and use the custom pipes in your Angular components and templates. Import the desired pipe and add it to your NgModule's declarations array.
-
-```typescript
-import { NgModule } from '@angular/core';
-import { CapitalizePipe } from 'extra-pipe';
-
-@NgModule({
-  declarations: [
-    // ... other declarations
-    CapitalizePipe,
-  ],
+@Component({
+  standalone: true,
+  imports: [CompactNumberPipe, TruncatePipe],
+  template: `
+    {{ views | compactNumber }}
+    {{ description | truncate: 80 }}
+  `,
 })
-export class YourModule {}
+export class ProductSummaryComponent {}
 ```
 
-Now you can use the CapitalizePipe in your component templates:
+Pipes are standalone and belong in a component's `imports` array. The package supports Angular 17 through 22. Version 1.1 adds:
 
-```html
-{{'title' | capitalize }}
-```
+- `compactNumber`, `formatDuration`, and caller-controlled `relativeTime`
+- Unicode-safe `truncate`, `initials`, and configurable `mask`
+- Compatibility aliases for `localized`, `fileSize`, `roundHalfUp`, and the corrected `camelCaseToTitleSeparatedCase`
 
-## Pipes
+All new display pipes are pure, locale-aware through Angular's `LOCALE_ID`, and return an empty string for invalid input. The complete API reference, compatibility notes, and runnable demo instructions are in the [repository README](https://github.com/yovi-labs/extra-pipe#readme).
 
-### CapitalizePipe
+## License
 
-This pipe capitalizes the first letter of a string.
-
-```html
-<p>{{ 'hello' | capitalize } }}</p>
-<!-- Output: Hello -->
-```
-
-### FileSizePipe
-
-Converts a file size in bytes into a human-readable format (e.g., KB, MB, GB).
-
-```html
-<p>{{ 1024 | fileSize }}</p>
-<!-- Output: 1 KB -->
-```
-
-### HidePipe
-
-Hides sensitive information by masking characters.
-
-```html
-<p>{{ '1234567890' | hide }}</p>
-<!-- Output: ********* -->
-```
-
-### Base64ImgUrlPipe
-
-Converts a base64-encoded image to a data URL for display.
-
-```html
-<img [src]="'data:image/png;base64,iVBORw0KG...' | base64ImgUrl" alt="Image" />
-```
-
-### LocalizedPipe
-
-Formats a date or number based on the user's locale.
-
-```html
-<p>{{ someDate | localized: 'short' }}</p>
-```
-
-### RoundHalfPipe
-
-Rounds a number using the "round half" method takes up or down as param.
-
-```html
-<p>{{ 3.45 | roundHalfUp }}</p>
-<!-- Output: 3.5 -->
-```
-
-### UpperCaseFromPipe
-
-Converts text to uppercase from a specified index.
-
-```html
-<p>{{ 'hello' | upperCaseFrom: 2 }}</p>
-<!-- Output: heLLO -->
-```
-
-### ReplaceCommaPipe
-
-Replaces commas with a specified separator.
-
-```html
-<p>{{ '44,54' | replaceComma }}</p>
-<!-- 44.54 -->
-```
-
-### NumberToWordsPipe
-
-Converting numbers into words.
-
-```html
-<p>{{ 1000000 | numberToWords : 'en'}}</p>
-<!-- One Million -->
-<p>{{ 95 | numberToWords : 'fr'}}</p>
-<!-- Quatre-vingt-Quinze -->
-<p>{{ 1000000000000 | numberToWords : 'en'}}</p>
-<!-- Number is too large to convert -->
-<p>{{ 1000000000000 | numberToWords : 'fr'}}</p>
-<!-- Le nombre est trop grand pour être converti -->
-```
-
-### RemoveByKeyPipe
-
-This Angular pipe is designed to filter an array of objects based on the value of a specified key.
-
-```html
-<!-- items = [1,2,3] -->
-
-<div *ngFor="let item of items | removeByKey: 'id': [1, 2]">
-  <!-- Render item content here -->
-</div>
-```
-
-### CamelCaseToTitleSeparatedCasePipe
-
-This pipe converts camel case strings into title separated case. It adds spaces before capital letters.
-
-```html
-{{ 'camelCaseString' | camelCaseToTitleSeparatedCase }}
-<!-- Output: 'camel Case String' -->
-```
-
-### FormatInstanceofDatePipe
-
-This pipe formats Date objects according to specified options. It also optionally includes time formatting.
-
-```html
-{{ myDate | formatInstanceofDate }}
-<!-- Output: 'Jan 1, 2022' -->
-
-{{ myDate | formatInstanceofDate:true:true }}
-<!-- Output: 'Jan 1, 2022 12:00 PM' -->
-```
-
-### IncludesPipe
-
-This pipe formats Date objects according to specified options. It also optionally includes time formatting.
-
-```html
-<div *ngIf="items | includes:element">Element is included in the array</div>
-```
-
-### RemoveDuplicatesByKeyPipe
-
-This pipe removes duplicate objects from an array based on a specified key.
-
-```html
-<div *ngFor="let item of arrayData | removeDuplicatesByKey:'id'">
-  <!-- Display unique items -->
-</div>
-```
-
-### UnderscoreToTitlePipe
-
-This pipe replaces underscores in strings with spaces.
-
-```html
-{{ 'underscore_string' | underscoreToTitle }}
-<!-- Output: 'underscore string' -->
-```
-
-### CamelToSnakePipe
-
-Convert camel case strings to snake case.
-
-```html
-<p>{{ 'camelCase' | camelToSnake }}</p>
-<!-- camel_case -->
-```
-
-### SnakeToCamelPipe
-
-Convert a string from snake case to camel case.
-
-```html
-<p>{{ 'snake_case' | snakeToCamel }}</p>
-<!-- snakeCase -->
-```
-
-## Contribution
-
-If you'd like to contribute to the extra-pipe library, feel free to open issues or submit pull requests on the <a href="https://github.com/anasmasti/extra-pipe"> GitHub repository</a>. We welcome any suggestions, bug reports, or enhancements.
-
-### License
-
-This library is released under the MIT License.
-
-We hope you find the extra-pipe library helpful for enhancing your Angular applications. If you have any questions or need assistance, don't hesitate to reach out to our community or the library's maintainers. Happy coding!
+MIT
