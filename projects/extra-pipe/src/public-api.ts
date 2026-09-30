@@ -13,6 +13,7 @@ export * from './lib/core/pipes/hide.pipe';
 export * from './lib/core/pipes/img-url-base64.pipe';
 export * from './lib/core/pipes/includes.pipe';
 export * from './lib/core/pipes/initials.pipe';
+export * from './lib/core/pipes/list-format.pipe';
 export * from './lib/core/pipes/localized-date.pipe';
 export * from './lib/core/pipes/mask.pipe';
 export * from './lib/core/pipes/number-to-words.pipe';
