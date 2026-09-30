@@ -9,6 +9,7 @@ export * from './lib/core/pipes/compact-number.pipe';
 export * from './lib/core/pipes/filesize.pipe';
 export * from './lib/core/pipes/format-duration.pipe';
 export * from './lib/core/pipes/format-instanceof-date.pipe';
+export * from './lib/core/pipes/group-by.pipe';
 export * from './lib/core/pipes/hide.pipe';
 export * from './lib/core/pipes/img-url-base64.pipe';
 export * from './lib/core/pipes/includes.pipe';
