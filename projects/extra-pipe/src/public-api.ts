@@ -22,6 +22,7 @@ export * from './lib/core/pipes/remove-duplicates-by-key.pipe';
 export * from './lib/core/pipes/replace-comma.pipe';
 export * from './lib/core/pipes/roud-half.pipe';
 export * from './lib/core/pipes/snake-case-to-camel-case.pipe';
+export * from './lib/core/pipes/truncate-middle.pipe';
 export * from './lib/core/pipes/truncate.pipe';
 export * from './lib/core/pipes/underscore-to-title.pipe';
 export * from './lib/core/pipes/uppercase-from.pipe';
