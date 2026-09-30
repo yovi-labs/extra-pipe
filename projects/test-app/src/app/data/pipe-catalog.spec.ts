@@ -1,0 +1,25 @@
+import { filterPipes, PIPE_ALIASES, PIPE_DOCS, standaloneCode } from './pipe-catalog';
+describe('pipe catalog', () => {
+  it('has 34 distinct canonical pipes and all compatibility aliases', () => {
+    expect(PIPE_DOCS.length).toBe(34);
+    expect(new Set(PIPE_DOCS.map((item) => item.selector)).size).toBe(34);
+    expect(PIPE_ALIASES.length).toBe(4);
+    PIPE_ALIASES.forEach((alias) =>
+      expect(PIPE_DOCS.some((pipe) => pipe.selector === alias.target)).toBe(true),
+    );
+  });
+  it('searches names, classes, descriptions and aliases with category filters', () => {
+    expect(filterPipes('  FILESIZE  ').some((pipe) => pipe.selector === 'filesize')).toBe(true);
+    expect(filterPipes('locale', 'Numbers').every((pipe) => pipe.category === 'Numbers')).toBe(
+      true,
+    );
+    expect(filterPipes('not-a-pipe')).toEqual([]);
+  });
+  it('includes imports and explicit contracts for every entry', () => {
+    PIPE_DOCS.forEach((pipe) => {
+      expect(standaloneCode(pipe)).toContain('imports: [' + pipe.className);
+      expect(pipe.invalid.length).toBeGreaterThan(0);
+      expect(pipe.locale.length).toBeGreaterThan(0);
+    });
+  });
+});

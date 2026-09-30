@@ -1,10 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CompactNumberPipe } from 'extra-pipe';
-
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
-  imports: [CompactNumberPipe],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App {}
+export class App {
+  private readonly router = inject(Router);
+  protected get skipHref(): string {
+    return this.router.url.split('#')[0] + '#main';
+  }
+}

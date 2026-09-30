@@ -1,6 +1,6 @@
 # extra-pipe
 
-A focused collection of standalone Angular 17–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe`, has no runtime dependency beyond Angular, and can be imported directly into a standalone component.
+A focused collection of standalone Angular 17–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
 
 ## Install
 
@@ -8,7 +8,7 @@ A focused collection of standalone Angular 17–22 pipes for presentation, local
 npm install extra-pipe
 ```
 
-The package supports Angular 17 through 22 (`>=17.0.0 <23.0.0`). The demo application intentionally remains on Angular 17, while the release validation also compiles the packaged library in an Angular 22 consumer.
+The package supports Angular 17 through 22 (`>=17.0.0 <23.0.0`). The library compiler and compatibility demo remain on Angular 17. The public documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library.
 
 ## Use a pipe in a standalone component
 
@@ -82,14 +82,24 @@ These additive aliases preserve names that earlier documentation used incorrectl
 
 ## Demo and quality checks
 
-Run the Angular 17 example application locally:
+Build the library, then prepare and run the Angular 22 website (Node 24.15+ for the website):
 
 ```bash
 npm ci
+ npm run build:lib
+ npm run prepare:website
 npm start
 ```
 
-The runnable examples live in `projects/test-app`. Verify the library before a release:
+The website has its own manifest and lockfile. Run `npm run build:website` and
+`npm run test:website` after preparation. Static output is in
+`projects/test-app/dist/extra-pipe-website/browser`. The catalog clearly marks
+unreleased 1.2 preview APIs; `npm install extra-pipe` installs the published version,
+not those preview APIs.
+
+The preserved Angular 17 fixture is in `projects/angular17-demo`. Use
+`npx ng serve angular17-demo` or `npm run build:demo17` to check it.
+Verify the library before a release:
 
 ```bash
 npm run lint:lib

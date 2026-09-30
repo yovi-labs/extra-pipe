@@ -1,0 +1,114 @@
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { PIPE_ALIASES, PIPE_DOCS, standaloneCode, templateCode } from '../data/pipe-catalog';
+import { CodeBlock } from '../shared/code-block';
+@Component({
+  selector: 'app-pipe-detail',
+  imports: [RouterLink, CodeBlock],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: ` @if (pipe(); as current) {
+      <a class="back-link" routerLink="/pipes">← All pipes</a>
+      <div class="page-heading">
+        <div class="panel-heading">
+          <span class="tag">{{ current.category }}</span
+          ><span class="release-tag">{{
+            current.status === 'preview' ? '1.2 preview · In review' : 'Existing API'
+          }}</span>
+        </div>
+        <h1>{{ current.selector }}</h1>
+        <p class="intro">{{ current.description }}</p>
+      </div>
+      @if (alias(); as compatibility) {
+        <p class="notice">
+          {{ compatibility.selector }} is a compatibility alias for {{ current.selector }}.
+          {{
+            compatibility.deprecated
+              ? 'Deprecated: use the canonical selector for new templates.'
+              : ''
+          }}
+        </p>
+      }
+      <div class="detail-grid">
+        <section class="panel">
+          <h2>Use it in your component</h2>
+          <app-code-block [code]="componentCode()" label="Standalone component" /><app-code-block
+            [code]="templateCode(current)"
+          />
+          <h3>Illustrative output</h3>
+          <pre class="output"><code>{{current.output}}</code></pre>
+          <p class="muted">Static example. The interactive playground is delivered separately.</p>
+        </section>
+        <aside class="panel">
+          <h2>The contract</h2>
+          <p>{{ current.contract }}</p>
+          <dl>
+            <dt>Null / invalid input</dt>
+            <dd>{{ current.invalid }}</dd>
+            <dt>Locale behavior</dt>
+            <dd>{{ current.locale }}</dd>
+            <dt>Change detection</dt>
+            <dd>
+              {{
+                current.pure
+                  ? 'Pure: replace changed input references.'
+                  : 'Legacy impure: runs during change detection; avoid large template collections.'
+              }}
+            </dd>
+          </dl>
+          @if (aliases().length) {
+            <h3>Compatibility aliases</h3>
+            <ul>
+              @for (item of aliases(); track item.selector) {
+                <li>
+                  <a [routerLink]="['/pipes', item.selector]">{{ item.selector }}</a> ·
+                  {{ item.className }}
+                </li>
+              }
+            </ul>
+          }
+          <p class="notice">
+            These are display utilities, not validation, data protection or sanitization boundaries.
+          </p>
+        </aside>
+      </div>
+    } @else {
+      <section class="page-heading">
+        <p class="eyebrow">404</p>
+        <h1>Pipe not found.</h1>
+        <p>That selector is not in this catalog.</p>
+        <a routerLink="/pipes">Browse all pipes →</a>
+      </section>
+    }`,
+})
+export class PipeDetail {
+  protected readonly templateCode = templateCode;
+  private readonly title = inject(Title);
+  private readonly meta = inject(Meta);
+  private readonly params = toSignal(inject(ActivatedRoute).paramMap);
+  protected readonly alias = computed(() =>
+    PIPE_ALIASES.find((item) => item.selector === this.params()?.get('selector')),
+  );
+  protected readonly pipe = computed(() =>
+    PIPE_DOCS.find(
+      (item) => item.selector === (this.alias()?.target ?? this.params()?.get('selector')),
+    ),
+  );
+  protected readonly aliases = computed(() =>
+    PIPE_ALIASES.filter((item) => item.target === this.pipe()?.selector),
+  );
+  protected readonly componentCode = computed(() =>
+    this.pipe() ? standaloneCode(this.pipe()!) : '',
+  );
+  constructor() {
+    effect(() => {
+      const current = this.pipe();
+      this.title.setTitle((current?.selector ?? 'Pipe not found') + ' — Extra Pipe');
+      this.meta.updateTag({
+        name: 'description',
+        content: current?.description ?? 'Browse the Extra Pipe Angular documentation catalog.',
+      });
+    });
+  }
+}
