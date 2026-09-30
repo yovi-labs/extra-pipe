@@ -2,9 +2,9 @@ name: Verify Extra Pipe
 
 on:
   push:
-    branches: ['develop', 'master']
+    branches: ['develop', 'main', 'release/**']
   pull_request:
-    branches: ['develop', 'master']
+    branches: ['develop', 'main', 'release/**']
 jobs:
   angular-17:
     name: Angular 17 library and demo
@@ -33,7 +33,7 @@ jobs:
         run: npm run build:lib
 
       - name: Build Angular 17 demo
-        run: npx ng build test-app --configuration production
+        run: npm run build:demo17
 
       - name: Verify package contents
         run: npm pack --dry-run
@@ -51,6 +51,35 @@ jobs:
         with:
           name: extra-pipe-package
           path: dist/extra-pipe-package/extra-pipe-*.tgz
+          if-no-files-found: error
+
+  website:
+    name: Angular 22 static website
+    needs: angular-17
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: projects/test-app/package-lock.json
+      - uses: actions/download-artifact@v4
+        with:
+          name: extra-pipe-package
+          path: package
+      - run: npm ci --ignore-scripts
+        working-directory: projects/test-app
+      - run: npm install --no-save --package-lock=false --ignore-scripts ../../package/extra-pipe-*.tgz
+        working-directory: projects/test-app
+      - run: npm run test:ci
+        working-directory: projects/test-app
+      - run: npm run build
+        working-directory: projects/test-app
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website-static
+          path: projects/test-app/dist/extra-pipe-website/browser
           if-no-files-found: error
 
   angular-22-consumer:

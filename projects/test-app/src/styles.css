@@ -1,0 +1,151 @@
+:root {
+  color-scheme: light;
+  --ink: #20242a;
+  --muted: #51565f;
+  --accent: #a63c00;
+  --orange: #f37021;
+  --surface: #fff;
+  --canvas: #faf9f6;
+  --line: #d9d5ce;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+a {
+  color: var(--accent);
+  text-underline-offset: 4px;
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  padding: 12px;
+  background: white;
+  z-index: 10;
+  transform: translateY(-160%);
+}
+.skip-link:focus {
+  transform: none;
+}
+.site-header {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.brand {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 750;
+  text-decoration: none;
+}
+.brand span {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.container {
+  max-width: 1120px;
+  margin: auto;
+  padding: 48px 32px;
+}
+.eyebrow {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+h1 {
+  font-size: clamp(40px, 7vw, 76px);
+  line-height: 1.08;
+  letter-spacing: -0.055em;
+  margin: 24px 0;
+}
+h2 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+.intro {
+  font-size: 20px;
+  max-width: 640px;
+  color: var(--muted);
+}
+.panel {
+  margin: 40px 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+}
+pre {
+  background: #20242a;
+  color: #f7f5f1;
+  padding: 20px;
+  border-radius: 10px;
+  overflow: auto;
+  font-size: 14px;
+}
+.result {
+  font-size: 36px;
+  font-weight: 700;
+}
+footer {
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button,
+a.button {
+  min-height: 44px;
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 32px 20px;
+  }
+  .site-header {
+    padding: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

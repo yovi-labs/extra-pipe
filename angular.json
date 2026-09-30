@@ -39,12 +39,12 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "eslintConfig": ".eslintrc",
-            "lintFilePatterns": ["**/*.spec.ts", "**/*.ts"]
+            "lintFilePatterns": ["projects/extra-pipe/src/**/*.ts"]
           }
         }
       }
     },
-    "test-app": {
+    "angular17-demo": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -54,24 +54,24 @@
           "strict": true
         }
       },
-      "root": "projects/test-app",
-      "sourceRoot": "projects/test-app/src",
+      "root": "projects/angular17-demo",
+      "sourceRoot": "projects/angular17-demo/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/test-app",
-            "index": "projects/test-app/src/index.html",
-            "main": "projects/test-app/src/main.ts",
-            "polyfills": "projects/test-app/src/polyfills.ts",
-            "tsConfig": "projects/test-app/tsconfig.app.json",
+            "outputPath": "dist/angular17-demo",
+            "index": "projects/angular17-demo/src/index.html",
+            "main": "projects/angular17-demo/src/main.ts",
+            "polyfills": "projects/angular17-demo/src/polyfills.ts",
+            "tsConfig": "projects/angular17-demo/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/test-app/src/favicon.ico",
-              "projects/test-app/src/assets"
+              "projects/angular17-demo/src/favicon.ico",
+              "projects/angular17-demo/src/assets"
             ],
-            "styles": ["projects/test-app/src/styles.scss"],
+            "styles": ["projects/angular17-demo/src/styles.scss"],
             "scripts": [],
             "aot": true
           },
@@ -91,8 +91,8 @@
               ],
               "fileReplacements": [
                 {
-                  "replace": "projects/test-app/src/environments/environment.ts",
-                  "with": "projects/test-app/src/environments/environment.prod.ts"
+                  "replace": "projects/angular17-demo/src/environments/environment.ts",
+                  "with": "projects/angular17-demo/src/environments/environment.prod.ts"
                 }
               ],
               "outputHashing": "all"
@@ -112,10 +112,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "test-app:build:production"
+              "buildTarget": "angular17-demo:build:production"
             },
             "development": {
-              "buildTarget": "test-app:build:development"
+              "buildTarget": "angular17-demo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -123,22 +123,22 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "test-app:build"
+            "buildTarget": "angular17-demo:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/test-app/src/test.ts",
-            "polyfills": "projects/test-app/src/polyfills.ts",
-            "tsConfig": "projects/test-app/tsconfig.spec.json",
-            "karmaConfig": "projects/test-app/karma.conf.js",
+            "main": "projects/angular17-demo/src/test.ts",
+            "polyfills": "projects/angular17-demo/src/polyfills.ts",
+            "tsConfig": "projects/angular17-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/angular17-demo/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/test-app/src/favicon.ico",
-              "projects/test-app/src/assets"
+              "projects/angular17-demo/src/favicon.ico",
+              "projects/angular17-demo/src/assets"
             ],
-            "styles": ["projects/test-app/src/styles.scss"],
+            "styles": ["projects/angular17-demo/src/styles.scss"],
             "scripts": []
           }
         }
