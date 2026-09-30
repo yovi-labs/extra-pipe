@@ -1,0 +1,77 @@
+.playground {
+  border-top: 1px solid var(--line);
+  margin-top: 32px;
+  padding-top: 24px;
+}
+.playground .section-heading {
+  align-items: start;
+  margin-bottom: 20px;
+}
+.playground .section-heading h2 {
+  margin-top: 0;
+}
+.playground .section-heading p {
+  font-size: 14px;
+}
+.playground-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.playground textarea {
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+.playground small {
+  color: var(--muted);
+}
+.playground-tools {
+  display: flex;
+  gap: 12px;
+  align-items: end;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.playground-tools .field {
+  flex: 1;
+  min-width: 180px;
+}
+.playground .copy-status {
+  min-height: 0;
+}
+.live-output {
+  min-height: 68px;
+  max-height: 480px;
+  overflow: auto;
+  unicode-bidi: plaintext;
+}
+.recipe-output {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+.recipe-output p {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.recipe-output strong {
+  font-size: 28px;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  .playground-fields {
+    grid-template-columns: 1fr;
+  }
+  .playground .section-heading {
+    flex-direction: column;
+  }
+  .site-header {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}

@@ -4,9 +4,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PIPE_ALIASES, PIPE_DOCS, standaloneCode, templateCode } from '../data/pipe-catalog';
 import { CodeBlock } from '../shared/code-block';
+import { Playground } from './playground/playground';
 @Component({
   selector: 'app-pipe-detail',
-  imports: [RouterLink, CodeBlock],
+  imports: [RouterLink, CodeBlock, Playground],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` @if (pipe(); as current) {
       <a class="back-link" routerLink="/pipes">← All pipes</a>
@@ -36,9 +37,7 @@ import { CodeBlock } from '../shared/code-block';
           <app-code-block [code]="componentCode()" label="Standalone component" /><app-code-block
             [code]="templateCode(current)"
           />
-          <h3>Illustrative output</h3>
-          <pre class="output"><code>{{current.output}}</code></pre>
-          <p class="muted">Static example. The interactive playground is delivered separately.</p>
+          <app-playground [pipe]="current" />
         </section>
         <aside class="panel">
           <h2>The contract</h2>

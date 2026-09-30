@@ -1,6 +1,11 @@
 import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
+    path: 'recipes',
+    title: 'Recipes — Extra Pipe',
+    loadComponent: () => import('./features/recipes').then((m) => m.Recipes),
+  },
+  {
     path: '',
     title: 'Extra Pipe — Standalone Angular toolbox',
     loadComponent: () => import('./features/home').then((m) => m.Home),
