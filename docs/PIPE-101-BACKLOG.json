@@ -1,5 +1,5 @@
 {
-  "status": "planned—not a published or implemented count",
+  "status": "implemented in Sprint 2 review; not merged or published; verify with npm run check:inventory",
   "baselineCanonical": 34,
   "targetCanonical": 101,
   "additionalCanonical": 67,
@@ -78,7 +78,7 @@
       "gap": "TruncateMiddle does not locate query context.",
       "input": "zero one two three",
       "params": ["two", 12],
-      "expected": "…ne two thr…",
+      "expected": "… one two t…",
       "className": "ExcerptPipe",
       "file": "excerpt"
     },

@@ -143,9 +143,14 @@ export class Playground {
     const json =
       (this.pipe().json ??
       (this.pipe().category === 'Collections' && this.pipe().selector !== 'includes'))
-        ? (this.pipe().keyValue ? ' | keyvalue' : '') + ' | json'
+        ? (this.pipe().keyValue ? ' | keyvalue: keepInsertionOrder' : '') + ' | json'
         : '';
+    if (this.pipe().selector === 'unzip') {
+      return 'readonly pairs = ' + this.inputText() + ' as const;\n{{ pairs | unzip | json }}';
+    }
+    const context = this.pipe().keyValue ? 'readonly keepInsertionOrder = () => 0;\n' : '';
     return (
+      context +
       '{{ ' +
       this.inputText() +
       ' | ' +

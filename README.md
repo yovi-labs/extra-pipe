@@ -2,6 +2,31 @@
 
 A focused collection of standalone Angular 17–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
 
+## Sprint 2 preview: 100+ standalone Angular pipes
+
+This review-stage catalogue implements **101 canonical pipes**, plus four
+separate compatibility aliases. The 67 additional APIs are not yet published on
+npm. Existing installation instructions describe the published package, not a
+promise that preview APIs are available. No version or license change is implied.
+
+| Addition group                | Count | Contracts and examples                           |
+| ----------------------------- | ----: | ------------------------------------------------ |
+| Text and content              |    12 | [Text](docs/pipes/text-toolbox.md)               |
+| Immutable collections         |    17 | [Collections](docs/pipes/collections-toolbox.md) |
+| Own-property object utilities |     8 | [Objects](docs/pipes/objects-toolbox.md)         |
+| Dashboard metrics             |    12 | [Metrics](docs/pipes/metrics-toolbox.md)         |
+| Numbers and localization      |     8 | [Numbers](docs/pipes/numbers-toolbox.md)         |
+| Explicit UTC calendars        |    10 | [Dates](docs/pipes/dates-toolbox.md)             |
+
+Each addition exports a pure standalone adapter and a reusable typed function
+with the same name as its selector. Read the [shared contracts](docs/PIPE-101-CONTRACTS.md)
+for invalid values, Unicode, locale defaults, equality, bounds, rounding and UTC
+behavior. Expensive reports should be precomputed outside templates.
+The [expanded API reference](docs/API-101.md) includes exact signatures and caveats for all 67 additions.
+Run `npm run check:inventory` after building to verify the exported and documented
+catalogue against the packed declarations; aliases and functions never inflate
+the count.
+
 ## Install
 
 ```bash

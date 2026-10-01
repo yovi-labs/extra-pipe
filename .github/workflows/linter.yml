@@ -33,6 +33,8 @@ jobs:
 
       - name: Test library
         run: npm run test:ci
+      - name: Check new transformation coverage
+        run: npm run check:coverage
 
       - name: Build library
         run: npm run build:lib
@@ -42,6 +44,8 @@ jobs:
 
       - name: Verify package contents
         run: npm run check:package
+      - name: Verify 101 canonical pipes and packed declarations
+        run: npm run check:inventory
 
       - name: Prepare package destination
         run: mkdir -p dist/extra-pipe-package

@@ -39,7 +39,8 @@ export interface IsoWeekResult {
 }
 export type DateBucketUnit = 'day' | 'week' | 'month' | 'quarter' | 'year';
 export type PluralKind = 'cardinal' | 'ordinal';
-export type DefaultsResult<T, U> = {
+/** Only enumerable own data fields are emitted; structural type keys may be absent. */
+export type DefaultsResult<T, U> = Partial<{
   readonly [K in keyof T | keyof U]: K extends keyof T
     ? K extends keyof U
       ? Exclude<T[K], null | undefined> | U[K]
@@ -47,4 +48,4 @@ export type DefaultsResult<T, U> = {
     : K extends keyof U
       ? U[K]
       : never;
-};
+}>;

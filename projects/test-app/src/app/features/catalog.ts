@@ -35,7 +35,9 @@ import { CATEGORIES, filterPipes, PIPE_DOCS } from '../data/pipe-catalog';
         </select>
       </div>
     </div>
-    <p class="muted" role="status">{{ filtered().length }} pipes found</p>
+    <p class="muted" role="status">
+      {{ filtered().length }} {{ filtered().length === 1 ? 'pipe' : 'pipes' }} found
+    </p>
     <div class="catalog-grid">
       @for (pipe of filtered(); track pipe.selector) {
         <a class="catalog-card" [routerLink]="['/pipes', pipe.selector]"

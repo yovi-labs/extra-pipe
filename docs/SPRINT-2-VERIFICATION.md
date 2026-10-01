@@ -4,7 +4,62 @@ Status: implementation verified locally; review, current-head CI and deployment
 remain release gates. Package versions intentionally remain unchanged until
 release readiness. Do not publish this feature branch as 1.1.0.
 
-## Automated checks (2026-10-01)
+## 101-pipe expansion (2026-10-01)
+
+- Inventory check: exactly 101 canonical standalone pipes, plus four compatibility
+  aliases counted separately. All 67 additions export typed functions and pure
+  adapters; catalogue names/classes match source and built package declarations.
+- Library lint passed; Chrome Headless 154 passed 323/323 tests. Lines 97.64%,
+  branches 91.05%, functions 100%. Each of the six new transformation modules has
+  100% lines; branch coverage is 94.93–100%. CI retains the global 90%/80% gates
+  and additionally enforces 95% lines / 90% branches for those new modules.
+- Angular 17 library partial-compilation and demo production builds passed.
+- Angular 22 website: 21/21 tests and 109-route static production build passed;
+  static response/security checks passed 5/5. All 101 adapters have example
+  coverage. Examples show standalone/template code before outputs and include
+  explicit per-pipe bounds, ordering, locale and invalid-input caveats.
+- Final archive: 248 files, 199,678 bytes compressed; MIT license, changelog and
+  README included, no website/tests/private configuration. Angular peers remain
+  `>=17 <23`; no new runtime dependency was introduced by this expansion.
+  SHA-256: DD0ADB8593A1D1457F86B2C4F74CB1CCD43114E2A09CDB254480B52E52447AF1.
+- Clean packed consumers passed for Angular CLI 17.3.17 / 18.2.21 (Node 20.20.2),
+  19.2.27 (Node 20.20.2), 20.3.37 / 21.2.24 (Node 22.17.0), and 22.2.1
+  (Node 24.21.0). Fixtures compile all 101 canonical pipes and four aliases.
+  The final Map-display comparator returns zero, rather than passing null to
+  KeyValuePipe (null is unsupported in Angular 17/18); the current-head CI matrix
+  rechecks all six generations with that cross-version example.
+- Angular 22 single-CompactNumberPipe build: 93,970 JS bytes versus 160,534 for
+  the full-catalogue fixture; unused text, metrics and date selector markers
+  are absent. This verifies tree shaking in that consumer, not a universal size.
+- Three production mobile Lighthouse runs: performance 99/99/99, accessibility
+  100/100/100, best practices 100/100/100; LCP about 1.66s, TBT 1.5–2.5ms.
+  Initial assets: 280.08kB raw / 76.94kB estimated transfer. Existing 350kB hard
+  cap and 250kB warning remain unchanged; the warning is disclosed.
+- Browser smoke checks: catalogue search, copied standalone code, English/French/
+  Arabic output, null inputs, recipes, immutable add-item interaction and route
+  focus passed. Homepage/catalog/Map detail at 320px have no horizontal overflow.
+  A fresh tab navigating the final production artifact has no console warnings
+  or errors. An older tab observed a stale lazy-chunk error during a rebuild;
+  reloading fixed it, and this is not hidden as a production failure.
+- Website and isolated library runtime dependency audits: zero advisories.
+  Legacy Angular 17 workspace: 8 runtime advisory packages (4 moderate/4 high),
+  106 full-toolchain findings (10 low/32 moderate/59 high/5 critical).
+  Old Angular consumer toolchains also report advisories: passing compilation
+  is not a security endorsement. Remediation or explicit risk acceptance is
+  required before release; no forced framework upgrade was made.
+
+Review the existing foundation PRs #50–70, then #80 (contracts/inventory),
+#81–86 (independent domain batches), #87 (integrated catalogue), and the
+#79-ticket verification PR. Dependencies are disclosed in each PR. Tickets stay
+open until human review and merge. No protected branch was pushed, no npm
+publication, tag, release or release-version change was performed.
+
+The verified static artifact is available locally at http://127.0.0.1:4203/.
+Vercel account access still returns no accessible teams; owner-confirmed
+destination and free-plan eligibility are required. No public deployment URL
+or deployed-site performance/HTTPS/security claim is made.
+
+## Original 34-pipe baseline checks (2026-10-01)
 
 - Library lint passed.
 - Chrome Headless 154: 89/89 unit tests passed; lines 93.71%, branches 86.48%,
@@ -55,6 +110,7 @@ was introduced without evidence that its state/memory tradeoff is justified.
    Supply CHROME_BIN when Chrome is not installed in the default location.
 2. With Node 24.15+, run prepare:website, test:website and build:website.
 3. Run check:package and check:security.
+   Run check:inventory after build:lib and check:coverage after test:ci.
 4. Run check:compat with each Angular major 17 through 22.
 5. Install tools/quality with npm ci; run preview:website; set CHROME_PATH if
    needed, then run check:performance. It saves three JSON reports and fails when
@@ -73,4 +129,3 @@ hydration and live formatting work under CSP with no observed console errors.
 Immutable interaction and each of the 34 canonical adapters have unit coverage.
 Free Vercel account access and an identified destination are still required;
 local testing does not prove deployed redirects, cache or TLS behavior.
-

@@ -1,35 +1,75 @@
 import '@angular/compiler';
-import { performance } from 'node:perf_hooks';
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { performance } from 'node:perf_hooks';
 import {
-  groupBy, orderBy, uniqueBy, slugify, formatList, formatByteSize, truncateMiddle,
+  dateSequence,
+  formatByteSize,
+  formatFraction,
+  formatList,
+  groupBy,
+  highlightMatches,
+  histogram,
+  intersectionBy,
+  mergeBy,
+  movingAverage,
+  orderBy,
+  pathEntries,
+  percentileBy,
+  slugify,
+  summarizeBy,
+  truncateMiddle,
+  uniqueBy,
+  wordCount,
 } from '../dist/extra-pipe/fesm2022/extra-pipe.mjs';
 
-const items=Array.from({length:1000},(_,id)=>({id:id%100,team:id%10,name:'Item '+id}));
-const longText='👩🏽‍💻 café مرحبًا '.repeat(100);
-const cases=[
-  ['groupBy 1000 records',()=>groupBy(items,'team')],
-  ['uniqueBy 1000 records',()=>uniqueBy(items,'id')],
-  ['orderBy 1000 records',()=>orderBy(items,'name')],
-  ['slugify Unicode text',()=>slugify(longText)],
-  ['truncateMiddle 1500+ graphemes',()=>truncateMiddle(longText,24)],
-  ['listFormat 3 items',()=>formatList(['Angular','Extra Pipe','Unicode'])],
-  ['byteSize formatting',()=>formatByteSize(123456789)],
+const items = Array.from({ length: 1000 }, (_, id) => ({
+  id: id % 100,
+  team: id % 10,
+  name: 'Item ' + id,
+}));
+const longText = '👩🏽‍💻 café مرحبًا '.repeat(100);
+const series = items.map(item => item.id);
+const cases = [
+  ['intersectionBy 1000 records', () => intersectionBy(items, items, 'id')],
+  ['mergeBy 1000 records', () => mergeBy(items, items, 'id')],
+  ['summarizeBy 1000 records', () => summarizeBy(items, 'id')],
+  ['percentileBy 1000 records', () => percentileBy(items, 'id', 95)],
+  ['movingAverage 1000 values', () => movingAverage(series, 10)],
+  ['histogram 1000 values', () => histogram(series, 20)],
+  ['highlightMatches Unicode text', () => highlightMatches(longText, 'café')],
+  ['wordCount Unicode text', () => wordCount(longText, 'ar')],
+  ['formatFraction denominator cap', () => formatFraction(Math.PI, 10000)],
+  ['dateSequence 3660 dates', () => dateSequence('2000-01-01', '2010-01-07')],
+  ['pathEntries 1000 leaves', () => pathEntries({ items })],
+  ['groupBy 1000 records', () => groupBy(items, 'team')],
+  ['uniqueBy 1000 records', () => uniqueBy(items, 'id')],
+  ['orderBy 1000 records', () => orderBy(items, 'name')],
+  ['slugify Unicode text', () => slugify(longText)],
+  ['truncateMiddle 1500+ graphemes', () => truncateMiddle(longText, 24)],
+  [
+    'listFormat 3 items',
+    () => formatList(['Angular', 'Extra Pipe', 'Unicode']),
+  ],
+  ['byteSize formatting', () => formatByteSize(123456789)],
 ];
-const results=[];
-for(const [name,run] of cases) {
-  for(let i=0;i<50;i++) run();
-  const samples=[];
-  for(let sample=0;sample<5;sample++) {
-    const start=performance.now();
-    for(let i=0;i<200;i++) run();
-    samples.push((performance.now()-start)/200);
+const results = [];
+for (const [name, run] of cases) {
+  for (let i = 0; i < 50; i++) run();
+  const samples = [];
+  for (let sample = 0; sample < 5; sample++) {
+    const start = performance.now();
+    for (let i = 0; i < 200; i++) run();
+    samples.push((performance.now() - start) / 200);
   }
-  samples.sort((a,b)=>a-b);
-  results.push({name,medianMsPerCall:Number(samples[2].toFixed(4))});
+  samples.sort((a, b) => a - b);
+  results.push({ name, medianMsPerCall: Number(samples[2].toFixed(4)) });
 }
-mkdirSync('.artifacts/benchmarks',{recursive:true});
-writeFileSync('.artifacts/benchmarks/functions.json',JSON.stringify({node:process.versions.node,results},null,2));
+mkdirSync('.artifacts/benchmarks', { recursive: true });
+writeFileSync(
+  '.artifacts/benchmarks/functions.json',
+  JSON.stringify({ node: process.versions.node, results }, null, 2)
+);
 console.table(results);
-console.log('Informational local baseline, not a cross-machine CI timing assertion.');
-
+console.log(
+  'Informational local baseline, not a cross-machine CI timing assertion.'
+);

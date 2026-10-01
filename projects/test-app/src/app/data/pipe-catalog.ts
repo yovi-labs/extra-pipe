@@ -1,5 +1,6 @@
 import { PIPE_ALIASES } from './pipe-aliases';
 import { EXPANDED_PIPE_DOCS } from './expanded-pipe-docs';
+import { PIPE_CAVEATS } from './expanded-pipe-caveats';
 export { PIPE_ALIASES } from './pipe-aliases';
 
 export type PipeCategory =
@@ -25,7 +26,10 @@ export interface PipeDoc {
   readonly keyValue?: boolean;
 }
 export const PIPE_DOCS: readonly PipeDoc[] = [
-  ...EXPANDED_PIPE_DOCS,
+  ...EXPANDED_PIPE_DOCS.map((pipe) => ({
+    ...pipe,
+    contract: pipe.contract + ' ' + PIPE_CAVEATS[pipe.selector],
+  })),
   {
     selector: 'compactNumber',
     className: 'CompactNumberPipe',
@@ -529,6 +533,8 @@ export function filterPipes(query: string, category = 'All'): readonly PipeDoc[]
 export function standaloneCode(pipe: PipeDoc): string {
   const needsJson = pipe.json ?? (pipe.category === 'Collections' && pipe.selector !== 'includes');
   const context: Record<string, string> = {
+    indexBy: '  readonly keepInsertionOrder = () => 0;',
+    unzip: '  readonly pairs = [[1,"A"],[2,"B"]] as const;',
     relativeTime:
       "  readonly publishedAt = new Date('2024-01-01T12:03:00Z');\n  readonly referenceTime = new Date('2024-01-01T12:00:00Z');",
     formatInstanceofDate: "  readonly date = new Date('2026-01-01T12:00:00Z');",
@@ -564,6 +570,9 @@ export function standaloneCode(pipe: PipeDoc): string {
 
 export function templateCode(pipe: PipeDoc): string {
   return (pipe.json ?? (pipe.category === 'Collections' && pipe.selector !== 'includes'))
-    ? pipe.example.replace(/\s*\}\}$/, (pipe.keyValue ? ' | keyvalue' : '') + ' | json }}')
+    ? pipe.example.replace(
+        /\s*\}\}$/,
+        (pipe.keyValue ? ' | keyvalue: keepInsertionOrder' : '') + ' | json }}',
+      )
     : pipe.example;
 }

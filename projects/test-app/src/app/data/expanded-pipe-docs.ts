@@ -279,7 +279,7 @@ export const EXPANDED_PIPE_DOCS: readonly PipeDoc[] = [
     className: 'UnzipPipe',
     category: 'Collections',
     description: 'Split paired coordinates into parallel series.',
-    example: '{{ [[1,"A"],[2,"B"]] | unzip }}',
+    example: '{{ pairs | unzip }}',
     output: '[[1,2],["A","B"]]',
     contract:
       'Split paired coordinates into parallel series. Signature: unzip(value: readonly (readonly [T, U])[] | null | undefined). Returns [T[], U[]]. See the shared 101 contracts for bounds and invalid inputs.',
@@ -411,7 +411,7 @@ export const EXPANDED_PIPE_DOCS: readonly PipeDoc[] = [
     output: '[[1,{"id":1,"name":"Ana"}],[2,{"id":2,"name":"Sam"}]]',
     contract:
       'Build a prototype-safe lookup Map from records. Signature: indexBy(value: readonly T[] | null | undefined, key: K). Returns Map<T[K] | undefined, T>. See the shared 101 contracts for bounds and invalid inputs.',
-    invalid: '[]',
+    invalid: 'Empty Map (displayed as [] in the playground)',
     locale: 'No locale argument.',
     pure: true,
     status: 'preview',
@@ -720,7 +720,7 @@ export const EXPANDED_PIPE_DOCS: readonly PipeDoc[] = [
     locale: 'No locale argument.',
     pure: true,
     status: 'preview',
-    json: false,
+    json: true,
     keyValue: false,
   },
   {

@@ -34,6 +34,15 @@ These display pipes are pure and return an empty string for invalid input. The f
 
 ## Planned 1.2 preview
 
+Sprint 2 expands the review catalogue to **101 canonical standalone pipes**
+(100+), with four aliases counted separately. This is an implemented preview,
+not a claim about the current npm release. It adds 12 text, 17 collection, eight
+object, 12 metric, eight number/localization and ten UTC calendar pipes on top
+of the previous 34. Each new selector has a pure adapter, typed helper, documented
+invalid contract and frozen-input tests. See the repository's shared
+[101 contracts](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/PIPE-101-CONTRACTS.md)
+and domain references for signatures, defaults and live website examples.
+
 Review-stage additions: listFormat, formatUnit, displayName, dateRange, numberRange,
 byteSize, truncateMiddle, slugify, groupBy, orderBy and uniqueBy. They are not yet
 available in the published npm release. Their typed functions/options are also

@@ -2,6 +2,16 @@
 
 ## Unreleased — planned 1.2.0
 
+- Expand Sprint 2 to 101 distinct canonical standalone pipes: 67 new text,
+  collection, object, dashboard, numeric/localization and UTC calendar APIs,
+  with typed reusable functions. Four compatibility aliases remain separate.
+- All 101 entries have live examples, contracts and copyable standalone imports.
+  Structured results and Maps have explicit display adapters; nested playground
+  input is bounded. Five recipes compose practical transformations.
+- Verify source/public/packed declaration alignment and compile all 101 selectors
+  plus aliases in clean Angular 17–22 consumers; check unused catalogue removal
+  in a single-pipe Angular 22 build.
+
 - Eleven additive pure standalone pipes and typed functions: `listFormat`,
   `formatUnit`, `displayName`, `dateRange`, `numberRange`, `byteSize`,
   `truncateMiddle`, `slugify`, `groupBy`, `orderBy`, and `uniqueBy`.

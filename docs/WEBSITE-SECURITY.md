@@ -26,7 +26,7 @@ The local test server is not a deployed function and binds only to loopback.
 Angular 22 website audit: zero advisories across runtime and development.
 The isolated Angular 17 workspace has legacy advisories, including eight
 runtime packages (four moderate, four high). Full workspace tooling audit:
-106 packages (10 low, 32 moderate, 60 high, 4 critical). These are tracked risks
+106 packages (10 low, 32 moderate, 59 high, 5 critical). These are tracked risks
 in the legacy build toolchain, not deployed website dependencies.
 These counts are dependency advisories,
 not evidence that every advisory is exploitable in this application.

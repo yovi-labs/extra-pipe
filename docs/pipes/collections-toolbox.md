@@ -97,8 +97,11 @@ unzip<T, U>(value: readonly (readonly [T, U])[] | null | undefined): [T[], U[]]
 Invalid input: `[[],[]]`. No locale argument.
 
 ```html
-{{ [[1,"A"],[2,"B"]] | unzip }}
+{{ pairs | unzip | json }}
 ```
+
+For the preceding unzip example, declare typed pairs in the component:
+`readonly pairs = [[1, 'A'], [2, 'B']] as const;` and import Angular's JsonPipe.
 
 ## slidingWindow
 

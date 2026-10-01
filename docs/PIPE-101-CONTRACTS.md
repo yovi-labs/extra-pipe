@@ -19,8 +19,8 @@ rejected. Aggregation rejects a whole input if any field is missing/non-finite;
 sumBy of an empty valid input is zero, other scalar summaries are null.
 Own data properties only: inherited properties and getters are not invoked.
 Records mean plain objects (Object.prototype or null prototype), not Date/Map/classes.
-Object outputs use safe own data properties, including names such as **proto**.
-Path traversal forbids **proto**/prototype/constructor. Nested walks cap depth at
+Object outputs use safe own data properties, including names such as `__proto__`.
+Path traversal forbids `__proto__`/prototype/constructor. Nested walks cap depth at
 12 and reject cycles. Maps use SameValueZero equality and encounter order.
 
 ## Text and locales

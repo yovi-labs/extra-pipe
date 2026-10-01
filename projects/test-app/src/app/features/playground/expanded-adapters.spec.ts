@@ -231,7 +231,7 @@ describe('67 expansion examples', () => {
     expect(evaluateInput('indexBy', '[{"id":1}]', '["id"]', 'en').output).toContain('"id": 1');
     const pipe = PIPE_DOCS.find((p) => p.selector === 'indexBy')!;
     expect(standaloneCode(pipe)).toContain('KeyValuePipe');
-    expect(templateCode(pipe)).toContain('| keyvalue | json');
+    expect(templateCode(pipe)).toContain('| keyvalue: keepInsertionOrder | json');
     expect(templateCode(PIPE_DOCS.find((p) => p.selector === 'summarizeBy')!)).toContain('| json');
     expect(templateCode(PIPE_DOCS.find((p) => p.selector === 'averageBy')!)).not.toContain(
       '| json',
