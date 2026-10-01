@@ -25,6 +25,7 @@ export * from './lib/core/pipes/localized-date.pipe';
 export * from './lib/core/pipes/mask.pipe';
 export * from './lib/core/pipes/number-range.pipe';
 export * from './lib/core/pipes/number-to-words.pipe';
+export * from './lib/core/pipes/numbers-toolbox';
 export * from './lib/core/pipes/order-by.pipe';
 export * from './lib/core/pipes/relative-time.pipe';
 export * from './lib/core/pipes/remove-by-key.pipe';
