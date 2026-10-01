@@ -24,7 +24,8 @@
     "check:package": "node scripts/verify-package.mjs",
     "check:security": "node --test scripts/website-security.test.mjs",
     "check:performance": "node scripts/check-performance.mjs",
-    "preview:website": "node scripts/serve-static.mjs"
+    "preview:website": "node scripts/serve-static.mjs",
+    "build:vercel": "node scripts/build-vercel.mjs"
   },
   "config": {
     "commitizen": {

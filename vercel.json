@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "npm ci --ignore-scripts",
-  "buildCommand": "npm run build:lib && npm run prepare:website && npm run build:website",
+  "buildCommand": "npm run build:vercel",
   "outputDirectory": "projects/test-app/dist/extra-pipe-website/browser",
   "cleanUrls": true,
   "redirects": [
