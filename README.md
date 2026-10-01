@@ -32,9 +32,29 @@ export class ProductSummaryComponent {
 
 Standalone pipes belong in a component's `imports` array, not an NgModule's `declarations` array.
 
+## Sprint 2 preview — not yet published
+
+The review-stage catalog adds eleven APIs. Do not expect these in the current npm
+release; use the local packed preview or wait for the approved 1.2.0 release.
+
+- Localization: listFormat (readable lists), formatUnit (Intl units), displayName
+  (localized language/region names), dateRange and numberRange.
+- Display/text: byteSize (SI or IEC), truncateMiddle (grapheme budget) and slugify
+  (Unicode-preserving text, optional Latin accent folding).
+- Collections: groupBy (ordered groups), orderBy (stable display sorting),
+  uniqueBy (explicit first/last retention without mutation).
+
+Each pipe has an exported typed function/options, invalid-input tests and a
+standalone example. Text-only and non-localized collection pipes do not take a
+locale parameter. The full signatures and limitations are in
+[the 1.2 API contract](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/API-1.2.md).
+The new runtime Unicode fallback is MIT licensed; Angular peers stay >=17 <23.
+See [the Sprint 2 milestone](https://github.com/yovi-labs/extra-pipe/milestone/1)
+for review status. No deployed website address is claimed before hosting is verified.
+
 ## New display and i18n pipes
 
-All pipes in this section are pure. They return an empty string for nullish or invalid input and use Angular's injected `LOCALE_ID` unless their final `locale` argument is provided.
+All pipes in this section are pure and return an empty string for nullish or invalid input. The three formatting pipes use injected `LOCALE_ID` with an optional locale override; text-only pipes have no locale parameter.
 
 | Selector         | Template call                                         | Contract                                                                                                                                                         |
 | ---------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
