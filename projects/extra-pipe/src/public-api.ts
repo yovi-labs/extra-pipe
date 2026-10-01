@@ -23,6 +23,7 @@ export * from './lib/core/pipes/initials.pipe';
 export * from './lib/core/pipes/list-format.pipe';
 export * from './lib/core/pipes/localized-date.pipe';
 export * from './lib/core/pipes/mask.pipe';
+export * from './lib/core/pipes/metrics-toolbox';
 export * from './lib/core/pipes/number-range.pipe';
 export * from './lib/core/pipes/number-to-words.pipe';
 export * from './lib/core/pipes/order-by.pipe';

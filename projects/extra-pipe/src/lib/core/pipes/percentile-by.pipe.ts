@@ -1,0 +1,14 @@
+import { Pipe, PipeTransform } from '@angular/core';
+import { percentileBy } from '../transformations/metrics-toolbox';
+export { percentileBy } from '../transformations/metrics-toolbox';
+/** Interpolated percentile for numeric dashboard samples. */
+@Pipe({ name: 'percentileBy', standalone: true, pure: true })
+export class PercentileByPipe implements PipeTransform {
+  transform<T>(
+    value: readonly T[] | null | undefined,
+    key: keyof T,
+    percentile = 50
+  ): number | null {
+    return percentileBy(value, key, percentile);
+  }
+}
