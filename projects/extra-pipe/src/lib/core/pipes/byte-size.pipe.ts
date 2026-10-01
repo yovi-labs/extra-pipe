@@ -15,7 +15,8 @@ export function formatByteSize(
     !Number.isFinite(value) ||
     value < 0 ||
     !options ||
-    typeof options !== 'object'
+    typeof options !== 'object' ||
+    Array.isArray(options)
   )
     return '';
   const base = options.base ?? 1000,

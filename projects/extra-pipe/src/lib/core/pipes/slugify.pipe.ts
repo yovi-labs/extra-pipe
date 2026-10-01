@@ -14,6 +14,7 @@ export function slugify(
     typeof value !== 'string' ||
     !options ||
     typeof options !== 'object' ||
+    Array.isArray(options) ||
     (options.separator !== undefined &&
       options.separator !== '-' &&
       options.separator !== '_') ||

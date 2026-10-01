@@ -14,7 +14,8 @@ export function getDisplayName(
     typeof value !== 'string' ||
     !value.trim() ||
     !options ||
-    typeof options !== 'object'
+    typeof options !== 'object' ||
+    Array.isArray(options)
   )
     return '';
   try {

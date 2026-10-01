@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test extra-pipe --no-watch --code-coverage --browsers=ChromeHeadless",
-    "build:lib": "ng-packagr -p ./projects/extra-pipe/ng-package.json -c ./projects/extra-pipe/tsconfig.lib.prod.json",
+    "build:lib": "ng-packagr -p ./projects/extra-pipe/ng-package.json -c ./projects/extra-pipe/tsconfig.lib.prod.json && node scripts/finalize-package.mjs",
     "build:lib:watch": "ng-packagr -p ./projects/extra-pipe/ng-package.json -w",
     "format": "npx prettier --write .",
     "lint:lib": "ng lint extra-pipe",
@@ -19,7 +19,12 @@
     "build:website": "npm --prefix projects/test-app run build",
     "test:website": "npm --prefix projects/test-app run test:ci",
     "prepare:website": "node scripts/prepare-website.mjs",
-    "build:demo17": "ng build angular17-demo --configuration production"
+    "build:demo17": "ng build angular17-demo --configuration production",
+    "check:compat": "node scripts/check-angular-consumer.mjs",
+    "check:package": "node scripts/verify-package.mjs",
+    "check:security": "node --test scripts/website-security.test.mjs",
+    "check:performance": "node scripts/check-performance.mjs",
+    "preview:website": "node scripts/serve-static.mjs"
   },
   "config": {
     "commitizen": {

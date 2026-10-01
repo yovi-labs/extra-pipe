@@ -5,6 +5,11 @@ on:
     branches: ['develop', 'main', 'release/**']
   pull_request:
     branches: ['develop', 'main', 'release/**']
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   angular-17:
     name: Angular 17 library and demo
@@ -36,8 +41,7 @@ jobs:
         run: npm run build:demo17
 
       - name: Verify package contents
-        run: npm pack --dry-run
-        working-directory: dist/extra-pipe
+        run: npm run check:package
 
       - name: Prepare package destination
         run: mkdir -p dist/extra-pipe-package
@@ -84,85 +88,54 @@ jobs:
           path: projects/test-app/dist/extra-pipe-website/browser
           if-no-files-found: error
 
-  angular-22-consumer:
-    name: Angular 22 package consumer
+  consumers:
+    name: Angular ${{ matrix.angular }} packed consumer
     needs: angular-17
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { angular: 17, node: 20 }
+          - { angular: 18, node: 20 }
+          - { angular: 19, node: 20 }
+          - { angular: 20, node: 22 }
+          - { angular: 21, node: 22 }
+          - { angular: 22, node: 24 }
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 24
-
-      - name: Download packed library
-        uses: actions/download-artifact@v4
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v4
         with:
           name: extra-pipe-package
           path: package
+      - name: Build clean standalone consumer
+        run: npm run check:compat -- ${{ matrix.angular }} package
 
-      - name: Create Angular 22 consumer
-        run: >
-          npx --yes @angular/cli@22 new consumer
-          --directory consumer
-          --minimal
-          --defaults
-          --skip-git
-          --skip-tests
-          --package-manager npm
-          --style css
-
-      - name: Install packed library
-        run: npm install ../package/extra-pipe-*.tgz
-        working-directory: consumer
-
-      - name: Compile standalone pipe consumer
-        working-directory: consumer
-        run: |
-          cat > src/app/app.ts <<'EOF'
-          import { Component } from '@angular/core';
-          import {
-            CamelCaseToTitleSeparatedCasePipe,
-            CompactNumberPipe,
-            FileSizeAliasPipe,
-            FormatDurationPipe,
-            InitialsPipe,
-            LocalizedLegacyPipe,
-            MaskPipe,
-            RelativeTimePipe,
-            RoundHalfUpPipe,
-            TruncatePipe,
-          } from 'extra-pipe';
-
-          @Component({
-            imports: [
-              CamelCaseToTitleSeparatedCasePipe,
-              CompactNumberPipe,
-              FileSizeAliasPipe,
-              FormatDurationPipe,
-              InitialsPipe,
-              LocalizedLegacyPipe,
-              MaskPipe,
-              RelativeTimePipe,
-              RoundHalfUpPipe,
-              TruncatePipe,
-            ],
-            selector: 'app-root',
-            template: `
-              {{ 'extraPipe' | camelCaseToTitleSeparatedCase }}
-              {{ 12500 | compactNumber }}
-              {{ 1048576 | fileSize }}
-              {{ 90 | formatDuration: 'seconds' }}
-              {{ 'Ána María' | initials }}
-              {{ publishedAt | localized }}
-              {{ '4242424242424242' | mask: 0 : 4 }}
-              {{ publishedAt | relativeTime: referenceTime }}
-              {{ 2.455 | roundHalfUp }}
-              {{ '👩🏽‍💻 developer tools' | truncate: 12 }}
-            `,
-          })
-          export class App {
-            protected readonly publishedAt = new Date('2024-01-01T12:03:00.000Z');
-            protected readonly referenceTime = new Date('2024-01-01T12:00:00.000Z');
-          }
-          EOF
-          npx ng build --configuration production
+  performance:
+    name: Three-run mobile Lighthouse
+    needs: website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          name: website-static
+          path: projects/test-app/dist/extra-pipe-website/browser
+      - run: npm ci --prefix tools/quality --ignore-scripts
+      - name: Serve verified static artifact
+        run: node scripts/serve-static.mjs &
+      - name: Check median mobile performance
+        run: npm run check:performance
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-mobile
+          path: .artifacts/lighthouse

@@ -12,7 +12,8 @@ export function formatList(
     !Array.isArray(value) ||
     value.some(item => typeof item !== 'string') ||
     !options ||
-    typeof options !== 'object'
+    typeof options !== 'object' ||
+    Array.isArray(options)
   )
     return '';
   try {

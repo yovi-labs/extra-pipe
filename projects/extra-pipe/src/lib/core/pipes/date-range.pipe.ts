@@ -6,6 +6,7 @@ import {
 } from '../../shared/helper/intl.helper';
 
 export type DateRangeOptions = Intl.DateTimeFormatOptions;
+export type { DateInput } from '../../shared/helper/intl.helper';
 export function formatDateRange(
   start: DateInput | null | undefined,
   end: DateInput | null | undefined,
@@ -19,7 +20,8 @@ export function formatDateRange(
     !to ||
     from.getTime() > to.getTime() ||
     !options ||
-    typeof options !== 'object'
+    typeof options !== 'object' ||
+    Array.isArray(options)
   )
     return '';
   try {
