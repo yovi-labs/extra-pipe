@@ -20,7 +20,9 @@ import { CodeBlock } from '../shared/code-block';
             >Explore the pipes <span aria-hidden="true">→</span></a
           ><a class="button secondary" routerLink="/pipes/compactNumber">Try an example</a>
         </div>
-        <p class="support-note">Angular 17–22 · Standalone imports · MIT licensed</p>
+        <p class="support-note">
+          100+ standalone Angular pipes · 101 in this preview · Angular 17–22 · MIT
+        </p>
       </div>
       <div class="hero-example panel">
         <div class="panel-heading">
@@ -70,8 +72,8 @@ import { CodeBlock } from '../shared/code-block';
       <app-code-block code="npm install extra-pipe" label="Install the published package" />
     </section>
     <p class="release-note">
-      The catalog includes 1.2 preview APIs currently in review. Check each pipe’s release label
-      before installing.
+      This preview contains 101 canonical pipes; aliases are counted separately. New APIs are in
+      review, not yet on npm. Check each pipe’s release label before installing.
     </p>`,
 })
 export class Home {

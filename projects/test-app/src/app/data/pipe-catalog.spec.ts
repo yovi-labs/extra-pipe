@@ -8,9 +8,9 @@ describe('pipe catalog', () => {
       ),
     );
   });
-  it('has 34 distinct canonical pipes and all compatibility aliases', () => {
-    expect(PIPE_DOCS.length).toBe(34);
-    expect(new Set(PIPE_DOCS.map((item) => item.selector)).size).toBe(34);
+  it('has 101 distinct canonical pipes and all compatibility aliases', () => {
+    expect(PIPE_DOCS.length).toBe(101);
+    expect(new Set(PIPE_DOCS.map((item) => item.selector)).size).toBe(101);
     expect(PIPE_ALIASES.length).toBe(4);
     PIPE_ALIASES.forEach((alias) =>
       expect(PIPE_DOCS.some((pipe) => pipe.selector === alias.target)).toBe(true),

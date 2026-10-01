@@ -2,8 +2,10 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, signal } f
 import { PipeDoc } from '../../data/pipe-catalog';
 import { CodeBlock } from '../../shared/code-block';
 import { evaluateInput, SAMPLES } from './pipe-runner';
+import { EXPANDED_LOCALE_INDEXES } from './expanded-samples';
 
 const LOCALE_INDEXES: Readonly<Partial<Record<string, number>>> = {
+  ...EXPANDED_LOCALE_INDEXES,
   listFormat: 1,
   formatUnit: 2,
   displayName: 2,
@@ -139,8 +141,9 @@ export class Playground {
       args.push(JSON.stringify(this.locale()));
     }
     const json =
-      this.pipe().category === 'Collections' && this.pipe().selector !== 'includes'
-        ? ' | json'
+      (this.pipe().json ??
+      (this.pipe().category === 'Collections' && this.pipe().selector !== 'includes'))
+        ? (this.pipe().keyValue ? ' | keyvalue' : '') + ' | json'
         : '';
     return (
       '{{ ' +

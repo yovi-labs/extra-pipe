@@ -10,9 +10,9 @@ describe('Catalog', () => {
     const fixture = TestBed.createComponent(Catalog);
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelectorAll('.catalog-card').length).toBe(34);
+    expect(element.querySelectorAll('.catalog-card').length).toBe(101);
     const search = element.querySelector('input')!;
-    search.value = 'localized';
+    search.value = 'localizedDate';
     search.dispatchEvent(new Event('input'));
     await fixture.whenStable();
     expect(element.querySelectorAll('.catalog-card').length).toBe(1);
@@ -23,6 +23,6 @@ describe('Catalog', () => {
     expect(element.textContent).toContain('No matches yet.');
     element.querySelector('button')!.click();
     await fixture.whenStable();
-    expect(element.querySelectorAll('.catalog-card').length).toBe(34);
+    expect(element.querySelectorAll('.catalog-card').length).toBe(101);
   });
 });

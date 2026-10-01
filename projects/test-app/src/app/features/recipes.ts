@@ -7,6 +7,9 @@ import {
   MaskPipe,
   UniqueByPipe,
   OrderByPipe,
+  SumByPipe,
+  WordCountPipe,
+  ReadingTimePipe,
 } from 'extra-pipe';
 import { SiteSeo } from '../shared/site-seo';
 import { CodeBlock } from '../shared/code-block';
@@ -20,6 +23,9 @@ import { CodeBlock } from '../shared/code-block';
     MaskPipe,
     UniqueByPipe,
     OrderByPipe,
+    SumByPipe,
+    WordCountPipe,
+    ReadingTimePipe,
     CodeBlock,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -74,9 +80,35 @@ import { CodeBlock } from '../shared/code-block';
         Both pipes return new arrays and retain object identity. Precompute large collections
         outside the template.
       </p>
+    </article>
+    <article class="panel">
+      <span class="tag">Reporting · Sprint 2 preview</span>
+      <h2>Total first. Format second.</h2>
+      <app-code-block [code]="totalCode" label="Standalone component" />
+      <p class="hero-result">{{ sales | sumBy: 'amount' | compactNumber: 'compact' : 1 : 'en' }}</p>
+      <p class="muted">
+        Aggregate finite numeric fields, then localize their display. Precompute large reports
+        outside templates.
+      </p>
+    </article>
+    <article class="panel">
+      <span class="tag">Content · Sprint 2 preview</span>
+      <h2>A reading estimate, not a timer.</h2>
+      <app-code-block [code]="readingCode" label="Standalone component" />
+      <p>{{ article | wordCount: 'en' }} words · {{ article | readingTime: 200 : 'en' }}</p>
+      <p class="muted">
+        Uses an explicit words-per-minute rate and language segmentation; it does not measure an
+        individual reader.
+      </p>
     </article>`,
 })
 export class Recipes {
+  readonly sales = [{ amount: 2500 }, { amount: 10000 }];
+  readonly article = 'Small pipes make thoughtful interfaces.';
+  protected readonly totalCode =
+    "import { Component } from '@angular/core';\nimport { SumByPipe, CompactNumberPipe } from 'extra-pipe';\n@Component({standalone:true, imports:[SumByPipe, CompactNumberPipe], template: \x60{{sales | sumBy:'amount' | compactNumber:'compact':1:'en'}}\x60})\nexport class SalesComponent { readonly sales=[{amount:2500},{amount:10000}]; }";
+  protected readonly readingCode =
+    "import { Component } from '@angular/core';\nimport { WordCountPipe, ReadingTimePipe } from 'extra-pipe';\n@Component({standalone:true, imports:[WordCountPipe, ReadingTimePipe], template: \x60{{article | wordCount:'en'}} words · {{article | readingTime:200:'en'}}\x60})\nexport class ArticleComponent { readonly article='Small pipes make thoughtful interfaces.'; }";
   constructor() {
     inject(SiteSeo).update(
       'Recipes — Extra Pipe',

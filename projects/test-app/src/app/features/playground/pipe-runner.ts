@@ -46,11 +46,14 @@ import {
 } from 'extra-pipe';
 
 type RecordItem = Record<string, unknown>;
+import { EXPANDED_ADAPTERS } from './expanded-adapters';
+import { EXPANDED_SAMPLES } from './expanded-samples';
 export interface PlaygroundSample {
   readonly input: unknown;
   readonly parameters: readonly unknown[];
 }
 export const SAMPLES: Readonly<Record<string, PlaygroundSample>> = {
+  ...EXPANDED_SAMPLES,
   listFormat: {
     input: ['Angular', 'TypeScript', 'Extra Pipe'],
     parameters: [{ type: 'conjunction', style: 'long' }],
@@ -132,6 +135,8 @@ export function runPipe(
   p: readonly unknown[],
   locale: string,
 ): unknown {
+  const adapter = EXPANDED_ADAPTERS.get(selector);
+  if (adapter) return adapter(value, p, locale);
   // Casts bridge JSON's unknown type to the public contracts. Each new function
   // validates runtime input; legacy exceptions are handled by the caller.
   const number = value as number,
@@ -238,6 +243,8 @@ export function evaluateInput(
     const value: unknown = JSON.parse(input),
       params: unknown = JSON.parse(parameters);
     if (!Array.isArray(params)) throw new Error('Parameters must be a JSON array.');
+    if (params.length > 8) throw new Error('Use at most 8 parameters.');
+    assertBoundedData([value, params]);
     if (params.some((parameter) => typeof parameter === 'string' && parameter.length > 128))
       throw new Error('Keep string parameters below 128 characters.');
     if (Array.isArray(value) && value.length > 500)
@@ -250,7 +257,11 @@ export function evaluateInput(
         ? output
         : typeof output === 'number'
           ? String(output)
-          : (JSON.stringify(output, null, 2) ?? '');
+          : (JSON.stringify(
+              output instanceof Map ? Array.from(output.entries()) : output,
+              null,
+              2,
+            ) ?? '');
     if (rendered.length > 20000)
       throw new Error('Output is too large for this playground. Reduce the input.');
     return { output: rendered, error: '', value };
@@ -266,4 +277,21 @@ export function evaluateInput(
       value: undefined,
     };
   }
+}
+
+/** Bound nested JSON too: root-array limits alone do not protect object inputs. */
+function assertBoundedData(value: unknown): void {
+  let nodes = 0;
+  function visit(current: unknown, depth: number): void {
+    if (++nodes > 5000 || depth > 12)
+      throw new Error('Keep data below 5,000 values and 12 nesting levels.');
+    if (Array.isArray(current)) {
+      if (current.length > 500)
+        throw new Error('The playground accepts up to 500 items per collection.');
+      current.forEach((item) => visit(item, depth + 1));
+    } else if (current && typeof current === 'object') {
+      Object.values(current).forEach((item) => visit(item, depth + 1));
+    }
+  }
+  visit(value, 0);
 }

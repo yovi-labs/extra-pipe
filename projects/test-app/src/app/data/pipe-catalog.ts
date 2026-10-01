@@ -1,8 +1,14 @@
 import { PIPE_ALIASES } from './pipe-aliases';
+import { EXPANDED_PIPE_DOCS } from './expanded-pipe-docs';
 export { PIPE_ALIASES } from './pipe-aliases';
 
 export type PipeCategory =
-  'Text' | 'Numbers' | 'Dates' | 'Localization' | 'Collections' | 'Utilities';
+  | 'Text'
+  | 'Numbers'
+  | 'Dates'
+  | 'Localization'
+  | 'Collections'
+  | 'Utilities';
 export interface PipeDoc {
   readonly selector: string;
   readonly className: string;
@@ -15,8 +21,11 @@ export interface PipeDoc {
   readonly locale: string;
   readonly pure: boolean;
   readonly status: 'stable' | 'preview';
+  readonly json?: boolean;
+  readonly keyValue?: boolean;
 }
 export const PIPE_DOCS: readonly PipeDoc[] = [
+  ...EXPANDED_PIPE_DOCS,
   {
     selector: 'compactNumber',
     className: 'CompactNumberPipe',
@@ -518,7 +527,7 @@ export function filterPipes(query: string, category = 'All'): readonly PipeDoc[]
   );
 }
 export function standaloneCode(pipe: PipeDoc): string {
-  const needsJson = pipe.category === 'Collections' && pipe.selector !== 'includes';
+  const needsJson = pipe.json ?? (pipe.category === 'Collections' && pipe.selector !== 'includes');
   const context: Record<string, string> = {
     relativeTime:
       "  readonly publishedAt = new Date('2024-01-01T12:03:00Z');\n  readonly referenceTime = new Date('2024-01-01T12:00:00Z');",
@@ -535,12 +544,16 @@ export function standaloneCode(pipe: PipeDoc): string {
   };
   return (
     "import { Component } from '@angular/core';\n" +
-    (needsJson ? "import { JsonPipe } from '@angular/common';\n" : '') +
+    (needsJson
+      ? 'import { JsonPipe' +
+        (pipe.keyValue ? ', KeyValuePipe' : '') +
+        " } from '@angular/common';\n"
+      : '') +
     'import { ' +
     pipe.className +
     " } from 'extra-pipe';\n\n@Component({\n  standalone: true,\n  imports: [" +
     pipe.className +
-    (needsJson ? ', JsonPipe' : '') +
+    (needsJson ? ', JsonPipe' + (pipe.keyValue ? ', KeyValuePipe' : '') : '') +
     '],\n  template: \x60' +
     templateCode(pipe) +
     '\x60,\n})\nexport class ExampleComponent {\n' +
@@ -550,7 +563,7 @@ export function standaloneCode(pipe: PipeDoc): string {
 }
 
 export function templateCode(pipe: PipeDoc): string {
-  return pipe.category === 'Collections' && pipe.selector !== 'includes'
-    ? pipe.example.replace(/\s*\}\}$/, ' | json }}')
+  return (pipe.json ?? (pipe.category === 'Collections' && pipe.selector !== 'includes'))
+    ? pipe.example.replace(/\s*\}\}$/, (pipe.keyValue ? ' | keyvalue' : '') + ' | json }}')
     : pipe.example;
 }
