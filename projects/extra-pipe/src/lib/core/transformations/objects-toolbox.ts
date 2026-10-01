@@ -63,7 +63,7 @@ export function renameKeys(
   const seen = new Set<string>();
   const result: [string, unknown][] = [];
   for (const [key, item] of plainEntries(value)) {
-    const target = Object.prototype.hasOwnProperty.call(mapping, key)
+    const target = Object.prototype.propertyIsEnumerable.call(mapping, key)
       ? (ownValue(mapping, key) as string)
       : key;
     if (seen.has(target)) return null;

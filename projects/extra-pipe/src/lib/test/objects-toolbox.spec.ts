@@ -336,6 +336,8 @@ describe('object safety and recursion boundaries', () => {
       Object.prototype.hasOwnProperty.call(copied, '__proto__')
     ).toBeTrue();
     expect(renameKeys({ id: 1 }, { id: '__proto__' })?.['__proto__']).toBe(1);
+    const hiddenMapping = Object.defineProperty({}, 'id', { value: 42 });
+    expect(renameKeys({ id: 1 }, hiddenMapping)).toEqual({ id: 1 });
     expect(invertRecord({ a: '__proto__' })?.['__proto__']).toEqual(['a']);
     const getter = Object.defineProperty({}, 'id', {
       enumerable: true,
