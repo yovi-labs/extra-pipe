@@ -8,6 +8,7 @@ export * from './lib/core/pipes/byte-size.pipe';
 export * from './lib/core/pipes/camel-case-to-snake-case.pipe';
 export * from './lib/core/pipes/camel-case-to-title-seperated-case.pipe';
 export * from './lib/core/pipes/capitalize.pipe';
+export * from './lib/core/pipes/collections-toolbox';
 export * from './lib/core/pipes/compact-number.pipe';
 export * from './lib/core/pipes/date-range.pipe';
 export * from './lib/core/pipes/display-name.pipe';
