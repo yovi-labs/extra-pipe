@@ -1,0 +1,1103 @@
+{
+  "status": "planned—not a published or implemented count",
+  "baselineCanonical": 34,
+  "targetCanonical": 101,
+  "additionalCanonical": 67,
+  "aliasesCountTowardTarget": false,
+  "features": [
+    {
+      "domain": "text",
+      "name": "wordCount",
+      "description": "Content word counters using locale segmentation.",
+      "gap": "Angular has no word counter.",
+      "input": "Hello world",
+      "params": [],
+      "expected": 2,
+      "className": "WordCountPipe",
+      "file": "word-count"
+    },
+    {
+      "domain": "text",
+      "name": "truncateWords",
+      "description": "Article previews cut at word boundaries.",
+      "gap": "Grapheme truncation does not preserve whole words.",
+      "input": "Hello brave world",
+      "params": [2],
+      "expected": "Hello brave…",
+      "className": "TruncateWordsPipe",
+      "file": "truncate-words"
+    },
+    {
+      "domain": "text",
+      "name": "wrapWords",
+      "description": "Plain-text messages wrap to grapheme-bounded lines.",
+      "gap": "Angular does not wrap generated text.",
+      "input": "one two three",
+      "params": [7],
+      "expected": "one two\nthree",
+      "className": "WrapWordsPipe",
+      "file": "wrap-words"
+    },
+    {
+      "domain": "text",
+      "name": "readingTime",
+      "description": "Localized article reading estimates.",
+      "gap": "Duration formatting does not estimate time from content.",
+      "input": "one two three",
+      "params": [200],
+      "expected": "1 min",
+      "className": "ReadingTimePipe",
+      "file": "reading-time"
+    },
+    {
+      "domain": "text",
+      "name": "normalizeWhitespace",
+      "description": "Clean pasted labels without stripping markup.",
+      "gap": "Angular casing/slice do not normalize whitespace.",
+      "input": "  Ana\t  Sam \n",
+      "params": [],
+      "expected": "Ana Sam",
+      "className": "NormalizeWhitespacePipe",
+      "file": "normalize-whitespace"
+    },
+    {
+      "domain": "text",
+      "name": "stripDiacritics",
+      "description": "Latin accent folding for search labels; preserve other scripts.",
+      "gap": "Slugify additionally removes punctuation and changes case.",
+      "input": "Café عربي",
+      "params": [],
+      "expected": "Cafe عربي",
+      "className": "StripDiacriticsPipe",
+      "file": "strip-diacritics"
+    },
+    {
+      "domain": "text",
+      "name": "excerpt",
+      "description": "Show a grapheme-safe context window around a literal match.",
+      "gap": "TruncateMiddle does not locate query context.",
+      "input": "zero one two three",
+      "params": ["two", 12],
+      "expected": "…ne two thr…",
+      "className": "ExcerptPipe",
+      "file": "excerpt"
+    },
+    {
+      "domain": "text",
+      "name": "highlightMatches",
+      "description": "Structured literal search highlights, never HTML.",
+      "gap": "Angular has no match-to-segments pipe.",
+      "input": "Ana and Ana",
+      "params": ["Ana"],
+      "expected": [
+        {
+          "text": "Ana",
+          "matched": true
+        },
+        {
+          "text": " and ",
+          "matched": false
+        },
+        {
+          "text": "Ana",
+          "matched": true
+        }
+      ],
+      "className": "HighlightMatchesPipe",
+      "file": "highlight-matches"
+    },
+    {
+      "domain": "text",
+      "name": "humanizeIdentifier",
+      "description": "Readable acronym-aware API/schema labels.",
+      "gap": "Legacy camel title splitting splits capitals, lacks acronym boundaries.",
+      "input": "XMLHttpRequest_id",
+      "params": [],
+      "expected": "XML Http Request id",
+      "className": "HumanizeIdentifierPipe",
+      "file": "humanize-identifier"
+    },
+    {
+      "domain": "text",
+      "name": "escapeRegExp",
+      "description": "Turn a search term into literal regex pattern text.",
+      "gap": "Angular provides no literal regex escaping.",
+      "input": "a+b?",
+      "params": [],
+      "expected": "a\\+b\\?",
+      "className": "EscapeRegExpPipe",
+      "file": "escape-reg-exp"
+    },
+    {
+      "domain": "text",
+      "name": "graphemeCount",
+      "description": "User-visible character limits for multilingual fields.",
+      "gap": "String length and SlicePipe count UTF-16 code units.",
+      "input": "👩🏽‍💻é",
+      "params": [],
+      "expected": 2,
+      "className": "GraphemeCountPipe",
+      "file": "grapheme-count"
+    },
+    {
+      "domain": "text",
+      "name": "splitLines",
+      "description": "Render pasted multiline content as readonly input rows.",
+      "gap": "Angular has no line splitting pipe.",
+      "input": "one\r\ntwo\n",
+      "params": [],
+      "expected": ["one", "two", ""],
+      "className": "SplitLinesPipe",
+      "file": "split-lines"
+    },
+    {
+      "domain": "collections",
+      "name": "chunk",
+      "description": "Group cards into fixed-size display rows.",
+      "gap": "SlicePipe cannot create a nested grid.",
+      "input": [1, 2, 3],
+      "params": [2],
+      "expected": [[1, 2], [3]],
+      "className": "ChunkPipe",
+      "file": "chunk"
+    },
+    {
+      "domain": "collections",
+      "name": "flatten",
+      "description": "Present nested lists with explicit bounded depth.",
+      "gap": "Angular does not flatten arrays.",
+      "input": [1, [2, [3]]],
+      "params": [2],
+      "expected": [1, 2, 3],
+      "className": "FlattenPipe",
+      "file": "flatten"
+    },
+    {
+      "domain": "collections",
+      "name": "compact",
+      "description": "Drop nullish values while retaining 0 and false.",
+      "gap": "Angular has no nullish-only array compaction.",
+      "input": [0, null, false, ""],
+      "params": [],
+      "expected": [0, false, ""],
+      "className": "CompactPipe",
+      "file": "compact"
+    },
+    {
+      "domain": "collections",
+      "name": "partition",
+      "description": "Split records into matching and remaining buckets.",
+      "gap": "groupBy creates arbitrary groups rather than a two-way predicate partition.",
+      "input": [
+        {
+          "active": true
+        },
+        {
+          "active": false
+        }
+      ],
+      "params": ["active", true],
+      "expected": {
+        "matching": [
+          {
+            "active": true
+          }
+        ],
+        "remaining": [
+          {
+            "active": false
+          }
+        ]
+      },
+      "className": "PartitionPipe",
+      "file": "partition"
+    },
+    {
+      "domain": "collections",
+      "name": "zip",
+      "description": "Pair parallel data series to the shorter length.",
+      "gap": "Angular has no pairwise zip.",
+      "input": [1, 2],
+      "params": [["A", "B"]],
+      "expected": [
+        [1, "A"],
+        [2, "B"]
+      ],
+      "className": "ZipPipe",
+      "file": "zip"
+    },
+    {
+      "domain": "collections",
+      "name": "unzip",
+      "description": "Split paired coordinates into parallel series.",
+      "gap": "Zip is pairing, unzip is projection of paired input.",
+      "input": [
+        [1, "A"],
+        [2, "B"]
+      ],
+      "params": [],
+      "expected": [
+        [1, 2],
+        ["A", "B"]
+      ],
+      "className": "UnzipPipe",
+      "file": "unzip"
+    },
+    {
+      "domain": "collections",
+      "name": "slidingWindow",
+      "description": "Create overlapping chart/history windows.",
+      "gap": "Chunk gives disjoint groups, not overlapping windows.",
+      "input": [1, 2, 3],
+      "params": [2],
+      "expected": [
+        [1, 2],
+        [2, 3]
+      ],
+      "className": "SlidingWindowPipe",
+      "file": "sliding-window"
+    },
+    {
+      "domain": "collections",
+      "name": "pluck",
+      "description": "Project own direct properties from record lists.",
+      "gap": "Angular has no typed list projection.",
+      "input": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ],
+      "params": ["id"],
+      "expected": [1, 2],
+      "className": "PluckPipe",
+      "file": "pluck"
+    },
+    {
+      "domain": "collections",
+      "name": "filterBy",
+      "description": "Display records with an own property equal to a value.",
+      "gap": "Existing removeByKey excludes matches; this selects matches.",
+      "input": [
+        {
+          "active": true
+        },
+        {
+          "active": false
+        }
+      ],
+      "params": ["active", true],
+      "expected": [
+        {
+          "active": true
+        }
+      ],
+      "className": "FilterByPipe",
+      "file": "filter-by"
+    },
+    {
+      "domain": "collections",
+      "name": "intersectionBy",
+      "description": "Show records shared between selections by identity key.",
+      "gap": "Angular has no keyed set intersection.",
+      "input": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ],
+      "params": [
+        [
+          {
+            "id": 2
+          }
+        ],
+        "id"
+      ],
+      "expected": [
+        {
+          "id": 2
+        }
+      ],
+      "className": "IntersectionByPipe",
+      "file": "intersection-by"
+    },
+    {
+      "domain": "collections",
+      "name": "differenceBy",
+      "description": "Show unselected records by identity key.",
+      "gap": "removeByKey compares primitive exclusions, not another record collection.",
+      "input": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ],
+      "params": [
+        [
+          {
+            "id": 2
+          }
+        ],
+        "id"
+      ],
+      "expected": [
+        {
+          "id": 1
+        }
+      ],
+      "className": "DifferenceByPipe",
+      "file": "difference-by"
+    },
+    {
+      "domain": "collections",
+      "name": "unionBy",
+      "description": "Combine record sets with first-record precedence.",
+      "gap": "uniqueBy handles one array, not keyed multi-source union.",
+      "input": [
+        {
+          "id": 1
+        }
+      ],
+      "params": [
+        [
+          {
+            "id": 1
+          },
+          {
+            "id": 2
+          }
+        ],
+        "id"
+      ],
+      "expected": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ],
+      "className": "UnionByPipe",
+      "file": "union-by"
+    },
+    {
+      "domain": "collections",
+      "name": "symmetricDifferenceBy",
+      "description": "Show records exclusive to either selection.",
+      "gap": "Distinct set operation, not an alias of union/intersection.",
+      "input": [
+        {
+          "id": 1
+        },
+        {
+          "id": 2
+        }
+      ],
+      "params": [
+        [
+          {
+            "id": 2
+          },
+          {
+            "id": 3
+          }
+        ],
+        "id"
+      ],
+      "expected": [
+        {
+          "id": 1
+        },
+        {
+          "id": 3
+        }
+      ],
+      "className": "SymmetricDifferenceByPipe",
+      "file": "symmetric-difference-by"
+    },
+    {
+      "domain": "collections",
+      "name": "indexBy",
+      "description": "Build a prototype-safe lookup Map from records.",
+      "gap": "groupBy retains multiple records; this indexes last record per key.",
+      "input": [
+        {
+          "id": 1,
+          "name": "Ana"
+        },
+        {
+          "id": 2,
+          "name": "Sam"
+        }
+      ],
+      "params": ["id"],
+      "expected": [
+        [
+          1,
+          {
+            "id": 1,
+            "name": "Ana"
+          }
+        ],
+        [
+          2,
+          {
+            "id": 2,
+            "name": "Sam"
+          }
+        ]
+      ],
+      "className": "IndexByPipe",
+      "file": "index-by"
+    },
+    {
+      "domain": "collections",
+      "name": "countBy",
+      "description": "Summarize category frequencies without retaining grouped arrays.",
+      "gap": "groupBy returns full groups, not counts.",
+      "input": [
+        {
+          "team": "A"
+        },
+        {
+          "team": "A"
+        },
+        {
+          "team": "B"
+        }
+      ],
+      "params": ["team"],
+      "expected": [
+        {
+          "key": "A",
+          "count": 2
+        },
+        {
+          "key": "B",
+          "count": 1
+        }
+      ],
+      "className": "CountByPipe",
+      "file": "count-by"
+    },
+    {
+      "domain": "collections",
+      "name": "mergeBy",
+      "description": "Reconcile partial records with shallow last-field precedence.",
+      "gap": "Union retains one entire record rather than merging fields.",
+      "input": [
+        {
+          "id": 1,
+          "name": "Ana"
+        }
+      ],
+      "params": [
+        [
+          {
+            "id": 1,
+            "active": true
+          }
+        ],
+        "id"
+      ],
+      "expected": [
+        {
+          "id": 1,
+          "name": "Ana",
+          "active": true
+        }
+      ],
+      "className": "MergeByPipe",
+      "file": "merge-by"
+    },
+    {
+      "domain": "collections",
+      "name": "paginate",
+      "description": "Generate page items and total-page metadata for client display.",
+      "gap": "SlicePipe returns only a slice, without pagination metadata.",
+      "input": [1, 2, 3],
+      "params": [1, 2],
+      "expected": {
+        "items": [1, 2],
+        "page": 1,
+        "pageSize": 2,
+        "totalItems": 3,
+        "totalPages": 2
+      },
+      "className": "PaginatePipe",
+      "file": "paginate"
+    },
+    {
+      "domain": "objects",
+      "name": "getPath",
+      "description": "Read an own-property path supplied as a key array.",
+      "gap": "Angular does not traverse dynamic paths; no expression evaluator.",
+      "input": {
+        "profile": {
+          "name": "Ana"
+        }
+      },
+      "params": [["profile", "name"]],
+      "expected": "Ana",
+      "className": "GetPathPipe",
+      "file": "get-path"
+    },
+    {
+      "domain": "objects",
+      "name": "pick",
+      "description": "Display explicitly allowed own fields.",
+      "gap": "KeyValuePipe enumerates rather than selecting fields.",
+      "input": {
+        "id": 1,
+        "name": "Ana"
+      },
+      "params": [["name"]],
+      "expected": {
+        "name": "Ana"
+      },
+      "className": "PickPipe",
+      "file": "pick"
+    },
+    {
+      "domain": "objects",
+      "name": "omit",
+      "description": "Create a display object excluding named own fields.",
+      "gap": "Pick is an allowlist, omit an exclusion list.",
+      "input": {
+        "id": 1,
+        "name": "Ana"
+      },
+      "params": [["id"]],
+      "expected": {
+        "name": "Ana"
+      },
+      "className": "OmitPipe",
+      "file": "omit"
+    },
+    {
+      "domain": "objects",
+      "name": "renameKeys",
+      "description": "Remap schema field names without silently losing collisions.",
+      "gap": "Angular provides no safe field-key remapping.",
+      "input": {
+        "first_name": "Ana"
+      },
+      "params": [
+        {
+          "first_name": "name"
+        }
+      ],
+      "expected": {
+        "name": "Ana"
+      },
+      "className": "RenameKeysPipe",
+      "file": "rename-keys"
+    },
+    {
+      "domain": "objects",
+      "name": "defaults",
+      "description": "Fill only nullish own fields from shallow defaults.",
+      "gap": "Object spreading overwrites present values.",
+      "input": {
+        "name": null,
+        "active": false
+      },
+      "params": [
+        {
+          "name": "Ana",
+          "active": true
+        }
+      ],
+      "expected": {
+        "name": "Ana",
+        "active": false
+      },
+      "className": "DefaultsPipe",
+      "file": "defaults"
+    },
+    {
+      "domain": "objects",
+      "name": "invertRecord",
+      "description": "Invert scalar mappings while preserving duplicate-value keys.",
+      "gap": "KeyValuePipe does not invert mappings or preserve reverse collisions.",
+      "input": {
+        "a": "x",
+        "b": "x"
+      },
+      "params": [],
+      "expected": {
+        "x": ["a", "b"]
+      },
+      "className": "InvertRecordPipe",
+      "file": "invert-record"
+    },
+    {
+      "domain": "objects",
+      "name": "pruneEmpty",
+      "description": "Remove recursively empty data while preserving zero and false.",
+      "gap": "Omit requires named fields; this prunes by documented emptiness.",
+      "input": {
+        "a": "",
+        "b": 0,
+        "c": false,
+        "d": {
+          "e": null
+        }
+      },
+      "params": [],
+      "expected": {
+        "b": 0,
+        "c": false
+      },
+      "className": "PruneEmptyPipe",
+      "file": "prune-empty"
+    },
+    {
+      "domain": "objects",
+      "name": "pathEntries",
+      "description": "Flatten own leaf values to key-array paths, without dotted-key ambiguity.",
+      "gap": "KeyValuePipe only enumerates one level.",
+      "input": {
+        "profile": {
+          "name": "Ana"
+        }
+      },
+      "params": [],
+      "expected": [
+        {
+          "path": ["profile", "name"],
+          "value": "Ana"
+        }
+      ],
+      "className": "PathEntriesPipe",
+      "file": "path-entries"
+    },
+    {
+      "domain": "metrics",
+      "name": "sumBy",
+      "description": "Sum finite numeric fields for dashboard totals.",
+      "gap": "Angular formats numbers but does not aggregate records.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount"],
+      "expected": 6,
+      "className": "SumByPipe",
+      "file": "sum-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "averageBy",
+      "description": "Mean numeric fields for dashboard summaries.",
+      "gap": "Formatting does not compute a mean.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount"],
+      "expected": 3,
+      "className": "AverageByPipe",
+      "file": "average-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "minBy",
+      "description": "Find the original record with the smallest numeric field.",
+      "gap": "Sorting a whole array allocates more and obscures the record-selection contract.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount"],
+      "expected": {
+        "amount": 2
+      },
+      "className": "MinByPipe",
+      "file": "min-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "maxBy",
+      "description": "Find the original record with the largest numeric field.",
+      "gap": "Distinct extremum selection, stable first tie.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount"],
+      "expected": {
+        "amount": 4
+      },
+      "className": "MaxByPipe",
+      "file": "max-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "summarizeBy",
+      "description": "One-pass count/sum/mean/min/max summary.",
+      "gap": "Composite dashboard summary, not a median/percentile alias.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount"],
+      "expected": {
+        "count": 2,
+        "sum": 6,
+        "mean": 3,
+        "min": 2,
+        "max": 4
+      },
+      "className": "SummarizeByPipe",
+      "file": "summarize-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "percentileBy",
+      "description": "Interpolated percentile for numeric dashboard samples.",
+      "gap": "Angular has no percentile calculation.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount", 50],
+      "expected": 3,
+      "className": "PercentileByPipe",
+      "file": "percentile-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "weightedAverageBy",
+      "description": "Weighted average with explicit nonnegative weights.",
+      "gap": "A simple mean ignores record weights.",
+      "input": [
+        {
+          "value": 2,
+          "weight": 1
+        },
+        {
+          "value": 4,
+          "weight": 3
+        }
+      ],
+      "params": ["value", "weight"],
+      "expected": 3.5,
+      "className": "WeightedAverageByPipe",
+      "file": "weighted-average-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "extentBy",
+      "description": "Numeric lower/upper bounds for chart domains.",
+      "gap": "Returns bounds without returning records or sorting.",
+      "input": [
+        {
+          "amount": 2
+        },
+        {
+          "amount": 4
+        }
+      ],
+      "params": ["amount"],
+      "expected": [2, 4],
+      "className": "ExtentByPipe",
+      "file": "extent-by"
+    },
+    {
+      "domain": "metrics",
+      "name": "cumulativeSum",
+      "description": "Running totals for chart series.",
+      "gap": "SumBy returns one total, not prefix sums.",
+      "input": [1, 2, 3],
+      "params": [],
+      "expected": [1, 3, 6],
+      "className": "CumulativeSumPipe",
+      "file": "cumulative-sum"
+    },
+    {
+      "domain": "metrics",
+      "name": "movingAverage",
+      "description": "Full-window averages for chart smoothing.",
+      "gap": "SlidingWindow creates arrays, not numeric smoothing.",
+      "input": [1, 2, 3],
+      "params": [2],
+      "expected": [1.5, 2.5],
+      "className": "MovingAveragePipe",
+      "file": "moving-average"
+    },
+    {
+      "domain": "metrics",
+      "name": "histogram",
+      "description": "Bounded equal-width bins for numeric distributions.",
+      "gap": "Grouping by an existing key cannot bucket continuous values.",
+      "input": [0, 1, 2, 3],
+      "params": [2],
+      "expected": [
+        {
+          "lower": 0,
+          "upper": 1.5,
+          "count": 2
+        },
+        {
+          "lower": 1.5,
+          "upper": 3,
+          "count": 2
+        }
+      ],
+      "className": "HistogramPipe",
+      "file": "histogram"
+    },
+    {
+      "domain": "metrics",
+      "name": "percentageChange",
+      "description": "Signed percentage change from a nonzero baseline.",
+      "gap": "PercentPipe formats a ratio but does not compute change.",
+      "input": 120,
+      "params": [100],
+      "expected": 20,
+      "className": "PercentageChangePipe",
+      "file": "percentage-change"
+    },
+    {
+      "domain": "numbers",
+      "name": "clamp",
+      "description": "Constrain numeric display values to explicit bounds.",
+      "gap": "Angular provides no bounds operation.",
+      "input": 120,
+      "params": [0, 100],
+      "expected": 100,
+      "className": "ClampPipe",
+      "file": "clamp"
+    },
+    {
+      "domain": "numbers",
+      "name": "roundTo",
+      "description": "Numeric decimal-place rounding with signed precision.",
+      "gap": "Legacy roundHalf is a fixed two-decimal display behavior.",
+      "input": 12.345,
+      "params": [2],
+      "expected": 12.35,
+      "className": "RoundToPipe",
+      "file": "round-to"
+    },
+    {
+      "domain": "numbers",
+      "name": "roundToStep",
+      "description": "Round to increments and optional origin.",
+      "gap": "Decimal places cannot express quarter-unit or custom increments.",
+      "input": 7.6,
+      "params": [0.5],
+      "expected": 7.5,
+      "className": "RoundToStepPipe",
+      "file": "round-to-step"
+    },
+    {
+      "domain": "numbers",
+      "name": "ratio",
+      "description": "Compute a finite quotient with an explicit nonzero divisor.",
+      "gap": "Angular number formatting is not safe quotient calculation.",
+      "input": 3,
+      "params": [2],
+      "expected": 1.5,
+      "className": "RatioPipe",
+      "file": "ratio"
+    },
+    {
+      "domain": "numbers",
+      "name": "pluralCategory",
+      "description": "Expose Intl cardinal/ordinal category for custom presentation.",
+      "gap": "I18nPluralPipe maps categories to supplied strings rather than exposing the category.",
+      "input": 2,
+      "params": ["cardinal"],
+      "expected": "other",
+      "className": "PluralCategoryPipe",
+      "file": "plural-category"
+    },
+    {
+      "domain": "numbers",
+      "name": "formatFraction",
+      "description": "Approximate finite values as localized bounded-denominator fractions.",
+      "gap": "Number formatting does not produce rational numerator/denominator text.",
+      "input": 1.5,
+      "params": [100],
+      "expected": "3/2",
+      "className": "FormatFractionPipe",
+      "file": "format-fraction"
+    },
+    {
+      "domain": "numbers",
+      "name": "basisPoints",
+      "description": "Display decimal ratios as basis points, without financial advice.",
+      "gap": "PercentPipe displays percent, not basis points.",
+      "input": 0.0125,
+      "params": [],
+      "expected": "125 bp",
+      "className": "BasisPointsPipe",
+      "file": "basis-points"
+    },
+    {
+      "domain": "numbers",
+      "name": "numberBase",
+      "description": "Display safe integers or bigint in bases 2–36.",
+      "gap": "DecimalPipe does not format binary/hexadecimal integers.",
+      "input": 255,
+      "params": [16],
+      "expected": "ff",
+      "className": "NumberBasePipe",
+      "file": "number-base"
+    },
+    {
+      "domain": "dates",
+      "name": "dateParts",
+      "description": "Structured Intl calendar fields for segmented date UI.",
+      "gap": "DatePipe returns one formatted string rather than structured parts.",
+      "input": "2026-01-02T12:00:00Z",
+      "params": ["UTC"],
+      "expected": null,
+      "className": "DatePartsPipe",
+      "file": "date-parts"
+    },
+    {
+      "domain": "dates",
+      "name": "calendarDayDifference",
+      "description": "Signed difference of UTC calendar dates, not 24-hour durations.",
+      "gap": "RelativeTime describes a point relative to a clock, not calendar-day differences.",
+      "input": "2026-01-01T23:00:00Z",
+      "params": ["2026-01-02T01:00:00Z"],
+      "expected": 1,
+      "className": "CalendarDayDifferencePipe",
+      "file": "calendar-day-difference"
+    },
+    {
+      "domain": "dates",
+      "name": "isWithinInterval",
+      "description": "Inclusive timestamp interval membership.",
+      "gap": "Angular has no date interval predicate.",
+      "input": "2026-01-02T00:00:00Z",
+      "params": ["2026-01-01T00:00:00Z", "2026-01-03T00:00:00Z"],
+      "expected": true,
+      "className": "IsWithinIntervalPipe",
+      "file": "is-within-interval"
+    },
+    {
+      "domain": "dates",
+      "name": "overlapDuration",
+      "description": "Milliseconds shared by two half-open timestamp intervals.",
+      "gap": "DateRange formats endpoints but does not compute overlap.",
+      "input": "2026-01-01T00:00:00Z",
+      "params": [
+        "2026-01-01T02:00:00Z",
+        "2026-01-01T01:00:00Z",
+        "2026-01-01T03:00:00Z"
+      ],
+      "expected": 3600000,
+      "className": "OverlapDurationPipe",
+      "file": "overlap-duration"
+    },
+    {
+      "domain": "dates",
+      "name": "isoWeek",
+      "description": "UTC ISO week-year and week number for reporting.",
+      "gap": "DatePipe does not expose a typed ISO reporting period.",
+      "input": "2026-01-01T00:00:00Z",
+      "params": [],
+      "expected": {
+        "year": 2026,
+        "week": 1
+      },
+      "className": "IsoWeekPipe",
+      "file": "iso-week"
+    },
+    {
+      "domain": "dates",
+      "name": "quarter",
+      "description": "UTC quarter number for fiscal/calendar labels.",
+      "gap": "Angular has no quarter calculation.",
+      "input": "2026-05-01T00:00:00Z",
+      "params": [],
+      "expected": 2,
+      "className": "QuarterPipe",
+      "file": "quarter"
+    },
+    {
+      "domain": "dates",
+      "name": "unixTimestamp",
+      "description": "Floor epoch seconds, including pre-1970 values.",
+      "gap": "DatePipe formats dates rather than returning Unix seconds.",
+      "input": "1970-01-01T00:00:01Z",
+      "params": [],
+      "expected": 1,
+      "className": "UnixTimestampPipe",
+      "file": "unix-timestamp"
+    },
+    {
+      "domain": "dates",
+      "name": "dateBucket",
+      "description": "UTC start-of-day/week/month/quarter/year for chart grouping.",
+      "gap": "Date formatting does not normalize period boundaries.",
+      "input": "2026-05-15T12:30:00Z",
+      "params": ["month"],
+      "expected": "2026-05-01T00:00:00.000Z",
+      "className": "DateBucketPipe",
+      "file": "date-bucket"
+    },
+    {
+      "domain": "dates",
+      "name": "businessDaysDifference",
+      "description": "Signed UTC Mon–Fri day counts with caller-supplied holidays.",
+      "gap": "No built-in business-calendar counting or hidden holiday data.",
+      "input": "2026-01-02T00:00:00Z",
+      "params": ["2026-01-05T00:00:00Z"],
+      "expected": 1,
+      "className": "BusinessDaysDifferencePipe",
+      "file": "business-days-difference"
+    },
+    {
+      "domain": "dates",
+      "name": "dateSequence",
+      "description": "Bounded inclusive UTC date sequences for calendars.",
+      "gap": "Angular does not generate date sequences.",
+      "input": "2026-01-01T00:00:00Z",
+      "params": ["2026-01-03T00:00:00Z", 1],
+      "expected": [
+        "2026-01-01T00:00:00.000Z",
+        "2026-01-02T00:00:00.000Z",
+        "2026-01-03T00:00:00.000Z"
+      ],
+      "className": "DateSequencePipe",
+      "file": "date-sequence"
+    }
+  ]
+}
