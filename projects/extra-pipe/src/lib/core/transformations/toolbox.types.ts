@@ -39,3 +39,12 @@ export interface IsoWeekResult {
 }
 export type DateBucketUnit = 'day' | 'week' | 'month' | 'quarter' | 'year';
 export type PluralKind = 'cardinal' | 'ordinal';
+export type DefaultsResult<T, U> = {
+  readonly [K in keyof T | keyof U]: K extends keyof T
+    ? K extends keyof U
+      ? Exclude<T[K], null | undefined> | U[K]
+      : T[K]
+    : K extends keyof U
+      ? U[K]
+      : never;
+};
