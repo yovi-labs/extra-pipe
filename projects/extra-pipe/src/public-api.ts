@@ -27,6 +27,7 @@ export * from './lib/core/pipes/mask.pipe';
 export * from './lib/core/pipes/metrics-toolbox';
 export * from './lib/core/pipes/number-range.pipe';
 export * from './lib/core/pipes/number-to-words.pipe';
+export * from './lib/core/pipes/numbers-toolbox';
 export * from './lib/core/pipes/objects-toolbox';
 export * from './lib/core/pipes/order-by.pipe';
 export * from './lib/core/pipes/relative-time.pipe';
