@@ -358,3 +358,10 @@ dd {
     padding: 20px;
   }
 }
+.site-footer a,
+.detail-grid aside a,
+.feature-grid a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PIPE_ALIASES, PIPE_DOCS, standaloneCode, templateCode } from '../data/pipe-catalog';
+import { SiteSeo } from '../shared/site-seo';
 import { CodeBlock } from '../shared/code-block';
 import { Playground } from './playground/playground';
 @Component({
@@ -83,8 +83,7 @@ import { Playground } from './playground/playground';
 })
 export class PipeDetail {
   protected readonly templateCode = templateCode;
-  private readonly title = inject(Title);
-  private readonly meta = inject(Meta);
+  private readonly seo = inject(SiteSeo);
   private readonly params = toSignal(inject(ActivatedRoute).paramMap);
   protected readonly alias = computed(() =>
     PIPE_ALIASES.find((item) => item.selector === this.params()?.get('selector')),
@@ -103,11 +102,12 @@ export class PipeDetail {
   constructor() {
     effect(() => {
       const current = this.pipe();
-      this.title.setTitle((current?.selector ?? 'Pipe not found') + ' — Extra Pipe');
-      this.meta.updateTag({
-        name: 'description',
-        content: current?.description ?? 'Browse the Extra Pipe Angular documentation catalog.',
-      });
+      this.seo.update(
+        (current?.selector ?? 'Pipe not found') + ' — Extra Pipe',
+        current?.description ?? 'Browse the Extra Pipe Angular documentation catalog.',
+        current ? '/pipes/' + current.selector : '/404',
+        !current,
+      );
     });
   }
 }

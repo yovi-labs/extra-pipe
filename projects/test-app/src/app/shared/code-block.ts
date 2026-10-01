@@ -4,7 +4,9 @@ import { ChangeDetectionStrategy, Component, input, signal } from '@angular/core
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<div class="code-heading">
       <span>{{ label() }}</span
-      ><button type="button" (click)="copy()">Copy code</button>
+      ><button type="button" (click)="copy()" [attr.aria-label]="'Copy ' + label()">
+        Copy code
+      </button>
     </div>
     <pre><code>{{code()}}</code></pre>
     <p class="copy-status" role="status">{{ status() }}</p>`,

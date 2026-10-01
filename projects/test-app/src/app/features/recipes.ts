@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 import {
   CompactNumberPipe,
@@ -8,6 +8,7 @@ import {
   UniqueByPipe,
   OrderByPipe,
 } from 'extra-pipe';
+import { SiteSeo } from '../shared/site-seo';
 import { CodeBlock } from '../shared/code-block';
 @Component({
   selector: 'app-recipes',
@@ -76,6 +77,13 @@ import { CodeBlock } from '../shared/code-block';
     </article>`,
 })
 export class Recipes {
+  constructor() {
+    inject(SiteSeo).update(
+      'Recipes — Extra Pipe',
+      'Copyable standalone Angular examples for metrics, profile labels and immutable collections.',
+      '/recipes',
+    );
+  }
   readonly records = [
     { id: 1, name: 'old Ana' },
     { id: 2, name: 'Sam' },

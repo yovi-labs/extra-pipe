@@ -1,3 +1,6 @@
+import { PIPE_ALIASES } from './pipe-aliases';
+export { PIPE_ALIASES } from './pipe-aliases';
+
 export type PipeCategory =
   'Text' | 'Numbers' | 'Dates' | 'Localization' | 'Collections' | 'Utilities';
 export interface PipeDoc {
@@ -486,32 +489,7 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     status: 'preview',
   },
 ];
-export const PIPE_ALIASES = [
-  {
-    selector: 'localized',
-    className: 'LocalizedLegacyPipe',
-    target: 'localizedDate',
-    deprecated: true,
-  },
-  {
-    selector: 'fileSize',
-    className: 'FileSizeAliasPipe',
-    target: 'filesize',
-    deprecated: false,
-  },
-  {
-    selector: 'roundHalfUp',
-    className: 'RoundHalfUpPipe',
-    target: 'roundHalf',
-    deprecated: false,
-  },
-  {
-    selector: 'camelCaseToTitleSeparatedCase',
-    className: 'CamelCaseToTitleSeparatedCasePipe',
-    target: 'camelCaseToTitleSeperatedCase',
-    deprecated: false,
-  },
-] as const;
+
 export const CATEGORIES: readonly PipeCategory[] = [
   'Text',
   'Numbers',

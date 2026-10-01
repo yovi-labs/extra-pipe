@@ -1,5 +1,13 @@
 import { filterPipes, PIPE_ALIASES, PIPE_DOCS, standaloneCode } from './pipe-catalog';
+import { routes } from '../app.routes';
 describe('pipe catalog', () => {
+  it('redirects compatibility documentation URLs to their canonical selector', () => {
+    PIPE_ALIASES.forEach((alias) =>
+      expect(routes.find((route) => route.path === 'pipes/' + alias.selector)?.redirectTo).toBe(
+        'pipes/' + alias.target,
+      ),
+    );
+  });
   it('has 34 distinct canonical pipes and all compatibility aliases', () => {
     expect(PIPE_DOCS.length).toBe(34);
     expect(new Set(PIPE_DOCS.map((item) => item.selector)).size).toBe(34);

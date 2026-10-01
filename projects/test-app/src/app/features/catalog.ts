@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { SiteSeo } from '../shared/site-seo';
 import { RouterLink } from '@angular/router';
 import { CATEGORIES, filterPipes, PIPE_DOCS } from '../data/pipe-catalog';
 @Component({
@@ -58,6 +59,13 @@ import { CATEGORIES, filterPipes, PIPE_DOCS } from '../data/pipe-catalog';
     </div>`,
 })
 export class Catalog {
+  constructor() {
+    inject(SiteSeo).update(
+      'Pipe catalog — Extra Pipe',
+      'Search standalone Angular pipes, compatibility aliases, contracts and runnable examples.',
+      '/pipes',
+    );
+  }
   protected readonly count = PIPE_DOCS.length;
   protected readonly categories = CATEGORIES;
   protected readonly query = signal('');

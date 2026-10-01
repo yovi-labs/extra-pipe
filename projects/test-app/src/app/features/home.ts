@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CompactNumberPipe } from 'extra-pipe';
+import { SiteSeo } from '../shared/site-seo';
 import { CodeBlock } from '../shared/code-block';
 @Component({
   selector: 'app-home',
@@ -74,5 +75,12 @@ import { CodeBlock } from '../shared/code-block';
     </p>`,
 })
 export class Home {
+  constructor() {
+    inject(SiteSeo).update(
+      'Extra Pipe — Standalone Angular toolbox',
+      'Standalone Angular pipes for locale-aware formatting, Unicode text and immutable collections.',
+      '/',
+    );
+  }
   protected readonly example = "{{ 12500 | compactNumber: 'compact': 1: 'en' }}";
 }
