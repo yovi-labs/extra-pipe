@@ -10,7 +10,7 @@ import { CodeBlock } from '../shared/code-block';
   template: ` <section class="hero">
       <div>
         <p class="eyebrow">The standalone Angular toolbox</p>
-        <h1>Small pipes.<br />Better interfaces.</h1>
+        <h1>Small pipes.<br /><span class="hero-highlight">Better interfaces.</span></h1>
         <p class="intro">
           Less formatting code. More thoughtful details. Locale-aware numbers, Unicode text, and
           immutable collections — ready for your next interface.
@@ -20,9 +20,7 @@ import { CodeBlock } from '../shared/code-block';
             >Explore the pipes <span aria-hidden="true">→</span></a
           ><a class="button secondary" routerLink="/pipes/compactNumber">Try an example</a>
         </div>
-        <p class="support-note">
-          100+ standalone Angular pipes · 101 in this preview · Angular 20–22 · MIT
-        </p>
+        <p class="support-note">100+ standalone Angular pipes · Angular 20–22 · MIT</p>
       </div>
       <div class="hero-example panel">
         <div class="panel-heading">
@@ -72,8 +70,8 @@ import { CodeBlock } from '../shared/code-block';
       <app-code-block code="npm install extra-pipe" label="Install the published package" />
     </section>
     <p class="release-note">
-      This 2.0 preview contains 101 canonical pipes with no compatibility aliases. New APIs are in
-      review, not yet on npm. Check each pipe’s release label before installing.
+      You’re exploring the 2.0 documentation. This version is not yet published on npm. Check each
+      pipe’s release label before installing.
     </p>`,
 })
 export class Home {

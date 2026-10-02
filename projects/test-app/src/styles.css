@@ -3,20 +3,33 @@
 
 :root {
   color-scheme: light;
-  --ink: #20242a;
-  --muted: #51565f;
-  --accent: #a63c00;
-  --orange: #f37021;
-  --surface: #fff;
-  --canvas: #faf9f6;
-  --line: #d9d5ce;
+  --ink: #241a30;
+  --muted: #575163;
+  --accent: #7421b0;
+  --brand-pink: #bb005d;
+  --brand-magenta: #8b20ca;
+  --brand-violet: #5b21b6;
+  --brand-gradient: linear-gradient(
+    115deg,
+    var(--brand-pink),
+    var(--brand-magenta),
+    var(--brand-violet)
+  );
+  --accent-soft: #f4ecfc;
+  --control-border: #82768f;
+  --code-surface: #251c33;
+  --code-ink: #f6f2fc;
+  --surface: #ffffff;
+  --canvas: #faf8ff;
+  --line: #ded7e8;
 }
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  background: var(--canvas);
+  background:
+    radial-gradient(ellipse 650px 460px at 95% 0%, #eee3fb 0%, transparent 75%), var(--canvas);
   color: var(--ink);
   font-family:
     Inter,
@@ -82,6 +95,16 @@ a:hover {
 .install-panel > * {
   min-width: 0;
 }
+.hero-highlight {
+  color: var(--accent);
+}
+@supports (background-clip: text) {
+  .hero-highlight {
+    background: var(--brand-gradient);
+    background-clip: text;
+    color: transparent;
+  }
+}
 .eyebrow {
   color: var(--accent);
   font-size: 13px;
@@ -113,8 +136,8 @@ h2 {
   background: var(--surface);
 }
 pre {
-  background: #20242a;
-  color: #f7f5f1;
+  background: var(--code-surface);
+  color: var(--code-ink);
   padding: 20px;
   border-radius: 10px;
   overflow: auto;
@@ -167,5 +190,15 @@ a.button {
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .hero-highlight {
+    background: none;
+    color: CanvasText;
+  }
+  .button.primary {
+    background: ButtonFace;
+    color: ButtonText;
   }
 }

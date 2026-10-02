@@ -27,6 +27,9 @@
   color: var(--muted);
   font-weight: 500;
 }
+.brand img {
+  flex: none;
+}
 .brand > span {
   font-size: 20px;
   color: var(--ink);
@@ -43,7 +46,8 @@
   margin: 0;
 }
 .hero-example {
-  box-shadow: 0 12px 40px #20242a08;
+  border-top: 3px solid var(--brand-magenta);
+  box-shadow: 0 16px 48px #5b21b60d;
 }
 .hero-result {
   font-size: 64px;
@@ -70,7 +74,7 @@
   text-decoration: none;
 }
 .button.primary {
-  background: var(--accent);
+  background: var(--brand-gradient);
   color: #fff;
 }
 .button.secondary {
@@ -98,8 +102,8 @@
   flex-wrap: wrap;
 }
 .tag {
-  background: #fff0e6;
-  color: #873600;
+  background: var(--accent-soft);
+  color: var(--accent);
   padding: 4px 10px;
   border-radius: 6px;
   font-weight: 650;
@@ -163,7 +167,7 @@
   color: var(--muted);
 }
 button {
-  border: 1px solid #757982;
+  border: 1px solid var(--control-border);
   background: #fff;
   color: var(--ink);
   border-radius: 6px;
@@ -172,7 +176,7 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background: #f3f1ed;
+  background: var(--accent-soft);
 }
 .code-heading button {
   font-size: 12px;
@@ -212,7 +216,7 @@ input,
 select,
 textarea {
   min-height: 48px;
-  border: 1px solid #757982;
+  border: 1px solid var(--control-border);
   border-radius: 8px;
   padding: 12px 14px;
   background: #fff;
@@ -221,7 +225,7 @@ textarea {
 }
 input::placeholder,
 textarea::placeholder {
-  color: #646973;
+  color: var(--muted);
   opacity: 1;
 }
 .catalog-grid {
@@ -284,7 +288,7 @@ dd {
   font-size: 14px;
 }
 .output {
-  background: #f3f1ed;
+  background: var(--accent-soft);
   color: var(--ink);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -292,10 +296,10 @@ dd {
 }
 .notice {
   border-left: 3px solid var(--accent);
-  background: #fff0e6;
+  background: var(--accent-soft);
   padding: 16px;
   font-size: 14px;
-  color: #663000;
+  color: var(--ink);
 }
 .back-link {
   display: inline-flex;
