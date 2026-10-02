@@ -1,6 +1,6 @@
 # extra-pipe
 
-A focused collection of standalone Angular 17–22 pipes for display formatting, localization, text, and template-friendly data presentation.
+A focused collection of standalone Angular 20–22 pipes for display formatting, localization, text, and template-friendly data presentation.
 
 ```bash
 npm install extra-pipe
@@ -24,7 +24,7 @@ export class ProductSummaryComponent {
 }
 ```
 
-Pipes are standalone and belong in a component's `imports` array. The package supports Angular 17 through 22. Version 1.1 adds:
+Pipes are standalone and belong in a component's `imports` array. The unpublished 2.0 preview supports Angular 20 through 22 (`>=20 <23`), using Angular 20 partial compilation. Installation retrieves the published 1.x package until 2.0 is separately released. Version 1.1 adds:
 
 - `compactNumber`, `formatDuration`, and caller-controlled `relativeTime`
 - Unicode-safe `truncate`, `initials`, and configurable `mask`

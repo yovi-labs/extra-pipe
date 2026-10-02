@@ -15,21 +15,8 @@ function run(args) {
   if (result.status !== 0) throw new Error('Vercel build step failed.');
 }
 const npm = args => run([process.env.npm_execpath, ...args]);
-// Node 20 is isolated to the Angular 17 compatibility compiler, never deployed.
-// Pin the build helper; the public site itself builds/hydrates with Angular 22.
-npm([
-  'exec',
-  '--yes',
-  '--package=node@20.20.2',
-  '--',
-  'node',
-  'node_modules/ng-packagr/cli/main.js',
-  '-p',
-  'projects/extra-pipe/ng-package.json',
-  '-c',
-  'projects/extra-pipe/tsconfig.lib.prod.json',
-]);
-run(['scripts/finalize-package.mjs']);
+// Compile with Angular 20 partial compilation on Node 24; the website uses Angular 22.
+npm(['run', 'build:lib']);
 npm(['run', 'check:package']);
 run(['scripts/prepare-website.mjs']);
 npm(['--prefix', 'projects/test-app', 'run', 'test:ci']);

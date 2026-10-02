@@ -11,9 +11,10 @@ import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const major = Number(process.argv[2]);
-if (![17, 18, 19, 20, 21, 22].includes(major))
-  throw new Error('Choose Angular 17–22.');
+const requestedVersion = process.argv[2];
+const major = Number(requestedVersion?.split('.')[0]);
+if (![20, 21, 22].includes(major))
+  throw new Error('Choose Angular 20–22.');
 let tarball = resolve(process.argv[3] ?? '.artifacts/extra-pipe.tgz');
 if (statSync(tarball).isDirectory()) {
   const files = readdirSync(tarball).filter(name =>
@@ -42,7 +43,7 @@ function npm(args, cwd = directory, capture = false) {
   return result.stdout;
 }
 const available = JSON.parse(
-  npm(['view', '@angular/cli@' + major, 'version', '--json'], directory, true)
+  npm(['view', '@angular/cli@' + requestedVersion, 'version', '--json'], directory, true)
 );
 const cli = Array.isArray(available) ? available.at(-1) : available;
 console.log('Testing Angular CLI ' + cli + ' on Node ' + process.versions.node);

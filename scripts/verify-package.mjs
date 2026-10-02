@@ -20,13 +20,16 @@ for(const file of files) {
 }
 const manifest=JSON.parse(readFileSync(resolve(directory,'package.json'),'utf8'));
 if(manifest.private) throw new Error('Private workspace was packed instead of library.');
-if(manifest.peerDependencies['@angular/core']!=='>=17.0.0 <23.0.0') throw new Error('Angular compatibility drift.');
+if(manifest.peerDependencies['@angular/core']!=='>=20.0.0 <23.0.0') throw new Error('Angular compatibility drift.');
 if(Object.keys(manifest.dependencies).some(name=>!['tslib','unicode-segmenter'].includes(name)))
   throw new Error('Unexpected runtime dependency.');
-const publicApi=readFileSync(resolve(directory,'public-api.d.ts'),'utf8');
-for(const pipe of ['list-format','format-unit','display-name','date-range','number-range','byte-size',
-  'truncate-middle','slugify','group-by','order-by','unique-by']) {
-  if(!publicApi.includes('/'+pipe+'.pipe')) throw new Error('Missing public export: '+pipe);
+const typesEntry=manifest.exports?.['.']?.types;
+if(typeof typesEntry!=='string' || !files.has(typesEntry.replace(/^\.\//,'')))
+  throw new Error('Missing exported declaration entry.');
+const publicApi=readFileSync(resolve(directory,typesEntry),'utf8');
+for(const pipe of ['ListFormatPipe','FormatUnitPipe','DisplayNamePipe','DateRangePipe','NumberRangePipe','ByteSizePipe',
+  'TruncateMiddlePipe','SlugifyPipe','GroupByPipe','OrderByPipe','UniqueByPipe']) {
+  if(!publicApi.includes(pipe)) throw new Error('Missing public export: '+pipe);
 }
 mkdirSync('.artifacts/package',{recursive:true});
 writeFileSync('.artifacts/package/surface.json',JSON.stringify(pack,null,2));

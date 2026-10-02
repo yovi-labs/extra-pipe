@@ -152,7 +152,8 @@ for (const entry of backlog.features) {
 }
 if (process.argv.includes('--packed')) {
   visited.clear();
-  exportsFrom('dist/extra-pipe/public-api.d.ts', true);
+  const manifest = JSON.parse(readFileSync('dist/extra-pipe/package.json', 'utf8'));
+  exportsFrom(resolve('dist/extra-pipe', manifest.exports['.'].types), true);
   const declarationFiles = [...visited]
     .map(file => readFileSync(file, 'utf8'))
     .join('\n');

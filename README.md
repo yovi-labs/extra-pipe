@@ -1,13 +1,13 @@
 # extra-pipe
 
-A focused collection of standalone Angular 17–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
+A focused collection of standalone Angular 20–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
 
-## Sprint 2 preview: 100+ standalone Angular pipes
+## Sprint 2 — 2.0.0 preview: 100+ standalone Angular pipes
 
 This review-stage catalogue implements **101 canonical pipes**, plus four
 separate compatibility aliases. The 67 additional APIs are not yet published on
 npm. Existing installation instructions describe the published package, not a
-promise that preview APIs are available. No version or license change is implied.
+promise that preview APIs are available. The approved target is 2.0.0; manifest versioning happens on the reviewed release branch. MIT licensing is unchanged.
 
 | Addition group                | Count | Contracts and examples                           |
 | ----------------------------- | ----: | ------------------------------------------------ |
@@ -33,7 +33,7 @@ the count.
 npm install extra-pipe
 ```
 
-The package supports Angular 17 through 22 (`>=17.0.0 <23.0.0`). The library compiler and compatibility demo remain on Angular 17. The public documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library.
+The planned 2.0.0 release supports Angular 20 through 22 (`>=20.0.0 <23.0.0`). The library uses Angular 20 partial compilation; the runnable documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library. Angular 17–19 are no longer supported by this review branch. npm installation still retrieves the published 1.x package, not this unpublished 2.0 preview.
 
 ## Use a pipe in a standalone component
 
@@ -143,7 +143,7 @@ unreleased 1.2 preview APIs; `npm install extra-pipe` installs the published ver
 not those preview APIs.
 
 The preserved Angular 17 fixture is in `projects/angular17-demo`. Use
-`npx ng serve angular17-demo` or `npm run build:demo17` to check it.
+`npm run start:website` to run the Angular 22 demo.
 Verify the library before a release:
 
 ```bash
