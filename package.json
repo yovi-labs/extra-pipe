@@ -3,86 +3,85 @@
   "version": "1.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build --configuration production",
+    "start": "npm run start:website",
+    "build": "npm run build:lib",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test extra-pipe --no-watch --code-coverage --browsers=ChromeHeadless",
-    "build:lib": "ng-packagr -p ./projects/extra-pipe/ng-package.json",
+    "build:lib": "ng-packagr -p ./projects/extra-pipe/ng-package.json -c ./projects/extra-pipe/tsconfig.lib.prod.json && node scripts/finalize-package.mjs",
     "build:lib:watch": "ng-packagr -p ./projects/extra-pipe/ng-package.json -w",
     "format": "npx prettier --write .",
-    "lint:lib": "ng lint extra-pipe",
-    "lint": "ng lint",
+    "lint:lib": "eslint projects/extra-pipe/src",
+    "lint": "npm run lint:lib && npm run lint:website && npm run lint:scripts",
     "prepare": "husky",
-    "commit": "cz"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-customizable"
-    }
-  },
-  "cz-customizable": {
-    "config": ".cz-config.js"
+    "start:website": "npm --prefix projects/test-app start",
+    "build:website": "npm --prefix projects/test-app run build",
+    "test:website": "npm --prefix projects/test-app run test:ci",
+    "prepare:website": "node scripts/prepare-website.mjs",
+    "check:compat": "node scripts/check-angular-consumer.mjs",
+    "check:package": "node scripts/verify-package.mjs",
+    "check:inventory": "node scripts/verify-inventory.mjs --packed",
+    "check:examples": "node scripts/generate-example-components.mjs",
+    "check:architecture": "node scripts/verify-architecture.mjs",
+    "check:coverage": "node scripts/verify-coverage.mjs",
+    "check:security": "node --test scripts/website-security.test.mjs",
+    "check:performance": "node scripts/check-performance.mjs",
+    "preview:website": "node scripts/serve-static.mjs",
+    "build:vercel": "node scripts/build-vercel.mjs",
+    "lint:website": "eslint projects/test-app/src",
+    "lint:scripts": "eslint scripts projects/test-app/scripts"
   },
   "lint-staged": {
-    "*.{ts,html}": [
-      "eslint --fix"
+    "*.{ts,html,mjs,cjs,js}": [
+      "eslint"
     ],
     "*.scss": [
-      "stylelint --fix",
-      "prettier --write"
+      "prettier --check"
     ]
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.1.3",
-    "@angular/common": "^17.1.3",
-    "@angular/compiler": "^17.1.3",
-    "@angular/core": "^17.1.3",
-    "@angular/forms": "^17.1.3",
-    "@angular/platform-browser": "^17.1.3",
-    "@angular/platform-browser-dynamic": "^17.1.3",
-    "@angular/router": "^17.1.3",
-    "rxjs": "~7.4.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "@angular/common": "20.3.33",
+    "@angular/compiler": "20.3.33",
+    "@angular/core": "20.3.33",
+    "@angular/platform-browser": "20.3.33",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1",
+    "unicode-segmenter": "0.17.3",
+    "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.1.3",
-    "@angular-eslint/builder": "17.2.1",
-    "@angular-eslint/eslint-plugin": "17.2.1",
-    "@angular-eslint/eslint-plugin-template": "17.2.1",
-    "@angular-eslint/schematics": "17.2.1",
-    "@angular-eslint/template-parser": "17.2.1",
-    "@angular/cli": "^17.1.3",
-    "@angular/compiler-cli": "^17.1.3",
-    "@commitlint/cli": "^19.4.0",
-    "@commitlint/config-conventional": "^19.2.2",
-    "@types/jasmine": "~3.10.0",
-    "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "6.19.0",
-    "@typescript-eslint/parser": "6.19.0",
-    "commitizen": "^4.3.0",
-    "cz-customizable": "^7.2.1",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-config-standard-with-typescript": "^43.0.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-promise": "^6.1.1",
-    "husky": "^9.1.4",
-    "jasmine-core": "~3.10.0",
-    "karma": "~6.3.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.1.0",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "~1.7.0",
-    "lint-staged": "^15.2.9",
-    "ng-packagr": "^17.1.2",
-    "prettier": "^3.2.5",
-    "prettier-eslint": "^16.3.0",
+    "@angular/cli": "20.3.37",
+    "@angular/compiler-cli": "20.3.33",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "9.39.5",
+    "@types/jasmine": "^5.1.12",
+    "@types/node": "^24.0.0",
+    "angular-eslint": "20.7.0",
+    "eslint": "9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "jasmine-core": "5.13.0",
+    "karma": "6.4.4",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-coverage": "2.2.1",
+    "karma-jasmine": "5.1.0",
+    "karma-jasmine-html-reporter": "^2.1.0",
+    "lint-staged": "^16.0.0",
+    "ng-packagr": "20.3.2",
+    "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.0.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "8.71.0",
+    "@angular/build": "20.3.37"
+  },
+  "engines": {
+    "node": ">=24.15.0 <25.0.0"
+  },
+  "overrides": {
+    "@angular/build": {
+      "piscina": "5.3.2"
+    }
   }
 }

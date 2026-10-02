@@ -9,6 +9,12 @@
 
 # dependencies
 /node_modules
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+/.artifacts/
+/.vercel/
 
 # profiling files
 chrome-profiler-events*.json

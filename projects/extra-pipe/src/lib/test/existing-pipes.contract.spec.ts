@@ -1,13 +1,13 @@
 import {
-  Base64ImgUrlPipe,
-  CamelCaseToTitleSeperatedCasePipe,
+  Base64ImageUrlPipe,
+  CamelCaseToTitleSeparatedCasePipe,
   CamelToSnakePipe,
   CapitalizePipe,
   FileSizePipe,
-  FormatInstanceofDatePipe,
+  FormatDateTimePipe,
   HidePipe,
   IncludesPipe,
-  LocalizedPipe,
+  LocalizedDatePipe,
   NumberToWordsPipe,
   RemoveByKeyPipe,
   RemoveDuplicatesByKeyPipe,
@@ -21,20 +21,20 @@ import {
 describe('existing public pipe contracts', () => {
   it('retains every v1.0 public pipe and its core behavior', () => {
     expect(new CamelToSnakePipe().transform('extraPipe')).toBe('extra_pipe');
-    expect(new CamelCaseToTitleSeperatedCasePipe().transform('extraPipe')).toBe(
+    expect(new CamelCaseToTitleSeparatedCasePipe().transform('extraPipe')).toBe(
       'extra Pipe'
     );
     expect(new CapitalizePipe().transform('extra')).toBe('Extra');
     expect(new FileSizePipe().transform(1_048_576)).toBe('1.00MB');
     expect(
-      new FormatInstanceofDatePipe().transform(new Date(2024, 0, 2))
+      new FormatDateTimePipe().transform(new Date(2024, 0, 2))
     ).not.toContain(':');
     expect(new HidePipe().transform('secret')).toBe('******');
-    expect(new Base64ImgUrlPipe().transform('abc', 'image/png')).toBe(
+    expect(new Base64ImageUrlPipe().transform('abc', 'image/png')).toBe(
       'data:image/png;base64,abc'
     );
     expect(new IncludesPipe().transform([0, 1], 0)).toBeTrue();
-    expect(new LocalizedPipe().transform(new Date(2024, 0, 2), 'en-US')).toBe(
+    expect(new LocalizedDatePipe().transform(new Date(2024, 0, 2), 'en-US')).toBe(
       new Intl.DateTimeFormat('en-US', {
         year: 'numeric',
         month: 'numeric',
