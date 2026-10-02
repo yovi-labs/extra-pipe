@@ -31,5 +31,11 @@ describe('App shell', () => {
     expect(element.querySelector('nav')?.getAttribute('aria-label')).toBe('Main navigation');
     expect(element.querySelector('.skip-link')?.getAttribute('href')).toBe('/#main');
     expect(element.querySelector('main')?.id).toBe('main');
+    const logo = element.querySelector('.brand img');
+    expect(logo?.getAttribute('src')).toBe('extra-pipe-mark.svg');
+    expect(logo?.getAttribute('alt')).toBe('');
+    expect(logo?.getAttribute('width')).toBe('40');
+    expect(logo?.getAttribute('height')).toBe('40');
+    expect(element.querySelector('.brand')?.getAttribute('aria-label')).toBe('Extra Pipe home');
   });
 });

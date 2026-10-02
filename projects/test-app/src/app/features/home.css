@@ -1,0 +1,211 @@
+:host {
+  display: block;
+}
+.home {
+  max-width: 1040px;
+  margin-inline: auto;
+}
+.install-command {
+  max-width: 480px;
+  margin-inline: auto;
+}
+.landing-hero {
+  text-align: center;
+  padding: 24px 0 40px;
+}
+.home h1 {
+  font-size: clamp(36px, 5.5vw, 68px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+  margin: 0;
+}
+.hero-description {
+  color: var(--muted);
+  font-size: 20px;
+  margin: 24px auto 0;
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+.hero-actions .button {
+  min-height: 52px;
+}
+.feature-row a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}
+.support-strip {
+  border-block: 1px solid var(--line);
+  padding: 16px;
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.feature-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 56px;
+  max-width: 840px;
+  margin: 32px auto 16px;
+}
+.feature-row h2 {
+  font-size: 18px;
+  margin: 0 0 12px;
+}
+.feature-row p {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0;
+}
+.feature-row a {
+  margin-top: 12px;
+}
+/* Keep content visible and usable throughout the entrance sequence. */
+@media (prefers-reduced-motion: no-preference) {
+  .home h1,
+  .hero-description,
+  .hero-actions,
+  .feature-row article {
+    animation: home-rise 380ms cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  }
+  .hero-description {
+    animation-delay: 40ms;
+  }
+  .hero-actions {
+    animation-delay: 80ms;
+  }
+  .feature-row article {
+    animation-delay: 100ms;
+  }
+  .feature-row article:nth-child(2) {
+    animation-delay: 140ms;
+  }
+  .feature-row article:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  .feature-row a {
+    transition: transform 160ms ease-out;
+  }
+  .hero-actions a:focus-visible,
+  .feature-row a:focus-visible {
+    transform: translateY(-2px);
+  }
+  .hero-actions a:active,
+  .feature-row a:active {
+    transform: translateY(1px);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .hero-actions a:hover,
+  .feature-row a:hover {
+    transform: translateY(-2px);
+  }
+  .hero-actions a:active,
+  .feature-row a:active {
+    transform: translateY(1px);
+  }
+}
+@keyframes home-rise {
+  from {
+    transform: translateY(12px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1600px) {
+  :host {
+    display: flex;
+    flex: 1;
+  }
+  .home {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+  }
+  .install-command {
+    width: 100%;
+    max-width: 560px;
+  }
+  .landing-hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    padding-block: 48px 64px;
+  }
+  .home h1 {
+    font-size: clamp(76px, 4.2vw, 112px);
+  }
+  .hero-description {
+    font-size: clamp(21px, 1vw, 26px);
+    margin-top: 32px;
+  }
+  .hero-actions {
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .hero-actions .button {
+    min-height: 56px;
+    padding: 14px 28px;
+    font-size: 18px;
+  }
+  .feature-row a {
+    font-size: 16px;
+  }
+  .support-strip {
+    padding: 20px;
+    font-size: 14px;
+  }
+  .feature-row {
+    width: 100%;
+    max-width: 1200px;
+    gap: 80px;
+    margin-block: 48px 24px;
+  }
+  .feature-row h2 {
+    font-size: 22px;
+  }
+  .feature-row p {
+    max-width: 32ch;
+    font-size: 18px;
+  }
+}
+@media (max-width: 760px) {
+  .feature-row {
+    gap: 24px;
+  }
+  .home h1 {
+    font-size: clamp(34px, 6.5vw, 52px);
+  }
+}
+@media (max-width: 540px) {
+  .hero-actions {
+    gap: 12px;
+  }
+  .hero-actions .button {
+    width: 100%;
+    max-width: 360px;
+  }
+  .landing-hero {
+    padding-block: 32px 48px;
+  }
+  .hero-description {
+    font-size: 18px;
+  }
+  .feature-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+  }
+}

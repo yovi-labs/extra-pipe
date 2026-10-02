@@ -1,5 +1,13 @@
 # Extra Pipe 2.0.0 release candidate
 
+Update: PR #101 is merged into `main`, PR #104's website refresh is merged into
+`develop`, and PR #102 synchronized the versioned baseline back to `develop`.
+The website refresh still needs a release follow-up into `main`. The latest
+recheck and deployment preparation are in
+[DEPLOYMENT-2.0-CANDIDATE.md](DEPLOYMENT-2.0-CANDIDATE.md). The evidence and unchecked
+gates below describe the original release checkpoint, not current deployment
+status. No 2.0.0 tag, npm publication or hosted deployment is claimed.
+
 Prepared on 2026-10-02 from integrated `develop` commit
 `b76c2ce11321010d6d9fd9fe00192bed290d39f3`, through `release/2.0.0` into `main`.
 The owner requested the version 2 merge. This does not authorize npm publication,

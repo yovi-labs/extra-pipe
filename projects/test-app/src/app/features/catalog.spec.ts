@@ -11,6 +11,8 @@ describe('Catalog', () => {
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
     expect(element.querySelectorAll('.catalog-card').length).toBe(101);
+    expect(element.querySelector('.release-tag')).toBeNull();
+    expect(element.textContent).not.toMatch(/2\.0 preview|in review|sprint \d preview/i);
     const search = element.querySelector('input')!;
     search.value = 'localizedDate';
     search.dispatchEvent(new Event('input'));
