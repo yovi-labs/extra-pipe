@@ -1,49 +1,159 @@
 import {
   chunk,
-  flatten,
   compact,
-  partition,
-  zip,
-  unzip,
-  slidingWindow,
-  pluck,
-  filterBy,
-  intersectionBy,
-  differenceBy,
-  unionBy,
-  symmetricDifferenceBy,
-  indexBy,
   countBy,
+  differenceBy,
+  filterBy,
+  flatten,
+  groupBy,
+  IncludesPipe,
+  indexBy,
+  intersectionBy,
   mergeBy,
+  orderBy,
   paginate,
+  partition,
+  pluck,
+  RemoveByKeyPipe,
+  RemoveDuplicatesByKeyPipe,
+  slidingWindow,
+  symmetricDifferenceBy,
+  unionBy,
+  uniqueBy,
+  unzip,
+  zip,
 } from 'extra-pipe';
-import type { PipeAdapter } from './expanded-adapters';
-/** Whitelisted JSON boundary adapters; never compile expressions or mutate input. */
-export const COLLECTIONS_ADAPTERS: Readonly<Record<string, PipeAdapter>> = {
-  chunk: (value, parameters, _locale) => chunk(value as never, parameters[0] as never),
-  flatten: (value, parameters, _locale) => flatten(value as never, parameters[0] as never),
-  compact: (value, _parameters, _locale) => compact(value as never),
-  partition: (value, parameters, _locale) =>
-    partition(value as never, parameters[0] as never, parameters[1] as never),
-  zip: (value, parameters, _locale) => zip(value as never, parameters[0] as never),
-  unzip: (value, _parameters, _locale) => unzip(value as never),
-  slidingWindow: (value, parameters, _locale) =>
-    slidingWindow(value as never, parameters[0] as never, parameters[1] as never),
-  pluck: (value, parameters, _locale) => pluck(value as never, parameters[0] as never),
-  filterBy: (value, parameters, _locale) =>
-    filterBy(value as never, parameters[0] as never, parameters[1] as never),
-  intersectionBy: (value, parameters, _locale) =>
-    intersectionBy(value as never, parameters[0] as never, parameters[1] as never),
-  differenceBy: (value, parameters, _locale) =>
-    differenceBy(value as never, parameters[0] as never, parameters[1] as never),
-  unionBy: (value, parameters, _locale) =>
-    unionBy(value as never, parameters[0] as never, parameters[1] as never),
-  symmetricDifferenceBy: (value, parameters, _locale) =>
-    symmetricDifferenceBy(value as never, parameters[0] as never, parameters[1] as never),
-  indexBy: (value, parameters, _locale) => indexBy(value as never, parameters[0] as never),
-  countBy: (value, parameters, _locale) => countBy(value as never, parameters[0] as never),
-  mergeBy: (value, parameters, _locale) =>
-    mergeBy(value as never, parameters[0] as never, parameters[1] as never),
-  paginate: (value, parameters, _locale) =>
-    paginate(value as never, parameters[0] as never, parameters[1] as never),
-};
+import type { JsonRecord, PipeAdapter } from './json-contracts';
+import {
+  adapt,
+  arrayOf,
+  nullable,
+  number,
+  oneOf,
+  optional,
+  pair,
+  record,
+  text,
+  unknownValue,
+} from './json-contracts';
+const includesPipe = new IncludesPipe();
+const removeByKeyPipe = new RemoveByKeyPipe();
+const removeDuplicatesByKeyPipe = new RemoveDuplicatesByKeyPipe();
+export const COLLECTIONS_ADAPTERS = {
+  groupBy: adapt(
+    groupBy<JsonRecord, string>,
+    [nullable(arrayOf(record)), text],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  orderBy: adapt(
+    orderBy<JsonRecord, string>,
+    [nullable(arrayOf(record)), text, optional(oneOf('asc', 'desc')), optional(text)],
+    (value, parameters, locale) => [value, parameters[0], parameters[1], locale],
+  ),
+  uniqueBy: adapt(
+    uniqueBy<JsonRecord, string>,
+    [nullable(arrayOf(record)), text, optional(oneOf('first', 'last'))],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  includes: adapt(
+    includesPipe.transform.bind(includesPipe),
+    [nullable(arrayOf(unknownValue)), unknownValue],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  removeByKey: adapt(
+    (removeByKeyPipe.transform<JsonRecord>).bind(removeByKeyPipe),
+    [arrayOf(record), text, arrayOf(unknownValue)],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  removeDuplicatesByKey: adapt(
+    (removeDuplicatesByKeyPipe.transform<JsonRecord>).bind(removeDuplicatesByKeyPipe),
+    [arrayOf(record), text],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+
+  chunk: adapt(
+    chunk<unknown>,
+    [nullable(arrayOf(unknownValue)), optional(number)],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  flatten: adapt(
+    flatten,
+    [nullable(arrayOf(unknownValue)), optional(number)],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  compact: adapt(
+    compact<unknown>,
+    [nullable(arrayOf(unknownValue))],
+    (value, _parameters, _locale) => [value],
+  ),
+  partition: adapt(
+    partition<JsonRecord, string>,
+    [nullable(arrayOf(record)), text, unknownValue],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  zip: adapt(
+    zip<unknown, unknown>,
+    [nullable(arrayOf(unknownValue)), arrayOf(unknownValue)],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  unzip: adapt(
+    unzip<unknown, unknown>,
+    [nullable(arrayOf(pair))],
+    (value, _parameters, _locale) => [value],
+  ),
+  slidingWindow: adapt(
+    slidingWindow<unknown>,
+    [nullable(arrayOf(unknownValue)), optional(number), optional(number)],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  pluck: adapt(
+    pluck<JsonRecord, string>,
+    [nullable(arrayOf(record)), text],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  filterBy: adapt(
+    filterBy<JsonRecord, string>,
+    [nullable(arrayOf(record)), text, unknownValue],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  intersectionBy: adapt(
+    intersectionBy<JsonRecord, JsonRecord, string>,
+    [nullable(arrayOf(record)), arrayOf(record), text],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  differenceBy: adapt(
+    differenceBy<JsonRecord, JsonRecord, string>,
+    [nullable(arrayOf(record)), arrayOf(record), text],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  unionBy: adapt(
+    unionBy<JsonRecord, JsonRecord, string>,
+    [nullable(arrayOf(record)), arrayOf(record), text],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  symmetricDifferenceBy: adapt(
+    symmetricDifferenceBy<JsonRecord, JsonRecord, string>,
+    [nullable(arrayOf(record)), arrayOf(record), text],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  indexBy: adapt(
+    indexBy<JsonRecord, string>,
+    [nullable(arrayOf(record)), text],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  countBy: adapt(
+    countBy<JsonRecord, string>,
+    [nullable(arrayOf(record)), text],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  mergeBy: adapt(
+    mergeBy<JsonRecord, JsonRecord, string>,
+    [nullable(arrayOf(record)), arrayOf(record), text],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  paginate: adapt(
+    paginate<unknown>,
+    [nullable(arrayOf(unknownValue)), optional(number), optional(number)],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+} satisfies Readonly<Record<string, PipeAdapter>>;

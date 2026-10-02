@@ -31,6 +31,9 @@ jobs:
       - name: Lint library, website and scripts
         run: npm run lint
 
+      - name: Audit library development dependencies
+        run: npm audit --audit-level=high
+
       - name: Test library
         run: npm run test:ci
       - name: Check new transformation coverage
@@ -74,6 +77,8 @@ jobs:
           name: extra-pipe-package
           path: package
       - run: npm ci --ignore-scripts
+        working-directory: projects/test-app
+      - run: npm audit --audit-level=high
         working-directory: projects/test-app
       - run: npm install --no-save --package-lock=false --ignore-scripts ../../package/extra-pipe-*.tgz
         working-directory: projects/test-app

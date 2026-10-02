@@ -1,154 +1,21 @@
-import {
-  formatList,
-  formatUnit,
-  getDisplayName,
-  formatDateRange,
-  formatNumberRange,
-  formatByteSize,
-  truncateMiddle,
-  slugify,
-  groupBy,
-  orderBy,
-  uniqueBy,
-  CompactNumberPipe,
-  FormatDurationPipe,
-  RelativeTimePipe,
-  TruncatePipe,
-  InitialsPipe,
-  MaskPipe,
-  CamelToSnakePipe,
-  CamelCaseToTitleSeparatedCasePipe,
-  CapitalizePipe,
-  FileSizePipe,
-  FormatDateTimePipe,
-  HidePipe,
-  Base64ImageUrlPipe,
-  IncludesPipe,
-  LocalizedDatePipe,
-  NumberToWordsPipe,
-  RemoveByKeyPipe,
-  RemoveDuplicatesByKeyPipe,
-  ReplaceCommaPipe,
-  RoundHalfPipe,
-  SnakeToCamelPipe,
-  UnderscoreToTitlePipe,
-  UpperCaseFromPipe,
-  ListFormatOptions,
-  UnitFormatOptions,
-  DisplayNameType,
-  DisplayNameOptions,
-  DateRangeOptions,
-  NumberRangeOptions,
-  ByteSizeOptions,
-  SlugifyOptions,
-  SortDirection,
-  UniqueRetention,
-} from 'extra-pipe';
-
-type RecordItem = Record<string, unknown>;
-import { EXPANDED_ADAPTERS } from './expanded-adapters';
-import { PIPE_EXAMPLES } from '../../data/pipe-examples';
-export type { PlaygroundSample } from '../../data/pipe-example.model';
 import type { PlaygroundSample } from '../../data/pipe-example.model';
+import { EXAMPLES_BY_SELECTOR, PIPE_EXAMPLES } from '../../data/pipe-examples';
+import { PIPE_ADAPTERS } from './pipe-adapters';
 export const SAMPLES: Readonly<Record<string, PlaygroundSample>> = Object.fromEntries(
   PIPE_EXAMPLES.map((example) => [example.selector, example.sample]),
 );
 export function runPipe(
   selector: string,
   value: unknown,
-  p: readonly unknown[],
+  parameters: readonly unknown[],
   locale: string,
 ): unknown {
-  const adapter = EXPANDED_ADAPTERS.get(selector);
-  if (adapter) return adapter(value, p, locale);
-  // Casts bridge JSON's unknown type to the public contracts. Each new function
-  // validates runtime input; legacy exceptions are handled by the caller.
-  const number = value as number,
-    text = value as string;
-  const records = value as RecordItem[];
-  switch (selector) {
-    case 'listFormat':
-      return formatList(value as string[], p[0] as ListFormatOptions, locale);
-    case 'formatUnit':
-      return formatUnit(number, p[0] as string, p[1] as UnitFormatOptions, locale);
-    case 'displayName':
-      return getDisplayName(text, p[0] as DisplayNameType, p[1] as DisplayNameOptions, locale);
-    case 'dateRange':
-      return formatDateRange(value as string, p[0] as string, p[1] as DateRangeOptions, locale);
-    case 'numberRange':
-      return formatNumberRange(number, p[0] as number, p[1] as NumberRangeOptions, locale);
-    case 'byteSize':
-      return formatByteSize(number, p[0] as ByteSizeOptions, locale);
-    case 'truncateMiddle':
-      return truncateMiddle(text, p[0] as number, p[1] as string);
-    case 'slugify':
-      return slugify(text, p[0] as SlugifyOptions);
-    case 'groupBy':
-      return groupBy(records, p[0] as string);
-    case 'orderBy':
-      return orderBy(records, p[0] as string, p[1] as SortDirection, locale);
-    case 'uniqueBy':
-      return uniqueBy(records, p[0] as string, p[1] as UniqueRetention);
-    case 'compactNumber':
-      return new CompactNumberPipe(locale).transform(number, p[0] as 'compact', p[1] as number);
-    case 'formatDuration':
-      return new FormatDurationPipe(locale).transform(number, p[0] as 'seconds', p[1] as 'short');
-    case 'relativeTime':
-      return new RelativeTimePipe(locale).transform(text, p[0] as string);
-    case 'truncate':
-      return new TruncatePipe().transform(text, p[0] as number, p[1] as string);
-    case 'initials':
-      return new InitialsPipe().transform(text, p[0] as number, p[1] as string);
-    case 'mask':
-      return new MaskPipe().transform(text, p[0] as number, p[1] as number, p[2] as string);
-    case 'camelToSnake':
-      return new CamelToSnakePipe().transform(text);
-    case 'camelCaseToTitleSeparatedCase':
-      return new CamelCaseToTitleSeparatedCasePipe().transform(text);
-    case 'capitalize':
-      return new CapitalizePipe().transform(text);
-    case 'fileSize':
-      return new FileSizePipe().transform(number, p[0] as string);
-    case 'formatDateTime':
-      return new FormatDateTimePipe().transform(
-        typeof value === 'string' ? new Date(value) : (value as Date),
-        p[0] as boolean,
-        p[1] as boolean,
-      );
-    case 'hide':
-      return new HidePipe().transform(text, p[0] as boolean, p[1] as string);
-    case 'base64ImageUrl':
-      return new Base64ImageUrlPipe().transform(text, p[0] as string);
-    case 'includes':
-      return new IncludesPipe().transform(value as unknown[], p[0]);
-    case 'localizedDate':
-      return new LocalizedDatePipe().transform(text, locale);
-    case 'numberToWords':
-      if (
-        typeof value !== 'number' ||
-        !Number.isInteger(value) ||
-        value < 0 ||
-        !['en', 'fr'].includes(p[0] as string)
-      )
-        throw new Error('Use a nonnegative integer and en/fr for this legacy pipe.');
-      return new NumberToWordsPipe().transform(number, p[0] as string);
-    case 'removeByKey':
-      return new RemoveByKeyPipe().transform(records, p[0] as string, p[1] as unknown[]);
-    case 'removeDuplicatesByKey':
-      return new RemoveDuplicatesByKeyPipe().transform(records, p[0] as string);
-    case 'replaceComma':
-      return new ReplaceCommaPipe().transform(value as string | number);
-    case 'roundHalf':
-      return new RoundHalfPipe().transform(number, p[0] as 'up');
-    case 'snakeToCamel':
-      return new SnakeToCamelPipe().transform(text);
-    case 'underscoreToTitle':
-      return new UnderscoreToTitlePipe().transform(text);
-    case 'upperCaseFrom':
-      return new UpperCaseFromPipe().transform(text, p[0] as number);
-    default:
-      throw new Error('No playground adapter for this selector.');
-  }
+  const adapter = PIPE_ADAPTERS.get(selector);
+  if (!adapter) throw new Error('No playground adapter for this selector.');
+  const example = EXAMPLES_BY_SELECTOR.get(selector);
+  if (!example || parameters.length > example.parameterNames.length)
+    throw new Error('Too many parameters for this pipe. Locale is controlled separately.');
+  return adapter(value, parameters, locale);
 }
 export interface PlaygroundResult {
   readonly output: string;

@@ -1,23 +1,53 @@
 import {
-  getPath,
-  pick,
-  omit,
-  renameKeys,
   defaults,
+  getPath,
   invertRecord,
-  pruneEmpty,
+  omit,
   pathEntries,
+  pick,
+  pruneEmpty,
+  renameKeys,
 } from 'extra-pipe';
-import type { PipeAdapter } from './expanded-adapters';
-/** Whitelisted JSON boundary adapters; never compile expressions or mutate input. */
-export const OBJECTS_ADAPTERS: Readonly<Record<string, PipeAdapter>> = {
-  getPath: (value, parameters, _locale) =>
-    getPath(value as never, parameters[0] as never, parameters[1] as never),
-  pick: (value, parameters, _locale) => pick(value as never, parameters[0] as never),
-  omit: (value, parameters, _locale) => omit(value as never, parameters[0] as never),
-  renameKeys: (value, parameters, _locale) => renameKeys(value as never, parameters[0] as never),
-  defaults: (value, parameters, _locale) => defaults(value as never, parameters[0] as never),
-  invertRecord: (value, _parameters, _locale) => invertRecord(value as never),
-  pruneEmpty: (value, _parameters, _locale) => pruneEmpty(value as never),
-  pathEntries: (value, _parameters, _locale) => pathEntries(value as never),
-};
+import type { JsonRecord, PipeAdapter } from './json-contracts';
+import {
+  adapt,
+  arrayOf,
+  key,
+  nullable,
+  optional,
+  record,
+  recordOf,
+  scalar,
+  text,
+  unknownValue,
+} from './json-contracts';
+export const OBJECTS_ADAPTERS = {
+  getPath: adapt(
+    getPath,
+    [unknownValue, arrayOf(key), optional(unknownValue)],
+    (value, parameters, _locale) => [value, parameters[0], parameters[1]],
+  ),
+  pick: adapt(pick<JsonRecord>, [nullable(record), arrayOf(text)], (value, parameters, _locale) => [
+    value,
+    parameters[0],
+  ]),
+  omit: adapt(omit<JsonRecord>, [nullable(record), arrayOf(text)], (value, parameters, _locale) => [
+    value,
+    parameters[0],
+  ]),
+  renameKeys: adapt(
+    renameKeys,
+    [nullable(record), recordOf(text)],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  defaults: adapt(
+    defaults<JsonRecord, JsonRecord>,
+    [nullable(record), record],
+    (value, parameters, _locale) => [value, parameters[0]],
+  ),
+  invertRecord: adapt(invertRecord, [nullable(recordOf(scalar))], (value, _parameters, _locale) => [
+    value,
+  ]),
+  pruneEmpty: adapt(pruneEmpty, [nullable(record)], (value, _parameters, _locale) => [value]),
+  pathEntries: adapt(pathEntries, [nullable(record)], (value, _parameters, _locale) => [value]),
+} satisfies Readonly<Record<string, PipeAdapter>>;

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { PipeDoc } from '../../data/pipe-catalog';
+import { EXAMPLES_BY_SELECTOR } from '../../data/pipe-examples';
 import { CodeBlock } from '../../shared/code-block';
 import { evaluateInput, SAMPLES } from './pipe-runner';
-import { EXAMPLES_BY_SELECTOR } from '../../data/pipe-examples';
 
 @Component({
   selector: 'app-playground',

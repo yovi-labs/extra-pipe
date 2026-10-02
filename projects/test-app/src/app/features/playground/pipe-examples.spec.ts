@@ -1,7 +1,6 @@
-import { SAMPLES } from './pipe-runner';
-import { EXPANDED_ADAPTERS } from './expanded-adapters';
-import { evaluateInput } from './pipe-runner';
 import { PIPE_DOCS, standaloneCode, templateCode } from '../../data/pipe-catalog';
+import { PIPE_ADAPTERS } from './pipe-adapters';
+import { evaluateInput, SAMPLES } from './pipe-runner';
 const EXPECTED: Readonly<Record<string, unknown>> = {
   wordCount: 2,
   truncateWords: 'Hello brave…',
@@ -215,8 +214,9 @@ const EXPECTED: Readonly<Record<string, unknown>> = {
 describe('67 expansion examples', () => {
   it('keeps samples, docs and explicit adapters aligned', () => {
     expect(Object.keys(SAMPLES).length).toBe(101);
-    expect(EXPANDED_ADAPTERS.size).toBe(67);
-    EXPANDED_ADAPTERS.forEach((fn, selector) => {
+    expect(PIPE_ADAPTERS.size).toBe(101);
+    Object.keys(EXPECTED).forEach((selector) => {
+      const fn = PIPE_ADAPTERS.get(selector)!;
       const sample = SAMPLES[selector];
       expect(PIPE_DOCS.some((p) => p.selector === selector)).toBe(true);
       const result = fn(sample.input, sample.parameters, 'en-US');

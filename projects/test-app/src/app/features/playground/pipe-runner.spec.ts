@@ -1,5 +1,5 @@
-import { evaluateInput, runPipe, SAMPLES } from './pipe-runner';
 import { PIPE_DOCS } from '../../data/pipe-catalog';
+import { evaluateInput, runPipe, SAMPLES } from './pipe-runner';
 describe('playground adapters', () => {
   it('runs every canonical selector against its example', () => {
     PIPE_DOCS.forEach((pipe) => {
