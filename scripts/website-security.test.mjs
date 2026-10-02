@@ -30,7 +30,7 @@ test('all compatibility aliases redirect with exact selector casing',async()=>{
     assert.equal(response.status,308);
     assert.equal(response.headers.get('location'),item.destination);
   }
-  assert.equal((await fetch(origin+'/pipes/filesize',{redirect:'manual'})).status,200);
+  assert.equal((await fetch(origin+'/pipes/fileSize',{redirect:'manual'})).status,200);
 });
 test('unknown URLs return real 404, unsupported mutations return 405',async()=>{
   const response=await fetch(origin+'/does-not-exist');
@@ -64,4 +64,3 @@ test('built pages contain no executable inline scripts',()=>{
   };
   visit(directory);
 });
-

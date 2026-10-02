@@ -12,8 +12,8 @@
       "permanent": true
     },
     {
-      "source": "/pipes/fileSize",
-      "destination": "/pipes/filesize",
+      "source": "/pipes/filesize",
+      "destination": "/pipes/fileSize",
       "permanent": true
     },
     {
@@ -22,8 +22,18 @@
       "permanent": true
     },
     {
-      "source": "/pipes/camelCaseToTitleSeparatedCase",
-      "destination": "/pipes/camelCaseToTitleSeperatedCase",
+      "source": "/pipes/camelCaseToTitleSeperatedCase",
+      "destination": "/pipes/camelCaseToTitleSeparatedCase",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/formatInstanceofDate",
+      "destination": "/pipes/formatDateTime",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/imgUrlBase64",
+      "destination": "/pipes/base64ImageUrl",
       "permanent": true
     }
   ],

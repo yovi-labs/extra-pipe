@@ -4,8 +4,7 @@ A focused collection of standalone Angular 20–22 pipes for presentation, local
 
 ## Sprint 2 — 2.0.0 preview: 100+ standalone Angular pipes
 
-This review-stage catalogue implements **101 canonical pipes**, plus four
-separate compatibility aliases. The 67 additional APIs are not yet published on
+This review-stage catalogue implements **101 canonical pipes** with no package compatibility aliases. The 67 additional APIs are not yet published on
 npm. Existing installation instructions describe the published package, not a
 promise that preview APIs are available. The approved target is 2.0.0; manifest versioning happens on the reviewed release branch. MIT licensing is unchanged.
 
@@ -60,7 +59,7 @@ Standalone pipes belong in a component's `imports` array, not an NgModule's `dec
 ## Sprint 2 preview — not yet published
 
 The review-stage catalog adds eleven APIs. Do not expect these in the current npm
-release; use the local packed preview or wait for the approved 1.2.0 release.
+release; use the local packed preview or wait for the approved 2.0.0 release.
 
 - Localization: listFormat (readable lists), formatUnit (Intl units), displayName
   (localized language/region names), dateRange and numberRange.
@@ -73,7 +72,7 @@ Each pipe has an exported typed function/options, invalid-input tests and a
 standalone example. Text-only and non-localized collection pipes do not take a
 locale parameter. The full signatures and limitations are in
 [the 1.2 API contract](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/API-1.2.md).
-The new runtime Unicode fallback is MIT licensed; Angular peers stay >=17 <23.
+The new runtime Unicode fallback is MIT licensed; Angular peers are >=20 <23.
 See [the Sprint 2 milestone](https://github.com/yovi-labs/extra-pipe/milestone/1)
 for review status. No deployed website address is claimed before hosting is verified.
 
@@ -97,12 +96,12 @@ The existing selectors remain available. The table records their intended input 
 | Selector                        | Input and behavior                                                                     | Null/invalid result                     |
 | ------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
 | `camelToSnake`                  | String; inserts underscores before uppercase letters.                                  | Empty string                            |
-| `camelCaseToTitleSeperatedCase` | Legacy misspelled selector; splits before uppercase letters.                           | Empty string                            |
+| `camelCaseToTitleSeparatedCase` | Legacy misspelled selector; splits before uppercase letters.                           | Empty string                            |
 | `capitalize`                    | String; uppercase first character.                                                     | Empty string                            |
-| `filesize`                      | Byte count; renders megabytes with two decimals, e.g. `1048576 → 1.00MB`.              | Empty string                            |
-| `formatInstanceofDate`          | `Date`; optional numeric month and time flags.                                         | `String(value)`                         |
+| `fileSize`                      | Byte count; renders megabytes with two decimals, e.g. `1048576 → 1.00MB`.              | Empty string                            |
+| `formatDateTime`          | `Date`; optional numeric month and time flags.                                         | `String(value)`                         |
 | `hide`                          | String; masks all characters unless `hide` is false.                                   | Empty string                            |
-| `imgUrlBase64`                  | Raw base64 content plus MIME type: `{{ base64 \| imgUrlBase64: 'image/png' }}`.        | Empty string                            |
+| `base64ImageUrl`                  | Raw base64 content plus MIME type: `{{ base64 \| base64ImageUrl: 'image/png' }}`.        | Empty string                            |
 | `includes`                      | Array and any search value, including `0`, `false`, or `null`.                         | `false` for non-arrays                  |
 | `localizedDate`                 | Valid `Date`, date string, or epoch milliseconds plus optional locale.                 | Empty string                            |
 | `numberToWords`                 | Number and supported `'en'` or `'fr'` language.                                        | Unsupported languages are not supported |
@@ -114,16 +113,14 @@ The existing selectors remain available. The table records their intended input 
 | `underscoreToTitle`             | String; replaces underscores with spaces.                                              | Empty string                            |
 | `upperCaseFrom`                 | String and zero-based index; uppercases the character at that index.                   | Empty string                            |
 
-The three collection pipes (`includes`, `removeByKey`, and `removeDuplicatesByKey`) retain their legacy impure-pipe behavior for compatibility. Prefer immutable array updates, as shown in the demo application.
+All 101 pipes are pure in 2.0. Replace collection references when changing data;
+do not expect in-place mutations to refresh pure pipes.
 
-## Compatibility aliases
+## Breaking 2.0 migration
 
-These additive aliases preserve names that earlier documentation used incorrectly:
-
-- `localized` delegates to `localizedDate` and is deprecated for new templates.
-- `camelCaseToTitleSeparatedCase` is the corrected selector for `camelCaseToTitleSeperatedCase`.
-- `fileSize` is the camel-case alias for `filesize`.
-- `roundHalfUp` always rounds ties up; use `roundHalf` for configurable direction.
+Old aliases and superseded names are removed, not deprecated. Read the
+[complete migration guide](docs/MIGRATION-2.0.md) before upgrading. The published
+npm package remains 1.x until a separately approved release.
 
 ## Demo and quality checks
 
@@ -139,12 +136,11 @@ npm start
 The website has its own manifest and lockfile. Run `npm run build:website` and
 `npm run test:website` after preparation. Static output is in
 `projects/test-app/dist/extra-pipe-website/browser`. The catalog clearly marks
-unreleased 1.2 preview APIs; `npm install extra-pipe` installs the published version,
+unreleased 2.0 preview APIs; `npm install extra-pipe` installs the published version,
 not those preview APIs.
 
-The preserved Angular 17 fixture is in `projects/angular17-demo`. Use
-`npm run start:website` to run the Angular 22 demo.
-Verify the library before a release:
+The Angular 22 website is the only demo surface. Angular 20–22 consumer fixtures
+verify the packed library separately. Verify the library before a release:
 
 ```bash
 npm run lint:lib

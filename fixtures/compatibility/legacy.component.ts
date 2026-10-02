@@ -1,15 +1,15 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import {
-  Base64ImgUrlPipe,
-  CamelCaseToTitleSeperatedCasePipe,
+  Base64ImageUrlPipe,
+  CamelCaseToTitleSeparatedCasePipe,
   CamelToSnakePipe,
   CapitalizePipe,
   FileSizePipe,
-  FormatInstanceofDatePipe,
+  FormatDateTimePipe,
   HidePipe,
   IncludesPipe,
-  LocalizedPipe,
+  LocalizedDatePipe,
   NumberToWordsPipe,
   RemoveByKeyPipe,
   RemoveDuplicatesByKeyPipe,
@@ -25,14 +25,14 @@ import {
   imports: [
     JsonPipe,
     CamelToSnakePipe,
-    CamelCaseToTitleSeperatedCasePipe,
+    CamelCaseToTitleSeparatedCasePipe,
     CapitalizePipe,
     FileSizePipe,
-    FormatInstanceofDatePipe,
+    FormatDateTimePipe,
     HidePipe,
-    Base64ImgUrlPipe,
+    Base64ImageUrlPipe,
     IncludesPipe,
-    LocalizedPipe,
+    LocalizedDatePipe,
     NumberToWordsPipe,
     RemoveByKeyPipe,
     RemoveDuplicatesByKeyPipe,
@@ -44,12 +44,12 @@ import {
   ],
   template: `
     {{ 'extraPipe' | camelToSnake }}
-    {{ 'extraPipe' | camelCaseToTitleSeperatedCase }}
+    {{ 'extraPipe' | camelCaseToTitleSeparatedCase }}
     {{ 'angular' | capitalize }}
-    {{ 1024 | filesize }}
-    {{ date | formatInstanceofDate }}
+    {{ 1024 | fileSize }}
+    {{ date | formatDateTime }}
     {{ 'text' | hide: true : '*' }}
-    {{ 'SGVsbG8=' | imgUrlBase64: 'image/png' }}
+    {{ 'SGVsbG8=' | base64ImageUrl: 'image/png' }}
     {{ items | includes: items[0] }}
     {{ date | localizedDate: 'fr' }}
     {{ 42 | numberToWords: 'en' }}

@@ -18,7 +18,7 @@ for (const domain of [
   const entry = Object.entries(summary).find(([file]) =>
     file
       .replaceAll('\\', '/')
-      .endsWith('/transformations/' + domain + '-toolbox.ts')
+      .endsWith('/domains/' + domain + '/' + domain + '.functions.ts')
   );
   assert.ok(entry, 'Missing new transformation coverage ' + domain);
   assert.ok(

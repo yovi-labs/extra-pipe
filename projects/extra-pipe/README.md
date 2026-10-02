@@ -28,14 +28,14 @@ Pipes are standalone and belong in a component's `imports` array. The unpublishe
 
 - `compactNumber`, `formatDuration`, and caller-controlled `relativeTime`
 - Unicode-safe `truncate`, `initials`, and configurable `mask`
-- Compatibility aliases for `localized`, `fileSize`, `roundHalfUp`, and the corrected `camelCaseToTitleSeparatedCase`
+- Canonical 2.0 names: `localizedDate`, `fileSize`, `roundHalf`, and `camelCaseToTitleSeparatedCase`; obsolete aliases are removed.
 
 These display pipes are pure and return an empty string for invalid input. The formatting pipes use Angular's `LOCALE_ID`; text pipes are grapheme-safe without a locale parameter. The complete API reference, compatibility notes, and runnable demo instructions are in the [repository README](https://github.com/yovi-labs/extra-pipe#readme).
 
-## Planned 1.2 preview
+## Planned 2.0 preview
 
 Sprint 2 expands the review catalogue to **101 canonical standalone pipes**
-(100+), with four aliases counted separately. This is an implemented preview,
+(100+), without compatibility pipe aliases. This is an implemented preview,
 not a claim about the current npm release. It adds 12 text, 17 collection, eight
 object, 12 metric, eight number/localization and ten UTC calendar pipes on top
 of the previous 34. Each new selector has a pure adapter, typed helper, documented
@@ -46,7 +46,7 @@ and domain references for signatures, defaults and live website examples.
 Review-stage additions: listFormat, formatUnit, displayName, dateRange, numberRange,
 byteSize, truncateMiddle, slugify, groupBy, orderBy and uniqueBy. They are not yet
 available in the published npm release. Their typed functions/options are also
-exported. Existing selectors and aliases are preserved; collections are readonly
+exported. Superseded selectors/classes are removed in 2.0; collections are readonly
 inputs and pure pipes require replacement references when data changes.
 
 [Review contracts and migration notes](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/API-1.2.md)

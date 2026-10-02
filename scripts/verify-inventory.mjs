@@ -107,6 +107,8 @@ assert.equal(
 );
 const canonical = pipes.filter(p => !aliasNames.has(p.selector));
 assert.equal(canonical.length, 101, 'Canonical pipe count');
+assert.equal(aliases.length, 0, '2.0 must expose no compatibility pipe aliases');
+assert.ok(canonical.every(pipe => pipe.pure), 'All 101 canonical pipes must be pure');
 const docs = [
   'projects/test-app/src/app/data/pipe-catalog.ts',
   'projects/test-app/src/app/data/expanded-pipe-docs.ts',
@@ -180,7 +182,7 @@ writeFileSync(
   )
 );
 console.log(
-  'PASS: 101 canonical standalone pipes, 4 separate aliases, 67 new public functions, aligned documentation' +
+  'PASS: 101 canonical standalone pipes, no compatibility aliases, 67 new public functions, aligned documentation' +
     (process.argv.includes('--packed') ? ' and packed declarations' : '') +
     '.'
 );

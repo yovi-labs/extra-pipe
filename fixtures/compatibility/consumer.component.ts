@@ -6,18 +6,18 @@ import {
   CompactNumberPipe,
   DateRangePipe,
   DisplayNamePipe,
-  FileSizeAliasPipe,
+  FileSizePipe,
   FormatDurationPipe,
   FormatUnitPipe,
   GroupByPipe,
   InitialsPipe,
   ListFormatPipe,
-  LocalizedLegacyPipe,
+  LocalizedDatePipe,
   MaskPipe,
   NumberRangePipe,
   OrderByPipe,
   RelativeTimePipe,
-  RoundHalfUpPipe,
+  RoundHalfPipe,
   SlugifyPipe,
   TruncateMiddlePipe,
   TruncatePipe,
@@ -50,9 +50,9 @@ import { LegacyComponent } from './legacy.component';
     MaskPipe,
     RelativeTimePipe,
     TruncatePipe,
-    LocalizedLegacyPipe,
-    FileSizeAliasPipe,
-    RoundHalfUpPipe,
+    LocalizedDatePipe,
+    FileSizePipe,
+    RoundHalfPipe,
     CamelCaseToTitleSeparatedCasePipe,
   ],
   template: `
@@ -74,9 +74,9 @@ import { LegacyComponent } from './legacy.component';
     {{ '4242424242424242' | mask: 0 : 4 }}
     {{ start | relativeTime: end }}
     {{ '👩🏽‍💻 developer tools' | truncate: 12 }}
-    {{ start | localized }}
+    {{ start | localizedDate }}
     {{ 1024 | fileSize }}
-    {{ 2.455 | roundHalfUp }}
+    {{ 2.455 | roundHalf: 'up' }}
     {{ 'extraPipe' | camelCaseToTitleSeparatedCase }}
   `,
 })

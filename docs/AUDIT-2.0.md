@@ -60,11 +60,35 @@ Control refusing Angular's native oxc-parser binding. This happens before websit
 compilation and is not a pipe error. No security policy was bypassed. Linux CI must
 verify the changed head; previous website results are not reused as a pass.
 
+## Library cleanup implementation (#90)
+
+Moved 101 canonical static adapters into domain-owned pipe folders, grouped the
+six transformation modules with their tests and split public types by domain.
+Consolidated six snapshot/freeze implementations into test-only utilities that
+preserve nested Maps/Sets/undefined and avoid invoking getters. Number-to-words
+language tables are shared typed module constants rather than reallocated for
+each pipe instance; its legacy vocabulary and public conversion method remain.
+There are no explicit `any` types in first-party TypeScript, and the lint rule is
+no longer disabled. Corrected public names and removed aliases are enumerated in
+MIGRATION-2.0.md. URL redirects are separate from package exports.
+
+All 101 pipes are pure. The three previous impure adapters now require immutable
+updates, verified with an Angular component fixture. Legacy key selection uses
+own data fields only (no getters/inherited properties); exclusion now uses a Set,
+retaining SameValueZero behavior with linear membership work. The existing
+last-value/first-key-order deduplication semantics are preserved, not replaced by
+uniqueBy's different retention ordering. These behavior changes are explicit in
+the migration guide; other legacy invalid/locale/date behavior is unchanged.
+
+Local verification: 330/330 Chrome-headless tests; 97.86% lines, 91.32% branches,
+100% functions. Full lint, partial production build, all six module coverage gates
+and source/packed 101-pipe inventory passed. Archive dry-run: 7 files, 69,672 bytes;
+no tests, website or private files. This is not a published 2.0 artifact.
+
 ## Remaining gates
 
-Canonical API changes, domain organization, typed registries, security adversarial
-tests, contributor docs and final consumer/browser/performance evidence belong to
-separate tasks #90–94. Angular 20 LTS ends 2026-11-28; future support changes are
+Typed registries, security adversarial tests, contributor docs and final
+consumer/browser/performance evidence belong to separate tasks #91–94. Angular 20 LTS ends 2026-11-28; future support changes are
 deliberate, not automatically inherited from upstream. No API beyond Angular 20 is
 permitted in library code. See https://angular.dev/reference/releases and
 https://angular.dev/reference/versions.

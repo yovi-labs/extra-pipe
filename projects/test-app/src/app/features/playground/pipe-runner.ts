@@ -17,14 +17,14 @@ import {
   InitialsPipe,
   MaskPipe,
   CamelToSnakePipe,
-  CamelCaseToTitleSeperatedCasePipe,
+  CamelCaseToTitleSeparatedCasePipe,
   CapitalizePipe,
   FileSizePipe,
-  FormatInstanceofDatePipe,
+  FormatDateTimePipe,
   HidePipe,
-  Base64ImgUrlPipe,
+  Base64ImageUrlPipe,
   IncludesPipe,
-  LocalizedPipe,
+  LocalizedDatePipe,
   NumberToWordsPipe,
   RemoveByKeyPipe,
   RemoveDuplicatesByKeyPipe,
@@ -98,12 +98,12 @@ export const SAMPLES: Readonly<Record<string, PlaygroundSample>> = {
   initials: { input: 'Ana María', parameters: [2, '—'] },
   mask: { input: '4242424242424242', parameters: [0, 4, '•'] },
   camelToSnake: { input: 'extraPipe', parameters: [] },
-  camelCaseToTitleSeperatedCase: { input: 'extraPipe', parameters: [] },
+  camelCaseToTitleSeparatedCase: { input: 'extraPipe', parameters: [] },
   capitalize: { input: 'angular', parameters: [] },
-  filesize: { input: 1048576, parameters: ['MB'] },
-  formatInstanceofDate: { input: '2026-01-01T12:00:00Z', parameters: [true, false] },
+  fileSize: { input: 1048576, parameters: ['MB'] },
+  formatDateTime: { input: '2026-01-01T12:00:00Z', parameters: [true, false] },
   hide: { input: 'secret', parameters: [true, '*'] },
-  imgUrlBase64: { input: 'SGVsbG8=', parameters: ['image/png'] },
+  base64ImageUrl: { input: 'SGVsbG8=', parameters: ['image/png'] },
   includes: { input: [0, false], parameters: [false] },
   localizedDate: { input: '2026-01-01T12:00:00Z', parameters: [] },
   numberToWords: { input: 42, parameters: ['en'] },
@@ -179,26 +179,26 @@ export function runPipe(
       return new MaskPipe().transform(text, p[0] as number, p[1] as number, p[2] as string);
     case 'camelToSnake':
       return new CamelToSnakePipe().transform(text);
-    case 'camelCaseToTitleSeperatedCase':
-      return new CamelCaseToTitleSeperatedCasePipe().transform(text);
+    case 'camelCaseToTitleSeparatedCase':
+      return new CamelCaseToTitleSeparatedCasePipe().transform(text);
     case 'capitalize':
       return new CapitalizePipe().transform(text);
-    case 'filesize':
+    case 'fileSize':
       return new FileSizePipe().transform(number, p[0] as string);
-    case 'formatInstanceofDate':
-      return new FormatInstanceofDatePipe().transform(
+    case 'formatDateTime':
+      return new FormatDateTimePipe().transform(
         typeof value === 'string' ? new Date(value) : (value as Date),
         p[0] as boolean,
         p[1] as boolean,
       );
     case 'hide':
       return new HidePipe().transform(text, p[0] as boolean, p[1] as string);
-    case 'imgUrlBase64':
-      return new Base64ImgUrlPipe().transform(text, p[0] as string);
+    case 'base64ImageUrl':
+      return new Base64ImageUrlPipe().transform(text, p[0] as string);
     case 'includes':
       return new IncludesPipe().transform(value as unknown[], p[0]);
     case 'localizedDate':
-      return new LocalizedPipe().transform(text, locale);
+      return new LocalizedDatePipe().transform(text, locale);
     case 'numberToWords':
       if (
         typeof value !== 'number' ||

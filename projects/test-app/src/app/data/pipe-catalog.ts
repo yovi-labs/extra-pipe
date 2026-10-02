@@ -126,11 +126,11 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     status: 'stable',
   },
   {
-    selector: 'camelCaseToTitleSeperatedCase',
-    className: 'CamelCaseToTitleSeperatedCasePipe',
+    selector: 'camelCaseToTitleSeparatedCase',
+    className: 'CamelCaseToTitleSeparatedCasePipe',
     category: 'Text',
     description: 'Legacy camel-case title splitting.',
-    example: "{{ 'extraPipe' | camelCaseToTitleSeperatedCase }}",
+    example: "{{ 'extraPipe' | camelCaseToTitleSeparatedCase }}",
     output: 'extra Pipe',
     contract: 'String; legacy spelling retained. Prefer the corrected compatibility selector.',
     invalid: 'Empty string',
@@ -152,11 +152,11 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     status: 'stable',
   },
   {
-    selector: 'filesize',
+    selector: 'fileSize',
     className: 'FileSizePipe',
     category: 'Numbers',
     description: 'The original fixed-megabyte formatter.',
-    example: '{{ 1048576 | filesize }}',
+    example: '{{ 1048576 | fileSize }}',
     output: '1.00MB',
     contract:
       'Finite number divided by 1024²; extension defaults to MB; always two decimals. Negative values remain supported.',
@@ -166,11 +166,11 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     status: 'stable',
   },
   {
-    selector: 'formatInstanceofDate',
-    className: 'FormatInstanceofDatePipe',
+    selector: 'formatDateTime',
+    className: 'FormatDateTimePipe',
     category: 'Dates',
     description: 'The original English Date formatter.',
-    example: '{{ date | formatInstanceofDate: true: false }}',
+    example: '{{ date | formatDateTime: true: false }}',
     output: 'English date; depends on local timezone',
     contract:
       'Date only; optional numeric month and time flags. Strings are not parsed; invalid Date can throw.',
@@ -194,11 +194,11 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     status: 'stable',
   },
   {
-    selector: 'imgUrlBase64',
-    className: 'Base64ImgUrlPipe',
+    selector: 'base64ImageUrl',
+    className: 'Base64ImageUrlPipe',
     category: 'Utilities',
     description: 'Build a data URL from raw base64.',
-    example: "{{ 'SGVsbG8=' | imgUrlBase64: 'image/png' }}",
+    example: "{{ 'SGVsbG8=' | base64ImageUrl: 'image/png' }}",
     output: 'data:image/png;base64,SGVsbG8=',
     contract:
       'String base64 and nonempty MIME string. Does not validate image bytes or sanitize content; only use trusted image data.',
@@ -217,12 +217,12 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     contract: 'Array and search value. Uses Array.includes SameValueZero semantics.',
     invalid: 'False for non-arrays',
     locale: 'No locale argument.',
-    pure: false,
+    pure: true,
     status: 'stable',
   },
   {
     selector: 'localizedDate',
-    className: 'LocalizedPipe',
+    className: 'LocalizedDatePipe',
     category: 'Dates',
     description: 'Format dates using an explicit locale.',
     example: "{{ '2026-01-01T12:00:00Z' | localizedDate: 'fr' }}",
@@ -256,10 +256,10 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     example: "{{ items | removeByKey: 'id': [1, 2] }}",
     output: '[{"id":3,"name":"Item 3"}]',
     contract:
-      'Object array, direct key and exclusion array. Fresh filtered array; assumes valid filter and members.',
+      'Object array, own data key and exclusion array. Fresh filtered array; inherited fields and getters are ignored. Replace array references to refresh.',
     invalid: 'Non-array/nullish input returned unchanged',
     locale: 'No locale argument.',
-    pure: false,
+    pure: true,
     status: 'stable',
   },
   {
@@ -270,10 +270,10 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     example: "{{ itemsWithDuplication | removeDuplicatesByKey: 'name' }}",
     output: '[{"id":1,"name":"Item 1"},{"id":3,"name":"Item 3"}]',
     contract:
-      'Object array and direct key. Last duplicate wins, but output key order reflects first encounter. This differs from uniqueBy last retention order.',
+      'Object array and own data key. Last duplicate wins in first-key insertion order; getters and inherited fields are ignored. This differs from uniqueBy last retention order.',
     invalid: 'Non-array/nullish input returned unchanged',
     locale: 'No locale argument.',
-    pure: false,
+    pure: true,
     status: 'stable',
   },
   {
@@ -466,7 +466,7 @@ export const PIPE_DOCS: readonly PipeDoc[] = [
     example: "{{ 1048576 | byteSize: {base: 1024}: 'fr' }}",
     output: 'Available in the 1.2 preview playground.',
     contract:
-      'Nonnegative finite byte count. Decimal SI (`base:1000`) default, binary IEC (`base:1024`) optional. `maximumFractionDigits` defaults to 2, accepts integer 0–20. Promotes rounded boundaries and caps at YB/YiB. Localizes the number, retains standard unit symbols. Legacy filesize/fileSize are unchanged.',
+      'Nonnegative finite byte count. Decimal SI (`base:1000`) default, binary IEC (`base:1024`) optional. `maximumFractionDigits` defaults to 2, accepts integer 0–20. Promotes rounded boundaries and caps at YB/YiB. Localizes the number, retains standard unit symbols. Legacy fileSize/fileSize are unchanged.',
     invalid: 'Empty string',
     locale: 'Injected LOCALE_ID; optional override.',
     pure: true,
@@ -537,7 +537,7 @@ export function standaloneCode(pipe: PipeDoc): string {
     unzip: '  readonly pairs = [[1,"A"],[2,"B"]] as const;',
     relativeTime:
       "  readonly publishedAt = new Date('2024-01-01T12:03:00Z');\n  readonly referenceTime = new Date('2024-01-01T12:00:00Z');",
-    formatInstanceofDate: "  readonly date = new Date('2026-01-01T12:00:00Z');",
+    formatDateTime: "  readonly date = new Date('2026-01-01T12:00:00Z');",
     dateRange:
       "  readonly start = new Date('2026-01-01T12:00:00Z');\n  readonly end = new Date('2026-01-02T12:00:00Z');",
     removeByKey: "  items = [{id:1,name:'Item 1'},{id:2,name:'Item 2'},{id:3,name:'Item 3'}];",

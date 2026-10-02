@@ -41,6 +41,6 @@ preserved. Versions remain unchanged until the approved release branch is create
 ### Changed
 
 - Corrected standalone-component documentation and expanded the runnable demo application.
-- Fixed date-only formatting so `formatInstanceofDate` only includes time when requested.
+- Fixed date-only formatting so `formatDateTime` only includes time when requested.
 - Made `includes` correctly match falsy values such as `0`.
 - Added defensive empty-string handling to selected existing text, file-size, and base64 pipes.
