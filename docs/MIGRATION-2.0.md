@@ -1,8 +1,9 @@
 # Migrating to Extra Pipe 2.0
 
-This is an unpublished, breaking Sprint 2 preview. npm still installs the
-published 1.x package. Do not publish a preview archive with the unchanged 1.1.0
-manifest version; manifests are versioned on the reviewed `release/2.0.0` branch.
+This is an unpublished, breaking 2.0.0 release candidate. npm still installs the
+published 1.x package until separate publication. Manifests are now versioned
+2.0.0 on `release/2.0.0`; review the release PR and current-head verification
+before merging into `main`. Never publish the former preview under 1.1.0.
 
 ## Angular requirements
 

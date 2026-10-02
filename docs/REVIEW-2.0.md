@@ -1,5 +1,10 @@
 # Extra Pipe 2.0 review and release gates
 
+> Historical feature-review checkpoint. PR #100 and its prerequisite work were
+> merged into `develop` on 2026-10-02; duplicate PRs #51–64 were closed as
+> superseded with the owner's approval. Current release manifests are 2.0.0.
+> See [RELEASE-2.0.md](RELEASE-2.0.md) for the release-stage evidence and gates.
+
 Sprint 2 targets **2.0.0**, not an additive 1.2 release. Angular peers are `>=20.0.0 <23.0.0`; the library compiler remains Angular 20.3 and the website is isolated Angular 22. MIT licensing is unchanged. No production deployment, merge, tag or publication is authorized by this implementation task.
 
 ## Review sequence

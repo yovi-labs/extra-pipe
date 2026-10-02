@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased — planned 2.0.0
+## 2.0.0 — release candidate
 
 - Expand Sprint 2 to 101 distinct canonical standalone pipes: 67 new text,
   collection, object, dashboard, numeric/localization and UTC calendar APIs,
@@ -35,10 +35,11 @@
 - Modernize library/lint tooling, remove unused vulnerable development dependencies,
   audit both lockfiles, add architecture gates and website coverage reports.
 
-This is review-stage work, not a published release. See MIGRATION-2.0.md.
-Versions remain unchanged until the approved release branch is created.
+Prepared on `release/2.0.0` for review into `main`; not yet published to npm.
+See [the migration guide](docs/MIGRATION-2.0.md) and
+[release verification](docs/RELEASE-2.0.md). Publication is separately authorized.
 
-## 1.1.0
+## 1.1.0 - 2026-09-30
 
 ### Added
 
