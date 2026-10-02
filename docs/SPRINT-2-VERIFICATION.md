@@ -4,7 +4,7 @@ Status: implementation verified locally; review, current-head CI and deployment
 remain release gates. Package versions intentionally remain unchanged until
 release readiness. Do not publish this feature branch as 1.1.0.
 
-## 101-pipe expansion (2026-10-01)
+## 101-pipe expansion (2026-10-01; final checks 2026-10-02)
 
 - Inventory check: exactly 101 canonical standalone pipes, plus four compatibility
   aliases counted separately. All 67 additions export typed functions and pure
@@ -18,22 +18,28 @@ release readiness. Do not publish this feature branch as 1.1.0.
   static response/security checks passed 5/5. All 101 adapters have example
   coverage. Examples show standalone/template code before outputs and include
   explicit per-pipe bounds, ordering, locale and invalid-input caveats.
-- Final archive: 248 files, 199,678 bytes compressed; MIT license, changelog and
+- Final archive: 248 files, 199,737 bytes compressed; MIT license, changelog and
   README included, no website/tests/private configuration. Angular peers remain
   `>=17 <23`; no new runtime dependency was introduced by this expansion.
-  SHA-256: DD0ADB8593A1D1457F86B2C4F74CB1CCD43114E2A09CDB254480B52E52447AF1.
+  SHA-256: 36132B66CD4B324D9E1967AEFFB5F179014A35AA493CAF6B3B5B31C9AF8467B1.
 - Clean packed consumers passed for Angular CLI 17.3.17 / 18.2.21 (Node 20.20.2),
   19.2.27 (Node 20.20.2), 20.3.37 / 21.2.24 (Node 22.17.0), and 22.2.1
-  (Node 24.21.0). Fixtures compile all 101 canonical pipes and four aliases.
+  (Node 24.21.0) on 2026-10-01. Angular 17–21 passed again against the final
+  archive on 2026-10-02. The fresh local Angular 22 consumer was blocked by
+  Windows Application Control loading Angular's native oxc-parser binding,
+  before template compilation. Security policy was not weakened or bypassed;
+  the GitHub Linux job verifies the final Angular 22 consumer and tree shaking.
+  Fixtures compile all 101 canonical pipes and four aliases.
   The final Map-display comparator returns zero, rather than passing null to
   KeyValuePipe (null is unsupported in Angular 17/18); the current-head CI matrix
   rechecks all six generations with that cross-version example.
-- Angular 22 single-CompactNumberPipe build: 93,970 JS bytes versus 160,534 for
+- Prior successful local Angular 22 single-CompactNumberPipe build:
+  93,970 JS bytes versus 160,534 for
   the full-catalogue fixture; unused text, metrics and date selector markers
   are absent. This verifies tree shaking in that consumer, not a universal size.
 - Three production mobile Lighthouse runs: performance 99/99/99, accessibility
   100/100/100, best practices 100/100/100; LCP about 1.66s, TBT 1.5–2.5ms.
-  Initial assets: 280.08kB raw / 76.94kB estimated transfer. Existing 350kB hard
+  Initial assets: 280.08kB raw / approximately 76.9kB estimated transfer. Existing 350kB hard
   cap and 250kB warning remain unchanged; the warning is disclosed.
 - Browser smoke checks: catalogue search, copied standalone code, English/French/
   Arabic output, null inputs, recipes, immutable add-item interaction and route
@@ -50,9 +56,16 @@ release readiness. Do not publish this feature branch as 1.1.0.
 
 Review the existing foundation PRs #50–70, then #80 (contracts/inventory),
 #81–86 (independent domain batches), #87 (integrated catalogue), and the
-#79-ticket verification PR. Dependencies are disclosed in each PR. Tickets stay
+#88 verification PR (ticket #79). Dependencies are disclosed in each PR. Tickets stay
 open until human review and merge. No protected branch was pushed, no npm
 publication, tag, release or release-version change was performed.
+
+The final object safety assertion also verifies that renameKeys ignores
+non-enumerable mappings, matching its enumerable-data validation contract.
+The first integrated CI run passed all nine jobs at commit cfc02d1:
+https://github.com/yovi-labs/extra-pipe/actions/runs/36905146657.
+Check PR #88 for the latest-head run after the final regression fix and evidence
+update; an earlier green head is not an automatic merge approval.
 
 The verified static artifact is available locally at http://127.0.0.1:4203/.
 Vercel account access still returns no accessible teams; owner-confirmed
