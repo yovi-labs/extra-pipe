@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <title>Extra Pipe — pipe operator plus</title>
+  <title>Extra Pipe — connected pipeline monogram</title>
   <defs>
     <linearGradient id="brand" x1="4" y1="8" x2="60" y2="56" gradientUnits="userSpaceOnUse">
       <stop stop-color="#BB005D" />
@@ -8,6 +8,18 @@
     </linearGradient>
   </defs>
   <rect width="64" height="64" rx="16" fill="url(#brand)" />
-  <path d="M18 19v26m11-23 10 10-10 10" stroke="#FFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M47 12v10m-5-5h10" stroke="#FFF" stroke-width="3" stroke-linecap="round" />
+  <path
+    d="M18 48V24a8 8 0 0 1 8-8h12a10 10 0 0 1 0 20H18"
+    stroke="#FFF"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M18 48h20"
+    stroke="#FFF"
+    stroke-width="6"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>

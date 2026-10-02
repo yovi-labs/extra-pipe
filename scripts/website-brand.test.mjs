@@ -87,6 +87,9 @@ test('the shared original vector mark stays small and contains no active or exte
   assert.ok(Buffer.byteLength(logo) < 2000);
   assert.match(logo, /viewBox="0 0 64 64"/);
   assert.match(logo, /<title>Extra Pipe/);
+  assert.match(logo, /connected pipeline monogram/);
+  assert.equal([...logo.matchAll(/<path\b/g)].length, 2);
+  assert.equal([...logo.matchAll(/stroke-width="6"/g)].length, 2);
   assert.doesNotMatch(
     logo,
     /<(?:script|image|foreignObject)\b|\bon\w+=|\bhref=/i

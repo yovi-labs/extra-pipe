@@ -1,10 +1,10 @@
 # Extra Pipe website identity
 
-The website uses an Angular-inspired magenta-to-violet palette and an original `|>` + plus mark. The pipe operator suggests a small transformation; the plus represents the additional toolbox. It is not Angular's logo and does not imply Angular endorsement. Direction reference: [Angular press kit](https://angular.dev/press-kit).
+The website uses an Angular-inspired magenta-to-violet palette and an original connected-pipeline monogram. A rounded upper pipe forms a **P**, while the three horizontal levels suggest an **E**: Extra Pipe in one connected silhouette. A broad lower outlet carries the flow onward. Two connected paths replace the earlier terminal-style operator and small plus detail. The silhouette works without the gradient. It is not Angular's logo and does not imply Angular endorsement. Direction reference: [Angular press kit](https://angular.dev/press-kit).
 
 ## Shared assets and tokens
 
-`projects/test-app/public/extra-pipe-mark.svg` is the navigation mark and favicon. Its 64 × 64 viewBox remains readable at small sizes; navigation reserves a 40 × 40 box to prevent layout shifts. The SVG has no fonts, external assets, scripts or animation. The home link supplies the accessible name, so the embedded image has empty alt text.
+`projects/test-app/public/extra-pipe-mark.svg` is the navigation mark and favicon. Its 64 × 64 viewBox uses consistent six-unit strokes and rounded pipe bends, remaining readable at 16 px; navigation reserves a 40 × 40 box to prevent layout shifts. The SVG has no fonts, external assets, scripts or animation. The home link supplies the accessible name, so the embedded image has empty alt text.
 
 `projects/test-app/src/styles.css` owns the palette. The gradient stops are `#bb005d`, `#8b20ca`, and `#5b21b6`. Use the gradient sparingly: the main action, large headline and logo. Body copy, secondary actions, focus rings, tags and notices use solid colors. Keep backgrounds light and neutral. Do not use the pale border token as the sole boundary for form controls.
 
