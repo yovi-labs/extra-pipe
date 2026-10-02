@@ -2,11 +2,11 @@
 
 A focused collection of standalone Angular 20–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
 
-## Sprint 2 — 2.0.0 preview: 100+ standalone Angular pipes
+## Extra Pipe 2.0.0: 100+ standalone Angular pipes
 
-This review-stage catalogue implements **101 canonical pipes** with no package compatibility aliases. The 67 additional APIs are not yet published on
+This release candidate implements **101 canonical pipes** with no package compatibility aliases. The 67 additional APIs are not yet published on
 npm. Existing installation instructions describe the published package, not a
-promise that preview APIs are available. The approved target is 2.0.0; manifest versioning happens on the reviewed release branch. MIT licensing is unchanged.
+promise that unpublished APIs are available. Manifests are versioned 2.0.0 on `release/2.0.0`; npm publication is a separate step after release review. MIT licensing is unchanged.
 
 | Addition group                | Count | Contracts and examples                           |
 | ----------------------------- | ----: | ------------------------------------------------ |
@@ -32,7 +32,7 @@ the count.
 npm install extra-pipe
 ```
 
-The planned 2.0.0 release supports Angular 20 through 22 (`>=20.0.0 <23.0.0`). The library uses Angular 20 partial compilation; the runnable documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library. Angular 17–19 are no longer supported by this review branch. npm installation still retrieves the published 1.x package, not this unpublished 2.0 preview.
+The 2.0.0 release candidate supports Angular 20 through 22 (`>=20.0.0 <23.0.0`). The library uses Angular 20 partial compilation; the runnable documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library. Angular 17–19 are no longer supported. Until npm publication, installation still retrieves the published 1.x package, not this 2.0.0 candidate.
 
 ## Use a pipe in a standalone component
 
@@ -157,8 +157,8 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) for domain architecture, typed playgroun
 adapters, adding a pipe, testing actual copyable snippets and the ticket/PR workflow.
 All 101 pipes are pure, standalone, typed and documented. See the
 [security boundaries](docs/SECURITY-2.0.md), [performance evidence](docs/PERFORMANCE-2.0.md)
-and [review checklist](docs/REVIEW-2.0.md). Do not publish preview archives with the
-unchanged 1.1.0 manifests; release versioning happens on the reviewed 2.0.0 branch.
+and [review checklist](docs/REVIEW-2.0.md). The [2.0.0 release checklist](docs/RELEASE-2.0.md)
+records versioning and verification. Publication and deployment remain separate steps.
 
 ## License
 
