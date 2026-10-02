@@ -1,0 +1,14 @@
+{
+  "name": "extra-pipe-quality-tools",
+  "private": true,
+  "engines": {
+    "node": ">=24.15 <25"
+  },
+  "devDependencies": {
+    "@puppeteer/browsers": "3.2.3",
+    "lighthouse": "13.5.0"
+  },
+  "dependencies": {
+    "extra-pipe": "file:../.."
+  }
+}

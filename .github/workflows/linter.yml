@@ -4,10 +4,15 @@ on:
   push:
     branches: ['develop', 'main', 'release/**']
   pull_request:
-    branches: ['develop', 'main']
+    branches: ['develop', 'main', 'release/**']
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  angular-17:
-    name: Angular 17 library and demo
+  library:
+    name: Angular 20 library
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,26 +23,43 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Lint library
-        run: npm run lint:lib
+      - name: Lint library, website and scripts
+        run: npm run lint
+
+      - name: Audit library development dependencies
+        run: npm audit --audit-level=high
 
       - name: Test library
         run: npm run test:ci
+      - name: Check new transformation coverage
+        run: npm run check:coverage
 
       - name: Build library
         run: npm run build:lib
 
-      - name: Build Angular 17 demo
-        run: npx ng build test-app --configuration production
+      - name: Record informational function benchmarks
+        run: node scripts/benchmark-pipes.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: function-benchmarks
+          path: .artifacts/benchmarks
 
       - name: Verify package contents
-        run: npm pack --dry-run
-        working-directory: dist/extra-pipe
+        run: npm run check:package
+      - name: Verify 101 canonical pipes and packed declarations
+        run: npm run check:inventory
+      - name: Verify architecture boundaries and generate actual website snippets
+        run: npm run check:architecture && npm run check:examples
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website-examples
+          path: .artifacts/examples
+          if-no-files-found: error
 
       - name: Prepare package destination
         run: mkdir -p dist/extra-pipe-package
@@ -53,85 +75,95 @@ jobs:
           path: dist/extra-pipe-package/extra-pipe-*.tgz
           if-no-files-found: error
 
-  angular-22-consumer:
-    name: Angular 22 package consumer
-    needs: angular-17
+  website:
+    name: Angular 22 static website
+    needs: library
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
-
-      - name: Download packed library
-        uses: actions/download-artifact@v4
+          cache: npm
+          cache-dependency-path: projects/test-app/package-lock.json
+      - uses: actions/download-artifact@v4
         with:
           name: extra-pipe-package
           path: package
+      - run: npm ci --ignore-scripts
+        working-directory: projects/test-app
+      - run: npm audit --audit-level=high
+        working-directory: projects/test-app
+      - run: npm install --no-save --package-lock=false --ignore-scripts ../../package/extra-pipe-*.tgz
+        working-directory: projects/test-app
+      - run: npm run test:ci
+        working-directory: projects/test-app
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: website-coverage
+          path: projects/test-app/coverage
+      - run: npm run build
+        working-directory: projects/test-app
+      - name: Verify static response security and redirects
+        run: node --test scripts/website-security.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website-static
+          path: projects/test-app/dist/extra-pipe-website/browser
+          if-no-files-found: error
 
-      - name: Create Angular 22 consumer
-        run: >
-          npx --yes @angular/cli@22 new consumer
-          --directory consumer
-          --minimal
-          --defaults
-          --skip-git
-          --skip-tests
-          --package-manager npm
-          --style css
+  consumers:
+    name: Angular ${{ matrix.angular }} packed consumer
+    needs: library
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { angular: '20.0', node: 24 }
+          - { angular: 20, node: 24 }
+          - { angular: 21, node: 24 }
+          - { angular: 22, node: 24 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: extra-pipe-package
+          path: package
+      - uses: actions/download-artifact@v4
+        with:
+          name: website-examples
+          path: .artifacts/examples
+      - name: Build clean standalone consumer
+        # Consumers compile the exact copyable snippets emitted by the website catalog.
+        run: npm run check:compat -- ${{ matrix.angular }} package
 
-      - name: Install packed library
-        run: npm install ../package/extra-pipe-*.tgz
-        working-directory: consumer
-
-      - name: Compile standalone pipe consumer
-        working-directory: consumer
-        run: |
-          cat > src/app/app.ts <<'EOF'
-          import { Component } from '@angular/core';
-          import {
-            CamelCaseToTitleSeparatedCasePipe,
-            CompactNumberPipe,
-            FileSizeAliasPipe,
-            FormatDurationPipe,
-            InitialsPipe,
-            LocalizedLegacyPipe,
-            MaskPipe,
-            RelativeTimePipe,
-            RoundHalfUpPipe,
-            TruncatePipe,
-          } from 'extra-pipe';
-
-          @Component({
-            imports: [
-              CamelCaseToTitleSeparatedCasePipe,
-              CompactNumberPipe,
-              FileSizeAliasPipe,
-              FormatDurationPipe,
-              InitialsPipe,
-              LocalizedLegacyPipe,
-              MaskPipe,
-              RelativeTimePipe,
-              RoundHalfUpPipe,
-              TruncatePipe,
-            ],
-            selector: 'app-root',
-            template: `
-              {{ 'extraPipe' | camelCaseToTitleSeparatedCase }}
-              {{ 12500 | compactNumber }}
-              {{ 1048576 | fileSize }}
-              {{ 90 | formatDuration: 'seconds' }}
-              {{ 'Ána María' | initials }}
-              {{ publishedAt | localized }}
-              {{ '4242424242424242' | mask: 0 : 4 }}
-              {{ publishedAt | relativeTime: referenceTime }}
-              {{ 2.455 | roundHalfUp }}
-              {{ '👩🏽‍💻 developer tools' | truncate: 12 }}
-            `,
-          })
-          export class App {
-            protected readonly publishedAt = new Date('2024-01-01T12:03:00.000Z');
-            protected readonly referenceTime = new Date('2024-01-01T12:00:00.000Z');
-          }
-          EOF
-          npx ng build --configuration production
+  performance:
+    name: Three-run mobile Lighthouse
+    needs: website
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          name: website-static
+          path: projects/test-app/dist/extra-pipe-website/browser
+      - run: npm ci --prefix tools/quality --ignore-scripts
+      - name: Serve verified static artifact
+        run: node scripts/serve-static.mjs &
+      - name: Check median mobile performance
+        run: npm run check:performance
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-mobile
+          path: .artifacts/lighthouse

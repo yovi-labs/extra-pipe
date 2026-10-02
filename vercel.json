@@ -1,0 +1,76 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci --ignore-scripts",
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "projects/test-app/dist/extra-pipe-website/browser",
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/pipes/localized",
+      "destination": "/pipes/localizedDate",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/filesize",
+      "destination": "/pipes/fileSize",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/roundHalfUp",
+      "destination": "/pipes/roundHalf",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/camelCaseToTitleSeperatedCase",
+      "destination": "/pipes/camelCaseToTitleSeparatedCase",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/formatInstanceofDate",
+      "destination": "/pipes/formatDateTime",
+      "permanent": true
+    },
+    {
+      "source": "/pipes/imgUrlBase64",
+      "destination": "/pipes/base64ImageUrl",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'none'; trusted-types angular angular#bundler; require-trusted-types-for 'script'"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
+      ]
+    },
+    {
+      "source": "/(.*\\.(?:js|css))",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
