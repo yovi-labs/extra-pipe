@@ -2,10 +2,10 @@
 @import './styles-playground.css';
 
 :root {
-  color-scheme: light;
-  --ink: #241a30;
-  --muted: #575163;
-  --accent: #7421b0;
+  color-scheme: dark;
+  --ink: #f4f4f5;
+  --muted: #b3b3bb;
+  --accent: #df9cff;
   --brand-pink: #bb005d;
   --brand-magenta: #8b20ca;
   --brand-violet: #5b21b6;
@@ -15,21 +15,29 @@
     var(--brand-magenta),
     var(--brand-violet)
   );
-  --accent-soft: #f4ecfc;
-  --control-border: #82768f;
-  --code-surface: #251c33;
-  --code-ink: #f6f2fc;
-  --surface: #ffffff;
-  --canvas: #faf8ff;
-  --line: #ded7e8;
+  --heading-pink: #ff73b5;
+  --heading-magenta: #db9fff;
+  --heading-violet: #a9adff;
+  --heading-gradient: linear-gradient(
+    110deg,
+    var(--heading-pink),
+    var(--heading-magenta),
+    var(--heading-violet)
+  );
+  --accent-soft: #29232f;
+  --control-border: #7b7b87;
+  --code-surface: #111114;
+  --code-ink: #fafafa;
+  --surface: #242424;
+  --canvas: #191919;
+  --line: #353539;
 }
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  background:
-    radial-gradient(ellipse 650px 460px at 95% 0%, #eee3fb 0%, transparent 75%), var(--canvas);
+  background: var(--canvas);
   color: var(--ink);
   font-family:
     Inter,
@@ -58,7 +66,7 @@ a:hover {
   top: 8px;
   left: 8px;
   padding: 12px;
-  background: white;
+  background: var(--surface);
   z-index: 10;
   transform: translateY(-160%);
 }
@@ -68,7 +76,7 @@ a:hover {
 .site-header {
   max-width: 1200px;
   margin: auto;
-  padding: 24px 32px;
+  padding: 8px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -89,18 +97,14 @@ a:hover {
 .container {
   max-width: 1120px;
   margin: auto;
-  padding: 48px 32px;
-}
-.hero > *,
-.install-panel > * {
-  min-width: 0;
+  padding: 32px 32px;
 }
 .hero-highlight {
   color: var(--accent);
 }
 @supports (background-clip: text) {
   .hero-highlight {
-    background: var(--brand-gradient);
+    background: var(--heading-gradient);
     background-clip: text;
     color: transparent;
   }
@@ -171,16 +175,39 @@ a.button {
     flex-wrap: wrap;
     gap: 12px;
   }
-  .hero,
-  .install-panel {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .hero h1 {
-    font-size: clamp(34px, 7vw, 42px);
-    overflow-wrap: anywhere;
-  }
   .code-heading {
     flex-wrap: wrap;
+  }
+}
+@media (min-width: 1600px) {
+  app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  .site-header,
+  .site-footer {
+    width: 100%;
+    max-width: 1600px;
+    margin-block: 0;
+    padding-inline: 40px;
+  }
+  .site-header {
+    padding-block: 16px;
+  }
+  main.container {
+    flex: 1;
+    width: 100%;
+    margin-block: 0;
+  }
+  main.container:has(app-home) {
+    display: flex;
+    flex-direction: column;
+    max-width: 1440px;
+    padding-inline: 40px;
+  }
+  .site-footer {
+    padding-block: 24px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
