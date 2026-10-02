@@ -1,8 +1,11 @@
 # Free Vercel deployment runbook
 
-Status: configuration and local production verification are ready. No deployment
-URL is claimed. The connector returns no accessible teams, there is no CLI login,
-and the owner must identify the destination and confirm Hobby eligibility.
+Status: the 2.0.0 static build configuration is locally verified. No deployment
+URL is claimed. On 2026-10-02 a new empty `extra-pipe` project was created in the
+owner's signed-in Hobby account and its build settings saved. The connector still
+returns no accessible teams. Git connection, origin, eligibility and deployment
+remain separate gates. See the
+[current deployment candidate](DEPLOYMENT-2.0-CANDIDATE.md) for evidence and gates.
 
 ## Scope and costs
 
@@ -29,11 +32,11 @@ Git authorship or remove repository identity to bypass plan restrictions.
   Alternatively use the Vercel production URL exposed by project configuration.
 - Keep Vercel tokens/project IDs outside Git; never paste a token into an issue.
 
-The orchestrator uses pinned Node 20.20.2 solely for the Angular 17 library
-compiler, then returns to Node 24 for website installation, tests and static
-rendering. It verifies the packed surface and response policy and never deploys.
-Node 20/Angular 17 are legacy build-only compatibility tooling, not the public
-runtime. Their advisory risks remain documented.
+The orchestrator uses Node 24.15+ throughout: Angular 20.3 partial compilation for
+the library, then the isolated Angular 22 website toolchain. It verifies the
+packed 2.0.0 package, installs that archive into the website without modifying its
+lockfile, runs website tests, renders static pages and checks the response policy.
+`npm run build:vercel` prepares output only; it never uploads or deploys.
 
 ## Preview, verification and production
 
@@ -60,9 +63,11 @@ Record the deployment URL and commit; scan deployment errors after delivery.
 
 Record the previous healthy deployment before changing a production alias.
 Rollback to that verified deployment if the smoke tests fail. Do not publish
-npm or create a release tag as part of website deployment. The 1.1 publishing
-gate and 1.2 release workflow are separate from hosting.
+npm or create a release tag as part of website deployment. The 2.0.0 package
+publication workflow remains separate from hosting. The documented APIs must
+match the package available to visitors before the website is presented as the
+published release; currently npm serves 1.0.5, not this 2.0.0 candidate.
 
-Ticket #48 remains open until the account is connected, the destination is
+Ticket #48 remains open until repository connection and free-plan eligibility are
 confirmed, a free preview is deployed and the deployed checks are recorded.
 

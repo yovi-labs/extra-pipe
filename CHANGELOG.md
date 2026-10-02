@@ -19,7 +19,10 @@
 - Angular 22 static documentation website: searchable catalog, copyable standalone
   examples, typed live playground and composable recipes. Angular 20 remains the
   isolated library compiler and compatibility fixture.
-- Readable orange identity, responsive reflow, keyboard focus, per-route metadata,
+- Accessible magenta/violet identity and original connected pipeline logo;
+  install-first dark homepage, responsive wide/mobile layouts, shared buttons,
+  reduced-motion-aware CSS feedback and input-linked clipboard status.
+- Responsive reflow, keyboard focus, per-route metadata,
   documentation redirects, preview noindex, real 404 and sitemap generation.
 - Angular 20–22 packed-consumer CI, coverage floors, three-run mobile Lighthouse
   gate, package/license checks and static security-policy tests.
