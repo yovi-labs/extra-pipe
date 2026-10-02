@@ -49,7 +49,7 @@ available in the published npm release. Their typed functions/options are also
 exported. Superseded selectors/classes are removed in 2.0; collections are readonly
 inputs and pure pipes require replacement references when data changes.
 
-[Review contracts and migration notes](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/API-1.2.md)
+[Review 2.0 migration notes](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/MIGRATION-2.0.md)
 [Follow Sprint 2 delivery](https://github.com/yovi-labs/extra-pipe/milestone/1)
 
 ## License

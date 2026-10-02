@@ -2,6 +2,20 @@ import { TestBed } from '@angular/core/testing';
 import { PIPE_DOCS } from '../../data/pipe-catalog';
 import { Playground } from './playground';
 describe('Playground', () => {
+  it('shows nested data as component fields rather than prematurely closed interpolation', async () => {
+    const fixture = TestBed.createComponent(Playground);
+    fixture.componentRef.setInput(
+      'pipe',
+      PIPE_DOCS.find((pipe) => pipe.selector === 'getPath')!,
+    );
+    await fixture.whenStable();
+    const code = (fixture.nativeElement as HTMLElement).querySelector(
+      'app-code-block code',
+    )?.textContent;
+    expect(code).toContain('readonly value =');
+    expect(code).toContain('readonly parameter0 =');
+    expect(code).toContain('{{ value | getPath: parameter0 }}');
+  });
   it('changes locale, accepts null, reports invalid JSON and resets', async () => {
     const fixture = TestBed.createComponent(Playground);
     fixture.componentRef.setInput(

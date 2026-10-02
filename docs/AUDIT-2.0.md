@@ -87,6 +87,13 @@ no tests, website or private files. This is not a published 2.0 artifact.
 
 ## Remaining gates
 
+Tasks #91–94 implement typed per-domain example registries, exhaustive guarded
+playground dispatch, adversarial cases, accessible feedback, indexed search,
+architecture checks, website coverage and compilation of the actual copyable
+standalone examples. See CONTRIBUTING.md, SECURITY-2.0.md, PERFORMANCE-2.0.md and
+REVIEW-2.0.md for current evidence; the checklist below describes review gates,
+not missing implementation of those features.
+
 Typed registries, security adversarial tests, contributor docs and final
 consumer/browser/performance evidence belong to separate tasks #91–94. Angular 20 LTS ends 2026-11-28; future support changes are
 deliberate, not automatically inherited from upstream. No API beyond Angular 20 is

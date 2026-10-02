@@ -58,7 +58,8 @@ Standalone pipes belong in a component's `imports` array, not an NgModule's `dec
 
 ## Sprint 2 preview — not yet published
 
-The review-stage catalog adds eleven APIs. Do not expect these in the current npm
+The first expansion added eleven APIs; the subsequent domain expansion brings the
+catalog to 101 canonical pipes. Do not expect these in the current npm
 release; use the local packed preview or wait for the approved 2.0.0 release.
 
 - Localization: listFormat (readable lists), formatUnit (Intl units), displayName
@@ -71,7 +72,7 @@ release; use the local packed preview or wait for the approved 2.0.0 release.
 Each pipe has an exported typed function/options, invalid-input tests and a
 standalone example. Text-only and non-localized collection pipes do not take a
 locale parameter. The full signatures and limitations are in
-[the 1.2 API contract](https://github.com/yovi-labs/extra-pipe/blob/develop/docs/API-1.2.md).
+[the initial expansion contract](docs/API-1.2.md) and [the 101 API reference](docs/API-101.md).
 The new runtime Unicode fallback is MIT licensed; Angular peers are >=20 <23.
 See [the Sprint 2 milestone](https://github.com/yovi-labs/extra-pipe/milestone/1)
 for review status. No deployed website address is claimed before hosting is verified.
@@ -91,7 +92,8 @@ All pipes in this section are pure and return an empty string for nullish or inv
 
 ## Existing pipes
 
-The existing selectors remain available. The table records their intended input contract so templates stay predictable.
+The table uses the corrected 2.0 selectors. Superseded selectors and aliases are
+removed; see the migration guide before upgrading from 1.x.
 
 | Selector                        | Input and behavior                                                                     | Null/invalid result                     |
 | ------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------- |
@@ -128,8 +130,8 @@ Build the library, then prepare and run the Angular 22 website (Node 24.15+ for 
 
 ```bash
 npm ci
- npm run build:lib
- npm run prepare:website
+npm run build:lib
+npm run prepare:website
 npm start
 ```
 
@@ -151,7 +153,12 @@ cd dist/extra-pipe && npm pack --dry-run
 
 ## Contributing
 
-Please open an issue or pull request at [yovi-labs/extra-pipe](https://github.com/yovi-labs/extra-pipe). New pipes should be standalone, pure unless documented otherwise, typed, covered by unit tests, and documented with a template example.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for domain architecture, typed playground
+adapters, adding a pipe, testing actual copyable snippets and the ticket/PR workflow.
+All 101 pipes are pure, standalone, typed and documented. See the
+[security boundaries](docs/SECURITY-2.0.md), [performance evidence](docs/PERFORMANCE-2.0.md)
+and [review checklist](docs/REVIEW-2.0.md). Do not publish preview archives with the
+unchanged 1.1.0 manifests; release versioning happens on the reviewed 2.0.0 branch.
 
 ## License
 

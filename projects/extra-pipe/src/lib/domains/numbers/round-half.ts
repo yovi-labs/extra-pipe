@@ -1,5 +1,5 @@
-import { ROUND_HALF_PARAMS } from '../domains/numbers/round-half.constants';
-import { RoundHalfParam } from '../domains/numbers/round-half.types';
+import { ROUND_HALF_PARAMS } from './round-half.constants';
+import { RoundHalfParam } from './round-half.types';
 
 function roundHalfUp(number: number): number {
   return +(Math.round(+(number + 'e+2')) + 'e-2');

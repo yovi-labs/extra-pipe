@@ -53,6 +53,13 @@ jobs:
         run: npm run check:package
       - name: Verify 101 canonical pipes and packed declarations
         run: npm run check:inventory
+      - name: Verify architecture boundaries and generate actual website snippets
+        run: npm run check:architecture && npm run check:examples
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website-examples
+          path: .artifacts/examples
+          if-no-files-found: error
 
       - name: Prepare package destination
         run: mkdir -p dist/extra-pipe-package
@@ -91,6 +98,11 @@ jobs:
         working-directory: projects/test-app
       - run: npm run test:ci
         working-directory: projects/test-app
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: website-coverage
+          path: projects/test-app/coverage
       - run: npm run build
         working-directory: projects/test-app
       - name: Verify static response security and redirects
@@ -122,7 +134,12 @@ jobs:
         with:
           name: extra-pipe-package
           path: package
+      - uses: actions/download-artifact@v4
+        with:
+          name: website-examples
+          path: .artifacts/examples
       - name: Build clean standalone consumer
+        # Consumers compile the exact copyable snippets emitted by the website catalog.
         run: npm run check:compat -- ${{ matrix.angular }} package
 
   performance:

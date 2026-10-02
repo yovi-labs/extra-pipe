@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ROUND_HALF_PARAMS } from '../round-half.constants';
-import { roundHalfFacade } from '../../../internal/round-half';
+import { roundHalfFacade } from '../round-half';
 import { RoundHalfParam } from '../round-half.types';
 
 @Pipe({

@@ -6,7 +6,8 @@ export const OBJECTS_EXAMPLES = [
     className: 'GetPathPipe',
     category: 'Utilities',
     description: 'Read an own-property path supplied as a key array.',
-    example: '{{ {"profile":{"name":"Ana"}} | getPath: ["profile","name"] }}',
+    example: '{{ data | getPath: ["profile", "name"] }}',
+    componentContext: 'readonly data = { profile: { name: "Ana" } };',
     output: 'Ana',
     contract:
       'Read an own-property path supplied as a key array. Signature: getPath(value: unknown, path: readonly PropertyKey[], fallback: unknown = null). Returns unknown. See the shared 101 contracts for bounds and invalid inputs. Key array up to 32 segments; own data only. Forbids __proto__, constructor and prototype. Missing paths use the fallback; an empty path returns the input. Apply JsonPipe yourself for object-valued leaves.',
@@ -159,7 +160,8 @@ export const OBJECTS_EXAMPLES = [
     className: 'PruneEmptyPipe',
     category: 'Utilities',
     description: 'Remove recursively empty data while preserving zero and false.',
-    example: '{{ {"a":"","b":0,"c":false,"d":{"e":null}} | pruneEmpty }}',
+    example: '{{ data | pruneEmpty }}',
+    componentContext: 'readonly data = { a: "", b: 0, c: false, d: { e: null } };',
     output: '{"b":0,"c":false}',
     contract:
       'Remove recursively empty data while preserving zero and false. Signature: pruneEmpty(value: Readonly<Record<string,unknown>> | null | undefined). Returns Record<string,unknown> | null. See the shared 101 contracts for bounds and invalid inputs. Recursively removes null/undefined/empty text and empty containers, keeping 0/false. Depth 12, cycles reject input. Other leaf objects retain identity.',
@@ -187,7 +189,8 @@ export const OBJECTS_EXAMPLES = [
     className: 'PathEntriesPipe',
     category: 'Utilities',
     description: 'Flatten own leaf values to key-array paths, without dotted-key ambiguity.',
-    example: '{{ {"profile":{"name":"Ana"}} | pathEntries }}',
+    example: '{{ data | pathEntries }}',
+    componentContext: 'readonly data = { profile: { name: "Ana" } };',
     output: '[{"path":["profile","name"],"value":"Ana"}]',
     contract:
       'Flatten own leaf values to key-array paths, without dotted-key ambiguity. Signature: pathEntries(value: Readonly<Record<string,unknown>> | null | undefined). Returns PathEntry[]. See the shared 101 contracts for bounds and invalid inputs. Plain-record root, nested plain records/arrays, enumerable own data fields. Key-array paths preserve literal dots; depth 12/cycles are rejected. Empty containers are leaves.',

@@ -21,6 +21,8 @@
     "check:compat": "node scripts/check-angular-consumer.mjs",
     "check:package": "node scripts/verify-package.mjs",
     "check:inventory": "node scripts/verify-inventory.mjs --packed",
+    "check:examples": "node scripts/generate-example-components.mjs",
+    "check:architecture": "node scripts/verify-architecture.mjs",
     "check:coverage": "node scripts/verify-coverage.mjs",
     "check:security": "node --test scripts/website-security.test.mjs",
     "check:performance": "node scripts/check-performance.mjs",

@@ -127,7 +127,16 @@ export class Playground {
     }
     if (!Array.isArray(params)) return 'Parameters must be a JSON array.';
     const localeIndex = EXAMPLES_BY_SELECTOR.get(this.pipe().selector)?.localeParameterIndex;
-    const args = params.map((parameter) => JSON.stringify(parameter));
+    const declarations = params.map(
+      (parameter, index) =>
+        'readonly parameter' +
+        index +
+        ' = ' +
+        JSON.stringify(parameter) +
+        (parameter && typeof parameter === 'object' ? ' as const' : '') +
+        ';',
+    );
+    const args = params.map((_parameter, index) => 'parameter' + index);
     if (localeIndex !== undefined) {
       while (args.length < localeIndex) args.push('undefined');
       args.length = localeIndex;
@@ -138,14 +147,21 @@ export class Playground {
       (this.pipe().category === 'Collections' && this.pipe().selector !== 'includes'))
         ? (this.pipe().keyValue ? ' | keyvalue: keepInsertionOrder' : '') + ' | json'
         : '';
-    if (this.pipe().selector === 'unzip') {
-      return 'readonly pairs = ' + this.inputText() + ' as const;\n{{ pairs | unzip | json }}';
-    }
     const context = this.pipe().keyValue ? 'readonly keepInsertionOrder = () => 0;\n' : '';
+    const value = this.result().value;
+    const input =
+      this.pipe().selector === 'formatDateTime' &&
+      (typeof value === 'string' || typeof value === 'number')
+        ? 'new Date(' + this.inputText() + ')'
+        : this.inputText() + (value && typeof value === 'object' ? ' as const' : '');
     return (
       context +
-      '{{ ' +
-      this.inputText() +
+      'readonly value = ' +
+      input +
+      ';\n' +
+      declarations.slice(0, localeIndex ?? declarations.length).join('\n') +
+      '\n' +
+      '{{ value' +
       ' | ' +
       this.pipe().selector +
       (args.length ? ': ' + args.join(': ') : '') +
