@@ -21,10 +21,14 @@ describe('Playground', () => {
     input.dispatchEvent(new Event('input'));
     await fixture.whenStable();
     expect(element.querySelector('[role=alert]')?.textContent).toContain('valid JSON');
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.getAttribute('aria-describedby')).toContain('playground-error');
+    expect(element.querySelector('#parameters-help')?.textContent).toContain('notation');
     const buttons = Array.from(element.querySelectorAll('button'));
     buttons.find((button) => button.textContent?.includes('Reset example'))!.click();
     await fixture.whenStable();
     expect(element.querySelector('.live-output')?.textContent).toBe('12.5K');
+    expect(input.hasAttribute('aria-invalid')).toBe(false);
     buttons.find((button) => button.textContent?.includes('Try null input'))!.click();
     await fixture.whenStable();
     expect(element.querySelector('.live-output')?.textContent).toBe('Empty string');

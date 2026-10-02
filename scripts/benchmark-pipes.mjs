@@ -15,6 +15,8 @@ import {
   orderBy,
   pathEntries,
   percentileBy,
+  RemoveByKeyPipe,
+  RemoveDuplicatesByKeyPipe,
   slugify,
   summarizeBy,
   truncateMiddle,
@@ -30,6 +32,14 @@ const items = Array.from({ length: 1000 }, (_, id) => ({
 const longText = '👩🏽‍💻 café مرحبًا '.repeat(100);
 const series = items.map(item => item.id);
 const cases = [
+  [
+    'removeByKey 1000 records / 500 exclusions',
+    () => new RemoveByKeyPipe().transform(items, 'id', series.slice(0, 500)),
+  ],
+  [
+    'removeDuplicatesByKey 1000 records',
+    () => new RemoveDuplicatesByKeyPipe().transform(items, 'id'),
+  ],
   ['intersectionBy 1000 records', () => intersectionBy(items, items, 'id')],
   ['mergeBy 1000 records', () => mergeBy(items, items, 'id')],
   ['summarizeBy 1000 records', () => summarizeBy(items, 'id')],

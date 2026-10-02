@@ -25,7 +25,8 @@ import { evaluateInput, SAMPLES } from './pipe-runner';
           spellcheck="false"
           [value]="inputText()"
           (input)="editInput($event)"
-          aria-describedby="input-help"
+          [attr.aria-invalid]="result().error ? 'true' : null"
+          [attr.aria-describedby]="result().error ? 'input-help playground-error' : 'input-help'"
         ></textarea
         ><small id="input-help"
           >Use double quotes for text, or a number, array, object or null.</small
@@ -39,11 +40,12 @@ import { evaluateInput, SAMPLES } from './pipe-runner';
           spellcheck="false"
           [value]="parameters()"
           (input)="editParameters($event)"
-          aria-describedby="parameters-help"
+          [attr.aria-invalid]="result().error ? 'true' : null"
+          [attr.aria-describedby]="
+            result().error ? 'parameters-help playground-error' : 'parameters-help'
+          "
         ></textarea
-        ><small id="parameters-help"
-          >Ordered parameters after input. Locale is controlled separately.</small
-        >
+        ><small id="parameters-help">{{ parameterHelp() }} Locale is controlled separately.</small>
       </div>
     </div>
     <div class="playground-tools">
@@ -71,7 +73,7 @@ import { evaluateInput, SAMPLES } from './pipe-runner';
     </div>
     <app-code-block [code]="liveCode()" label="Live template data" />
     @if (result().error) {
-      <p class="notice" role="alert">{{ result().error }}</p>
+      <p id="playground-error" class="notice" role="alert">{{ result().error }}</p>
     } @else {
       <p class="result-label">Rendered output</p>
       <pre
@@ -103,6 +105,12 @@ export class Playground {
   protected readonly supportsLocale = computed(
     () => EXAMPLES_BY_SELECTOR.get(this.pipe().selector)?.localeParameterIndex !== undefined,
   );
+  protected readonly parameterHelp = computed(() => {
+    const names = EXAMPLES_BY_SELECTOR.get(this.pipe().selector)?.parameterNames ?? [];
+    return names.length
+      ? 'Ordered parameters: ' + names.join(', ') + '.'
+      : 'No parameters: use [].';
+  });
   protected readonly result = computed(() =>
     evaluateInput(this.pipe().selector, this.inputText(), this.parameters(), this.locale()),
   );

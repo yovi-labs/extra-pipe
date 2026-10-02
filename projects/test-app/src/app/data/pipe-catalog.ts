@@ -12,24 +12,27 @@ export const CATEGORIES: readonly PipeCategory[] = [
   'Collections',
   'Utilities',
 ];
+// Normalize stable catalog data once, not for all 101 entries on every keystroke.
+const SEARCH_INDEX = PIPE_DOCS.map((pipe) => ({
+  pipe,
+  text: [
+    pipe.selector,
+    pipe.description,
+    pipe.category,
+    pipe.className,
+    ...DOC_REDIRECTS.filter((redirect) => redirect.target === pipe.selector).map(
+      (redirect) => redirect.selector,
+    ),
+  ]
+    .join(' ')
+    .toLowerCase(),
+}));
 export function filterPipes(query: string, category = 'All'): readonly PipeDoc[] {
   const search = query.trim().toLowerCase();
-  return PIPE_DOCS.filter(
-    (pipe) =>
-      (category === 'All' || pipe.category === category) &&
-      [
-        pipe.selector,
-        pipe.description,
-        pipe.category,
-        pipe.className,
-        ...DOC_REDIRECTS.filter((alias) => alias.target === pipe.selector).map(
-          (alias) => alias.selector,
-        ),
-      ]
-        .join(' ')
-        .toLowerCase()
-        .includes(search),
-  );
+  return SEARCH_INDEX.filter(
+    (entry) =>
+      (category === 'All' || entry.pipe.category === category) && entry.text.includes(search),
+  ).map((entry) => entry.pipe);
 }
 export function standaloneCode(pipe: PipeDoc): string {
   const needsJson = pipe.json ?? (pipe.category === 'Collections' && pipe.selector !== 'includes');

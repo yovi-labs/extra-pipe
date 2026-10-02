@@ -10,13 +10,12 @@ import { CATEGORIES, filterPipes, PIPE_DOCS } from '../data/pipe-catalog';
       <p class="eyebrow">The catalog</p>
       <h1>Find your next shortcut.</h1>
       <p class="intro">
-        Explicit inputs, predictable outputs. Browse {{ count }} canonical pipes and their
-        compatibility aliases.
+        Explicit inputs, predictable outputs. Browse {{ count }} pure standalone pipes.
       </p>
     </div>
     <div class="catalog-controls">
       <div class="field">
-        <label for="pipe-search">Search pipes or aliases</label
+        <label for="pipe-search">Search pipes</label
         ><input
           id="pipe-search"
           type="search"
@@ -64,7 +63,7 @@ export class Catalog {
   constructor() {
     inject(SiteSeo).update(
       'Pipe catalog — Extra Pipe',
-      'Search standalone Angular pipes, compatibility aliases, contracts and runnable examples.',
+      'Search pure standalone Angular pipes, contracts and runnable examples.',
       '/pipes',
     );
   }
