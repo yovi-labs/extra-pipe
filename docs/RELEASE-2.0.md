@@ -33,6 +33,24 @@ contained seven files at version 2.0.0 with Angular peers >=20 <23; no private,
 test or website files were included. Final release-head CI and artifact browser
 checks are recorded on the release PR after the commit is created.
 
+Manual baseline browser checks now passed against develop CI artifact
+11236498922 (ZIP SHA-256
+`fae234a9567f8f1412b97b3f514524cb44a615b13eba0468b20629a63dbfbe0d`):
+desktop and 320px home/catalog/detail reflow, keyboard navigation with main
+focus, search/copy feedback, English/French/Arabic output with auto direction,
+invalid JSON/null/reset recovery, immutable add-item output and a clean console.
+Windows extraction required retaining the canonical `fileSize` page over the
+case-colliding obsolete `filesize` redirect; the preview server handles that
+redirect before reading files. No source or security policy was changed.
+Release-head artifact verification remains a separate gate.
+
+The first release head passed all seven Linux jobs in
+[run 37032898074](https://github.com/yovi-labs/extra-pipe/actions/runs/37032898074).
+Target-main integration then exposed two conflicts: preserve current release
+branch triggers/read-only CI permissions and the historical 1.1.0 date from
+main while retaining the 2.0 changelog. The reconciliation requires fresh CI;
+the prior green run does not certify the new head.
+
 ## Release-head gates
 
 - [ ] Full lint, 330 library tests with coverage, module floors and production build.

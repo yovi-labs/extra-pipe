@@ -39,7 +39,7 @@ Prepared on `release/2.0.0` for review into `main`; not yet published to npm.
 See [the migration guide](docs/MIGRATION-2.0.md) and
 [release verification](docs/RELEASE-2.0.md). Publication is separately authorized.
 
-## 1.1.0
+## 1.1.0 - 2026-09-30
 
 ### Added
 
