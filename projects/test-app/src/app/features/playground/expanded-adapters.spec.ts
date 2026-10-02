@@ -1,4 +1,4 @@
-import { EXPANDED_SAMPLES } from './expanded-samples';
+import { SAMPLES } from './pipe-runner';
 import { EXPANDED_ADAPTERS } from './expanded-adapters';
 import { evaluateInput } from './pipe-runner';
 import { PIPE_DOCS, standaloneCode, templateCode } from '../../data/pipe-catalog';
@@ -214,11 +214,11 @@ const EXPECTED: Readonly<Record<string, unknown>> = {
 };
 describe('67 expansion examples', () => {
   it('keeps samples, docs and explicit adapters aligned', () => {
-    expect(Object.keys(EXPANDED_SAMPLES).length).toBe(67);
+    expect(Object.keys(SAMPLES).length).toBe(101);
     expect(EXPANDED_ADAPTERS.size).toBe(67);
-    Object.entries(EXPANDED_SAMPLES).forEach(([selector, sample]) => {
+    EXPANDED_ADAPTERS.forEach((fn, selector) => {
+      const sample = SAMPLES[selector];
       expect(PIPE_DOCS.some((p) => p.selector === selector)).toBe(true);
-      const fn = EXPANDED_ADAPTERS.get(selector)!;
       const result = fn(sample.input, sample.parameters, 'en-US');
       if (selector !== 'dateParts')
         expect(

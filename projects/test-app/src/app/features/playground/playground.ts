@@ -2,22 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, input, signal } f
 import { PipeDoc } from '../../data/pipe-catalog';
 import { CodeBlock } from '../../shared/code-block';
 import { evaluateInput, SAMPLES } from './pipe-runner';
-import { EXPANDED_LOCALE_INDEXES } from './expanded-samples';
-
-const LOCALE_INDEXES: Readonly<Partial<Record<string, number>>> = {
-  ...EXPANDED_LOCALE_INDEXES,
-  listFormat: 1,
-  formatUnit: 2,
-  displayName: 2,
-  dateRange: 2,
-  numberRange: 2,
-  byteSize: 1,
-  orderBy: 2,
-  compactNumber: 2,
-  formatDuration: 2,
-  relativeTime: 1,
-  localizedDate: 0,
-};
+import { EXAMPLES_BY_SELECTOR } from '../../data/pipe-examples';
 
 @Component({
   selector: 'app-playground',
@@ -116,7 +101,7 @@ export class Playground {
   protected readonly parameters = signal('[]');
   protected readonly locale = signal('en-US');
   protected readonly supportsLocale = computed(
-    () => LOCALE_INDEXES[this.pipe().selector] !== undefined,
+    () => EXAMPLES_BY_SELECTOR.get(this.pipe().selector)?.localeParameterIndex !== undefined,
   );
   protected readonly result = computed(() =>
     evaluateInput(this.pipe().selector, this.inputText(), this.parameters(), this.locale()),
@@ -133,7 +118,7 @@ export class Playground {
       return 'Enter valid JSON to see the template data.';
     }
     if (!Array.isArray(params)) return 'Parameters must be a JSON array.';
-    const localeIndex = LOCALE_INDEXES[this.pipe().selector];
+    const localeIndex = EXAMPLES_BY_SELECTOR.get(this.pipe().selector)?.localeParameterIndex;
     const args = params.map((parameter) => JSON.stringify(parameter));
     if (localeIndex !== undefined) {
       while (args.length < localeIndex) args.push('undefined');

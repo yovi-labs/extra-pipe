@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DOC_REDIRECTS } from './data/pipe-aliases';
+import { DOC_REDIRECTS } from './data/documentation-redirects';
 export const routes: Routes = [
   ...DOC_REDIRECTS.map((alias) => ({
     path: 'pipes/' + alias.selector,

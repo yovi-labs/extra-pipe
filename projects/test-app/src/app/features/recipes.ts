@@ -70,7 +70,7 @@ import { CodeBlock } from '../shared/code-block';
       </p>
     </article>
     <article class="panel">
-      <span class="tag">Immutable collections · 1.2 preview</span>
+      <span class="tag">Immutable collections · 2.0 preview</span>
       <h2>Keep the newest record. Then sort.</h2>
       <app-code-block [code]="collectionCode" label="Standalone component" />
       <pre

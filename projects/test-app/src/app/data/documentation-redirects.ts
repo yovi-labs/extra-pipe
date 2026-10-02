@@ -1,6 +1,4 @@
 /** The 2.0 package exposes no compatibility pipes; these are only URL migrations. */
-export const PIPE_ALIASES: readonly { selector: string; className: string; target: string; deprecated: boolean }[] = [];
-
 export const DOC_REDIRECTS = [
   { selector: 'localized', target: 'localizedDate' },
   { selector: 'filesize', target: 'fileSize' },

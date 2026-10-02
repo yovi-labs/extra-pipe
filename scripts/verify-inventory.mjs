@@ -30,21 +30,15 @@ function arrayObjects(file, variable) {
       for (const declaration of statement.declarationList.declarations) {
         if (declaration.name.getText() !== variable) continue;
         let array = declaration.initializer;
-        if (ts.isAsExpression(array)) array = array.expression;
+        while (ts.isAsExpression(array) || ts.isSatisfiesExpression(array))
+          array = array.expression;
         assert.ok(ts.isArrayLiteralExpression(array));
         for (const item of array.elements)
           if (ts.isObjectLiteralExpression(item)) objects.push(item);
       }
   return objects;
 }
-const aliases = arrayObjects(
-  'projects/test-app/src/app/data/pipe-aliases.ts',
-  'PIPE_ALIASES'
-).map(o => ({
-  selector: text(property(o, 'selector')),
-  target: text(property(o, 'target')),
-  className: text(property(o, 'className')),
-}));
+const aliases = [];
 const aliasNames = new Set(aliases.map(a => a.selector)),
   visited = new Set(),
   pipes = [],
@@ -107,16 +101,28 @@ assert.equal(
 );
 const canonical = pipes.filter(p => !aliasNames.has(p.selector));
 assert.equal(canonical.length, 101, 'Canonical pipe count');
-assert.equal(aliases.length, 0, '2.0 must expose no compatibility pipe aliases');
-assert.ok(canonical.every(pipe => pipe.pure), 'All 101 canonical pipes must be pure');
+assert.equal(
+  aliases.length,
+  0,
+  '2.0 must expose no compatibility pipe aliases'
+);
+assert.ok(
+  canonical.every(pipe => pipe.pure),
+  'All 101 canonical pipes must be pure'
+);
 const docs = [
-  'projects/test-app/src/app/data/pipe-catalog.ts',
-  'projects/test-app/src/app/data/expanded-pipe-docs.ts',
+  'collections',
+  'dates',
+  'display',
+  'metrics',
+  'numbers',
+  'objects',
+  'text',
 ]
   .flatMap(file =>
     arrayObjects(
-      file,
-      file.includes('expanded') ? 'EXPANDED_PIPE_DOCS' : 'PIPE_DOCS'
+      `projects/test-app/src/app/data/examples/${file}.examples.ts`,
+      `${file.toUpperCase()}_EXAMPLES`
     )
   )
   .map(o => ({
@@ -154,7 +160,9 @@ for (const entry of backlog.features) {
 }
 if (process.argv.includes('--packed')) {
   visited.clear();
-  const manifest = JSON.parse(readFileSync('dist/extra-pipe/package.json', 'utf8'));
+  const manifest = JSON.parse(
+    readFileSync('dist/extra-pipe/package.json', 'utf8')
+  );
   exportsFrom(resolve('dist/extra-pipe', manifest.exports['.'].types), true);
   const declarationFiles = [...visited]
     .map(file => readFileSync(file, 'utf8'))

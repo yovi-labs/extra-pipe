@@ -47,88 +47,12 @@ import {
 
 type RecordItem = Record<string, unknown>;
 import { EXPANDED_ADAPTERS } from './expanded-adapters';
-import { EXPANDED_SAMPLES } from './expanded-samples';
-export interface PlaygroundSample {
-  readonly input: unknown;
-  readonly parameters: readonly unknown[];
-}
-export const SAMPLES: Readonly<Record<string, PlaygroundSample>> = {
-  ...EXPANDED_SAMPLES,
-  listFormat: {
-    input: ['Angular', 'TypeScript', 'Extra Pipe'],
-    parameters: [{ type: 'conjunction', style: 'long' }],
-  },
-  formatUnit: { input: 12.5, parameters: ['kilometer', { unitDisplay: 'long' }] },
-  displayName: { input: 'MA', parameters: ['region', {}] },
-  dateRange: {
-    input: '2026-03-08T06:30:00Z',
-    parameters: [
-      '2026-03-08T07:30:00Z',
-      { timeZone: 'America/New_York', hour: 'numeric', minute: 'numeric' },
-    ],
-  },
-  numberRange: { input: 10, parameters: [25, { style: 'currency', currency: 'EUR' }] },
-  byteSize: { input: 1048576, parameters: [{ base: 1024, maximumFractionDigits: 2 }] },
-  truncateMiddle: { input: '👨‍👩‍👧‍👦-long-report-final.pdf', parameters: [14, '…'] },
-  slugify: { input: 'Café & Angular tools', parameters: [{ foldLatinAccents: true }] },
-  groupBy: {
-    input: [
-      { team: 'A', name: 'Ana' },
-      { team: 'B', name: 'Sam' },
-      { team: 'A', name: 'Lee' },
-    ],
-    parameters: ['team'],
-  },
-  orderBy: {
-    input: [{ name: 'Sam' }, { name: 'Ana' }, { name: 'Ana', id: 2 }],
-    parameters: ['name', 'asc'],
-  },
-  uniqueBy: {
-    input: [
-      { id: 1, name: 'old' },
-      { id: 2, name: 'two' },
-      { id: 1, name: 'new' },
-    ],
-    parameters: ['id', 'last'],
-  },
-  compactNumber: { input: 12500, parameters: ['compact', 1] },
-  formatDuration: { input: 90, parameters: ['seconds', 'short'] },
-  relativeTime: { input: '2024-01-01T12:03:00Z', parameters: ['2024-01-01T12:00:00Z'] },
-  truncate: { input: '👩🏽‍💻 developer tools', parameters: [12, '…'] },
-  initials: { input: 'Ana María', parameters: [2, '—'] },
-  mask: { input: '4242424242424242', parameters: [0, 4, '•'] },
-  camelToSnake: { input: 'extraPipe', parameters: [] },
-  camelCaseToTitleSeparatedCase: { input: 'extraPipe', parameters: [] },
-  capitalize: { input: 'angular', parameters: [] },
-  fileSize: { input: 1048576, parameters: ['MB'] },
-  formatDateTime: { input: '2026-01-01T12:00:00Z', parameters: [true, false] },
-  hide: { input: 'secret', parameters: [true, '*'] },
-  base64ImageUrl: { input: 'SGVsbG8=', parameters: ['image/png'] },
-  includes: { input: [0, false], parameters: [false] },
-  localizedDate: { input: '2026-01-01T12:00:00Z', parameters: [] },
-  numberToWords: { input: 42, parameters: ['en'] },
-  removeByKey: {
-    input: [
-      { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' },
-      { id: 3, name: 'Item 3' },
-    ],
-    parameters: ['id', [1, 2]],
-  },
-  removeDuplicatesByKey: {
-    input: [
-      { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 3' },
-      { id: 3, name: 'Item 3' },
-    ],
-    parameters: ['name'],
-  },
-  replaceComma: { input: '12,5', parameters: [] },
-  roundHalf: { input: 44.566, parameters: ['up'] },
-  snakeToCamel: { input: 'extra_pipe', parameters: [] },
-  underscoreToTitle: { input: 'extra_pipe', parameters: [] },
-  upperCaseFrom: { input: 'angular', parameters: [1] },
-};
+import { PIPE_EXAMPLES } from '../../data/pipe-examples';
+export type { PlaygroundSample } from '../../data/pipe-example.model';
+import type { PlaygroundSample } from '../../data/pipe-example.model';
+export const SAMPLES: Readonly<Record<string, PlaygroundSample>> = Object.fromEntries(
+  PIPE_EXAMPLES.map((example) => [example.selector, example.sample]),
+);
 export function runPipe(
   selector: string,
   value: unknown,

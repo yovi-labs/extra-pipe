@@ -44,7 +44,7 @@ import { CATEGORIES, filterPipes, PIPE_DOCS } from '../data/pipe-catalog';
           ><div class="panel-heading">
             <span class="tag">{{ pipe.category }}</span
             ><span class="release-tag">{{
-              pipe.status === 'preview' ? '1.2 preview' : 'Existing API'
+              pipe.status === 'preview' ? '2.0 preview' : 'Existing API'
             }}</span>
           </div>
           <h2>{{ pipe.selector }}<span class="card-arrow" aria-hidden="true">↗</span></h2>

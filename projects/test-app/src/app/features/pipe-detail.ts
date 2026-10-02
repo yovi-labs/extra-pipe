@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { PIPE_ALIASES, PIPE_DOCS, standaloneCode, templateCode } from '../data/pipe-catalog';
+import { PIPE_DOCS, standaloneCode, templateCode } from '../data/pipe-catalog';
 import { SiteSeo } from '../shared/site-seo';
 import { CodeBlock } from '../shared/code-block';
 import { Playground } from './playground/playground';
@@ -15,22 +15,12 @@ import { Playground } from './playground/playground';
         <div class="panel-heading">
           <span class="tag">{{ current.category }}</span
           ><span class="release-tag">{{
-            current.status === 'preview' ? '1.2 preview · In review' : 'Existing API'
+            current.status === 'preview' ? '2.0 preview · In review' : 'Existing API'
           }}</span>
         </div>
         <h1>{{ current.selector }}</h1>
         <p class="intro">{{ current.description }}</p>
       </div>
-      @if (alias(); as compatibility) {
-        <p class="notice">
-          {{ compatibility.selector }} is a compatibility alias for {{ current.selector }}.
-          {{
-            compatibility.deprecated
-              ? 'Deprecated: use the canonical selector for new templates.'
-              : ''
-          }}
-        </p>
-      }
       <div class="detail-grid">
         <section class="panel">
           <h2>Use it in your component</h2>
@@ -48,25 +38,8 @@ import { Playground } from './playground/playground';
             <dt>Locale behavior</dt>
             <dd>{{ current.locale }}</dd>
             <dt>Change detection</dt>
-            <dd>
-              {{
-                current.pure
-                  ? 'Pure: replace changed input references.'
-                  : 'Legacy impure: runs during change detection; avoid large template collections.'
-              }}
-            </dd>
+            <dd>Pure: replace changed input references.</dd>
           </dl>
-          @if (aliases().length) {
-            <h3>Compatibility aliases</h3>
-            <ul>
-              @for (item of aliases(); track item.selector) {
-                <li>
-                  <a [routerLink]="['/pipes', item.selector]">{{ item.selector }}</a> ·
-                  {{ item.className }}
-                </li>
-              }
-            </ul>
-          }
           <p class="notice">
             These are display utilities, not validation, data protection or sanitization boundaries.
           </p>
@@ -85,16 +58,8 @@ export class PipeDetail {
   protected readonly templateCode = templateCode;
   private readonly seo = inject(SiteSeo);
   private readonly params = toSignal(inject(ActivatedRoute).paramMap);
-  protected readonly alias = computed(() =>
-    PIPE_ALIASES.find((item) => item.selector === this.params()?.get('selector')),
-  );
   protected readonly pipe = computed(() =>
-    PIPE_DOCS.find(
-      (item) => item.selector === (this.alias()?.target ?? this.params()?.get('selector')),
-    ),
-  );
-  protected readonly aliases = computed(() =>
-    PIPE_ALIASES.filter((item) => item.target === this.pipe()?.selector),
+    PIPE_DOCS.find((item) => item.selector === this.params()?.get('selector')),
   );
   protected readonly componentCode = computed(() =>
     this.pipe() ? standaloneCode(this.pipe()!) : '',
