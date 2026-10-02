@@ -2,14 +2,35 @@
 @import './styles-playground.css';
 
 :root {
-  color-scheme: light;
-  --ink: #20242a;
-  --muted: #51565f;
-  --accent: #a63c00;
-  --orange: #f37021;
-  --surface: #fff;
-  --canvas: #faf9f6;
-  --line: #d9d5ce;
+  color-scheme: dark;
+  --ink: #f4f4f5;
+  --muted: #b3b3bb;
+  --accent: #df9cff;
+  --brand-pink: #bb005d;
+  --brand-magenta: #8b20ca;
+  --brand-violet: #5b21b6;
+  --brand-gradient: linear-gradient(
+    115deg,
+    var(--brand-pink),
+    var(--brand-magenta),
+    var(--brand-violet)
+  );
+  --heading-pink: #ff73b5;
+  --heading-magenta: #db9fff;
+  --heading-violet: #a9adff;
+  --heading-gradient: linear-gradient(
+    110deg,
+    var(--heading-pink),
+    var(--heading-magenta),
+    var(--heading-violet)
+  );
+  --accent-soft: #29232f;
+  --control-border: #7b7b87;
+  --code-surface: #111114;
+  --code-ink: #fafafa;
+  --surface: #242424;
+  --canvas: #191919;
+  --line: #353539;
 }
 * {
   box-sizing: border-box;
@@ -45,7 +66,7 @@ a:hover {
   top: 8px;
   left: 8px;
   padding: 12px;
-  background: white;
+  background: var(--surface);
   z-index: 10;
   transform: translateY(-160%);
 }
@@ -55,7 +76,7 @@ a:hover {
 .site-header {
   max-width: 1200px;
   margin: auto;
-  padding: 24px 32px;
+  padding: 8px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,11 +97,17 @@ a:hover {
 .container {
   max-width: 1120px;
   margin: auto;
-  padding: 48px 32px;
+  padding: 32px 32px;
 }
-.hero > *,
-.install-panel > * {
-  min-width: 0;
+.hero-highlight {
+  color: var(--accent);
+}
+@supports (background-clip: text) {
+  .hero-highlight {
+    background: var(--heading-gradient);
+    background-clip: text;
+    color: transparent;
+  }
 }
 .eyebrow {
   color: var(--accent);
@@ -113,8 +140,8 @@ h2 {
   background: var(--surface);
 }
 pre {
-  background: #20242a;
-  color: #f7f5f1;
+  background: var(--code-surface);
+  color: var(--code-ink);
   padding: 20px;
   border-radius: 10px;
   overflow: auto;
@@ -148,16 +175,39 @@ a.button {
     flex-wrap: wrap;
     gap: 12px;
   }
-  .hero,
-  .install-panel {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .hero h1 {
-    font-size: clamp(34px, 7vw, 42px);
-    overflow-wrap: anywhere;
-  }
   .code-heading {
     flex-wrap: wrap;
+  }
+}
+@media (min-width: 1600px) {
+  app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+  .site-header,
+  .site-footer {
+    width: 100%;
+    max-width: 1600px;
+    margin-block: 0;
+    padding-inline: 40px;
+  }
+  .site-header {
+    padding-block: 16px;
+  }
+  main.container {
+    flex: 1;
+    width: 100%;
+    margin-block: 0;
+  }
+  main.container:has(app-home) {
+    display: flex;
+    flex-direction: column;
+    max-width: 1440px;
+    padding-inline: 40px;
+  }
+  .site-footer {
+    padding-block: 24px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -167,5 +217,15 @@ a.button {
     scroll-behavior: auto !important;
     transition: none !important;
     animation: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .hero-highlight {
+    background: none;
+    color: CanvasText;
+  }
+  .button.primary {
+    background: ButtonFace;
+    color: ButtonText;
   }
 }

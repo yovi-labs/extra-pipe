@@ -31,6 +31,9 @@ jobs:
       - name: Lint library, website and scripts
         run: npm run lint
 
+      - name: Verify branding contrast and safe vector assets
+        run: node --test scripts/website-brand.test.mjs
+
       - name: Audit library development dependencies
         run: npm audit --audit-level=high
 

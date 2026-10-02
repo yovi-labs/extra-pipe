@@ -41,10 +41,7 @@ import { CATEGORIES, filterPipes, PIPE_DOCS } from '../data/pipe-catalog';
       @for (pipe of filtered(); track pipe.selector) {
         <a class="catalog-card" [routerLink]="['/pipes', pipe.selector]"
           ><div class="panel-heading">
-            <span class="tag">{{ pipe.category }}</span
-            ><span class="release-tag">{{
-              pipe.status === 'preview' ? '2.0 preview' : 'Existing API'
-            }}</span>
+            <span class="tag">{{ pipe.category }}</span>
           </div>
           <h2>{{ pipe.selector }}<span class="card-arrow" aria-hidden="true">↗</span></h2>
           <p>{{ pipe.description }}</p>

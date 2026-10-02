@@ -13,10 +13,7 @@ import { Playground } from './playground/playground';
       <a class="back-link" routerLink="/pipes">← All pipes</a>
       <div class="page-heading">
         <div class="panel-heading">
-          <span class="tag">{{ current.category }}</span
-          ><span class="release-tag">{{
-            current.status === 'preview' ? '2.0 preview · In review' : 'Existing API'
-          }}</span>
+          <span class="tag">{{ current.category }}</span>
         </div>
         <h1>{{ current.selector }}</h1>
         <p class="intro">{{ current.description }}</p>

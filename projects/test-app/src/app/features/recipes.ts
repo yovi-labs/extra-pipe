@@ -70,7 +70,7 @@ import { CodeBlock } from '../shared/code-block';
       </p>
     </article>
     <article class="panel">
-      <span class="tag">Immutable collections · 2.0 preview</span>
+      <span class="tag">Immutable collections</span>
       <h2>Keep the newest record. Then sort.</h2>
       <app-code-block [code]="collectionCode" label="Standalone component" />
       <pre
@@ -82,7 +82,7 @@ import { CodeBlock } from '../shared/code-block';
       </p>
     </article>
     <article class="panel">
-      <span class="tag">Reporting · Sprint 2 preview</span>
+      <span class="tag">Reporting</span>
       <h2>Total first. Format second.</h2>
       <app-code-block [code]="totalCode" label="Standalone component" />
       <p class="hero-result">{{ sales | sumBy: 'amount' | compactNumber: 'compact' : 1 : 'en' }}</p>
@@ -92,7 +92,7 @@ import { CodeBlock } from '../shared/code-block';
       </p>
     </article>
     <article class="panel">
-      <span class="tag">Content · Sprint 2 preview</span>
+      <span class="tag">Content</span>
       <h2>A reading estimate, not a timer.</h2>
       <app-code-block [code]="readingCode" label="Standalone component" />
       <p>{{ article | wordCount: 'en' }} words · {{ article | readingTime: 200 : 'en' }}</p>
