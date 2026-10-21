@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.0.1 — 2026-10-21
+
+- Add the live documentation website and playground to npm homepage metadata and the package README: https://project-n9372.vercel.app/.
+- Update the package README to reflect the published 2.0 release.
+
 ## 2.0.0 — release candidate
 
 - Expand Sprint 2 to 101 distinct canonical standalone pipes: 67 new text,
