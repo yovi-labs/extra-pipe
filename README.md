@@ -1,12 +1,16 @@
-# extra-pipe
+# Extra Pipe
+
+[![npm version](https://img.shields.io/npm/v/extra-pipe.svg)](https://www.npmjs.com/package/extra-pipe)
+[![Angular 20–22](https://img.shields.io/badge/Angular-20%E2%80%9322-DD0031)](https://project-n9372.vercel.app/)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+**[Documentation & playground](https://project-n9372.vercel.app/) · [npm package](https://www.npmjs.com/package/extra-pipe) · [Releases](https://github.com/yovi-labs/extra-pipe/releases) · [Migration guide](docs/MIGRATION-2.0.md)**
 
 A focused collection of standalone Angular 20–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
 
 ## Extra Pipe 2.0.0: 100+ standalone Angular pipes
 
-This release candidate implements **101 canonical pipes** with no package compatibility aliases. The 67 additional APIs are not yet published on
-npm. Existing installation instructions describe the published package, not a
-promise that unpublished APIs are available. Manifests are versioned 2.0.0 on `release/2.0.0`; npm publication is a separate step after release review. MIT licensing is unchanged.
+**101 canonical pipes**, available on [npm as `extra-pipe@2.0.1`](https://www.npmjs.com/package/extra-pipe/v/2.0.1), with no package compatibility aliases. Explore the [live documentation and playground](https://project-n9372.vercel.app/) for examples, recipes and API contracts. MIT licensed.
 
 | Addition group                | Count | Contracts and examples                           |
 | ----------------------------- | ----: | ------------------------------------------------ |
@@ -32,7 +36,7 @@ the count.
 npm install extra-pipe
 ```
 
-The 2.0.0 release candidate supports Angular 20 through 22 (`>=20.0.0 <23.0.0`). The library uses Angular 20 partial compilation; the runnable documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library. Angular 17–19 are no longer supported. Until npm publication, installation still retrieves the published 1.x package, not this 2.0.0 candidate.
+Extra Pipe 2.0 supports Angular 20 through 22 (`>=20.0.0 <23.0.0`). The library uses Angular 20 partial compilation; the runnable documentation/playground in `projects/test-app` uses an isolated Angular 22 toolchain and a packed local library. Angular 17–19 are no longer supported.
 
 ## Use a pipe in a standalone component
 
@@ -56,11 +60,10 @@ export class ProductSummaryComponent {
 
 Standalone pipes belong in a component's `imports` array, not an NgModule's `declarations` array.
 
-## Sprint 2 preview — not yet published
+## Expanded pipe catalogue
 
 The first expansion added eleven APIs; the subsequent domain expansion brings the
-catalog to 101 canonical pipes. Do not expect these in the current npm
-release; use the local packed preview or wait for the approved 2.0.0 release.
+published catalogue to 101 canonical pipes.
 
 - Localization: listFormat (readable lists), formatUnit (Intl units), displayName
   (localized language/region names), dateRange and numberRange.
@@ -74,8 +77,8 @@ standalone example. Text-only and non-localized collection pipes do not take a
 locale parameter. The full signatures and limitations are in
 [the initial expansion contract](docs/API-1.2.md) and [the 101 API reference](docs/API-101.md).
 The new runtime Unicode fallback is MIT licensed; Angular peers are >=20 <23.
-See [the Sprint 2 milestone](https://github.com/yovi-labs/extra-pipe/milestone/1)
-for review status. No deployed website address is claimed before hosting is verified.
+Explore the [live examples](https://project-n9372.vercel.app/) or read the
+[GitHub release notes](https://github.com/yovi-labs/extra-pipe/releases/tag/2.0.1).
 
 ## New display and i18n pipes
 
@@ -121,8 +124,7 @@ do not expect in-place mutations to refresh pure pipes.
 ## Breaking 2.0 migration
 
 Old aliases and superseded names are removed, not deprecated. Read the
-[complete migration guide](docs/MIGRATION-2.0.md) before upgrading. The published
-npm package remains 1.x until a separately approved release.
+[complete migration guide](docs/MIGRATION-2.0.md) before upgrading from 1.x.
 
 ## Demo and quality checks
 
@@ -137,9 +139,9 @@ npm start
 
 The website has its own manifest and lockfile. Run `npm run build:website` and
 `npm run test:website` after preparation. Static output is in
-`projects/test-app/dist/extra-pipe-website/browser`. The catalog clearly marks
-unreleased 2.0 preview APIs; `npm install extra-pipe` installs the published version,
-not those preview APIs.
+`projects/test-app/dist/extra-pipe-website/browser`. The published library is
+available through `npm install extra-pipe`; the [hosted website](https://project-n9372.vercel.app/)
+provides the documentation and playground.
 
 The Angular 22 website is the only demo surface. Angular 20–22 consumer fixtures
 verify the packed library separately. Verify the library before a release:
