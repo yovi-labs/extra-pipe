@@ -1,0 +1,47 @@
+[build]
+  command = "npm run build:vercel"
+  publish = "projects/test-app/dist/extra-pipe-website/browser"
+
+[build.environment]
+  NODE_VERSION = "24.22.1"
+  SITE_URL = "https://extra-pipe.netlify.app"
+  SITE_INDEXABLE = "true"
+
+[[redirects]]
+  from = "/pipes/localized"
+  to = "/pipes/localizedDate"
+  status = 301
+
+[[redirects]]
+  from = "/pipes/filesize"
+  to = "/pipes/fileSize"
+  status = 301
+
+[[redirects]]
+  from = "/pipes/roundHalfUp"
+  to = "/pipes/roundHalf"
+  status = 301
+
+[[redirects]]
+  from = "/pipes/camelCaseToTitleSeperatedCase"
+  to = "/pipes/camelCaseToTitleSeparatedCase"
+  status = 301
+
+[[redirects]]
+  from = "/pipes/formatInstanceofDate"
+  to = "/pipes/formatDateTime"
+  status = 301
+
+[[redirects]]
+  from = "/pipes/imgUrlBase64"
+  to = "/pipes/base64ImageUrl"
+  status = 301
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'none'; trusted-types angular angular#bundler; require-trusted-types-for 'script'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"

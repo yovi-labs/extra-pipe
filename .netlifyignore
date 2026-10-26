@@ -1,0 +1,11 @@
+npm-consumer/
+node_modules/
+**/node_modules/
+.git/
+.artifacts/
+.netlify/
+.vercel/
+dist/
+**/dist/
+**/.angular/
+**/coverage/

@@ -2,7 +2,7 @@
 
 A focused collection of standalone Angular 20–22 pipes for display formatting, localization, text, and template-friendly data presentation.
 
-[Documentation and live playground](https://project-n9372.vercel.app/)
+[Documentation and live playground](https://extra-pipe.netlify.app/)
 
 ```bash
 npm install extra-pipe

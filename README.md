@@ -1,16 +1,16 @@
 # Extra Pipe
 
 [![npm version](https://img.shields.io/npm/v/extra-pipe.svg)](https://www.npmjs.com/package/extra-pipe)
-[![Angular 20–22](https://img.shields.io/badge/Angular-20%E2%80%9322-DD0031)](https://project-n9372.vercel.app/)
+[![Angular 20–22](https://img.shields.io/badge/Angular-20%E2%80%9322-DD0031)](https://extra-pipe.netlify.app/)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**[Documentation & playground](https://project-n9372.vercel.app/) · [npm package](https://www.npmjs.com/package/extra-pipe) · [Releases](https://github.com/yovi-labs/extra-pipe/releases) · [Migration guide](docs/MIGRATION-2.0.md)**
+**[Documentation & playground](https://extra-pipe.netlify.app/) · [npm package](https://www.npmjs.com/package/extra-pipe) · [Releases](https://github.com/yovi-labs/extra-pipe/releases) · [Migration guide](docs/MIGRATION-2.0.md)**
 
 A focused collection of standalone Angular 20–22 pipes for presentation, localization, text, and template-friendly data display. Every pipe is exported from `extra-pipe` and can be imported directly into a standalone component.
 
 ## Extra Pipe 2.0.0: 100+ standalone Angular pipes
 
-**101 canonical pipes**, available on [npm as `extra-pipe@2.0.1`](https://www.npmjs.com/package/extra-pipe/v/2.0.1), with no package compatibility aliases. Explore the [live documentation and playground](https://project-n9372.vercel.app/) for examples, recipes and API contracts. MIT licensed.
+**101 canonical pipes**, available on [npm as `extra-pipe@2.0.1`](https://www.npmjs.com/package/extra-pipe/v/2.0.1), with no package compatibility aliases. Explore the [live documentation and playground](https://extra-pipe.netlify.app/) for examples, recipes and API contracts. MIT licensed.
 
 | Addition group                | Count | Contracts and examples                           |
 | ----------------------------- | ----: | ------------------------------------------------ |
@@ -77,7 +77,7 @@ standalone example. Text-only and non-localized collection pipes do not take a
 locale parameter. The full signatures and limitations are in
 [the initial expansion contract](docs/API-1.2.md) and [the 101 API reference](docs/API-101.md).
 The new runtime Unicode fallback is MIT licensed; Angular peers are >=20 <23.
-Explore the [live examples](https://project-n9372.vercel.app/) or read the
+Explore the [live examples](https://extra-pipe.netlify.app/) or read the
 [GitHub release notes](https://github.com/yovi-labs/extra-pipe/releases/tag/2.0.1).
 
 ## New display and i18n pipes
@@ -140,7 +140,7 @@ npm start
 The website has its own manifest and lockfile. Run `npm run build:website` and
 `npm run test:website` after preparation. Static output is in
 `projects/test-app/dist/extra-pipe-website/browser`. The published library is
-available through `npm install extra-pipe`; the [hosted website](https://project-n9372.vercel.app/)
+available through `npm install extra-pipe`; the [hosted website](https://extra-pipe.netlify.app/)
 provides the documentation and playground.
 
 The Angular 22 website is the only demo surface. Angular 20–22 consumer fixtures

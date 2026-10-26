@@ -1,8 +1,13 @@
 # Changelog
 
+## 2.0.2 — 2026-10-26
+
+- Move the documentation and playground links and npm homepage to https://extra-pipe.netlify.app/.
+- No pipe runtime or API changes.
+
 ## 2.0.1 — 2026-10-21
 
-- Add the live documentation website and playground to npm homepage metadata and the package README: https://project-n9372.vercel.app/.
+- Add the live documentation website and playground to npm homepage metadata and the package README: https://extra-pipe.netlify.app/.
 - Update the package README to reflect the published 2.0 release.
 
 ## 2.0.0 — release candidate
