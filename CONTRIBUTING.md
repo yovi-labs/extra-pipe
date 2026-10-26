@@ -1,6 +1,6 @@
 # Contributing to Extra Pipe
 
-Extra Pipe **2.0.1** is published on [npm](https://www.npmjs.com/package/extra-pipe), with Angular 20–22 support, 101 canonical pure standalone pipes and no package aliases. Read [the migration guide](docs/MIGRATION-2.0.md) before changing existing behavior. The [documentation and playground](https://project-n9372.vercel.app/) demonstrate the public API.
+Extra Pipe **2.0.1** is published on [npm](https://www.npmjs.com/package/extra-pipe), with Angular 20–22 support, 101 canonical pure standalone pipes and no package aliases. Read [the migration guide](docs/MIGRATION-2.0.md) before changing existing behavior. The [documentation and playground](https://extra-pipe.netlify.app/) demonstrate the public API.
 
 ## Setup
 

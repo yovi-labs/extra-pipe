@@ -15,6 +15,7 @@
 **/coverage/
 /.artifacts/
 /.vercel/
+/.netlify/
 
 # profiling files
 chrome-profiler-events*.json
